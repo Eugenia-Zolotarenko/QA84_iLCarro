@@ -9,6 +9,9 @@ public class SearchPage extends BasePage {
     {
         super(driver);
     }
+    public void enterCity(String city) {
+        driver.findElement(By.id("city")).sendKeys(city);
+    }
 
     public void enterCity(String city) {
         driver.findElement(By.id("city")).sendKeys(city);
