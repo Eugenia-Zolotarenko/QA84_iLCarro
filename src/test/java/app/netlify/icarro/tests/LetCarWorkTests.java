@@ -14,7 +14,7 @@ public class LetCarWorkTests extends TestBase {
     }
 
     @Test
-    public void isPageTitleCorrectPositiveTest(){
+    public void isPageTitleCorrectPositiveSmokeTest(){
         car.isPageTitleCorrect("Let the car work");
     }
 }

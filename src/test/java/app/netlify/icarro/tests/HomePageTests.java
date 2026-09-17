@@ -14,7 +14,7 @@ public class HomePageTests extends TestBase {
     }
 
     @Test
-    public void isPageTitleCorrectPositiveTest(){
+    public void isPageTitleCorrectPositiveSmokeTest(){
         home.isPageTitleCorrect("Find your car now!");
     }
 
