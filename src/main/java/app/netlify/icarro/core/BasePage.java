@@ -13,6 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
 
+import static java.awt.SystemColor.window;
+
 public abstract class BasePage {
     protected WebDriver driver;
     public JavascriptExecutor js;
@@ -41,10 +43,15 @@ public abstract class BasePage {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
+    public void scrollWithJSTopPage(){
+        js.executeScript("window.scrollTo(0, 0);");
+    }
+
     public void clickWithJS(WebElement element){
         scrollWithJS(element);
         js.executeScript("arguments[0].click();", element);
     }
+
     public void typeWithJS(WebElement element, String text){
         scrollWithJS(element);
         type(element, text);
@@ -56,6 +63,7 @@ public abstract class BasePage {
             element.sendKeys(text);
         }
     }
+
     public void  click(WebElement element){
         element.click();
     }
