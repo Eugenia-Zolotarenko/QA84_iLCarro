@@ -15,9 +15,7 @@ public class SearchTests extends TestBase {
     }
 
     @Test
-    public void SearchByCityAndDates(){
-
-
-
+    public void SearchByCityAndDates() {
+        search.enterCity("Tel Aviv");
     }
 }
