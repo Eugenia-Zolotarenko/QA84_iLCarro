@@ -18,4 +18,9 @@ public class HomePageTests extends TestBase {
         home.isPageTitleCorrect("Find your car now!");
     }
 
+@Test
+    public void SearchByCityAndDates(){
+
 }
+}
+
