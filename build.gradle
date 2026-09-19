@@ -37,6 +37,7 @@ def registerTask(String taskName, String suitePath){
     }
 }
 registerTask('smoke', 'src/test/resources/smoke.xml')
+registerTask('regr', 'src/test/resources/regression.xml')
 
 task qa (type: Test){
     useTestNG()

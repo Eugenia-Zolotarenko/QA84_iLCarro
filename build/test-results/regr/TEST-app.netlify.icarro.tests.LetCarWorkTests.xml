@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.netlify.icarro.tests.LetCarWorkTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-09-19T19:30:51.882Z" hostname="AIT-PC" time="7.832">
+  <properties/>
+  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.LetCarWorkTests" time="1.029"/>
+  <system-out><![CDATA[21:30:51.897 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+21:30:51.922 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7506215\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+21:30:58.533 [Test worker] INFO  app.netlify.icarro.core.TestBase -- start test isPageTitleCorrectPositiveTest with data:
+	 []
+21:30:59.715 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+21:30:59.716 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Stop test
+21:30:59.716 [Test worker] INFO  app.netlify.icarro.core.TestBase -- *****************************************************
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
