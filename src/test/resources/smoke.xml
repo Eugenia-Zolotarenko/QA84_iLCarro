@@ -7,8 +7,8 @@
                 <include name="smoke"/>
             </run>
         </groups>
-        <classes>
-            <class name="app.netlify.icarro.tests.HomePageTests"/>
-        </classes>
+        <packages>
+            <package name="app.netlify.icarro.tests"/>
+        </packages>
     </test>
 </suite>
