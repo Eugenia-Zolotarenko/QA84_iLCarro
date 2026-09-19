@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.netlify.icarro.tests.LetCarWorkTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-09-19T14:48:08.188Z" hostname="AIT-PC" time="3.333">
+  <properties/>
+  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.LetCarWorkTests" time="1.02"/>
+  <system-out><![CDATA[16:48:08.201 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
+16:48:08.223 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7506215\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
+16:48:10.451 [Test worker] INFO  app.netlify.icarro.core.TestBase -- start test isPageTitleCorrectPositiveTest with data:
+	 []
+16:48:11.521 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+16:48:11.521 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Stop test
+16:48:11.522 [Test worker] INFO  app.netlify.icarro.core.TestBase -- *****************************************************
+]]></system-out>
+  <system-err><![CDATA[Sept. 19, 2026 4:48:08 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNUNG: Unable to find CDP implementation matching 153
+Sept. 19, 2026 4:48:08 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
+WARNUNG: Unable to find version of CDP to use for 153.0.8010.53. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+]]></system-err>
+</testsuite>

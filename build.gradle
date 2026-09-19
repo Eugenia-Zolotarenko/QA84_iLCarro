@@ -49,8 +49,5 @@ task qa (type: Test){
         inputs.property "browser", project.property('browser')
         systemProperty 'browser', "${browser}"
     }
-
-
-
 }
 
