@@ -27,10 +27,11 @@ public abstract class BasePage {
     }
 
 
-    public void isPageTitleCorrect(String title) {
+    public boolean isPageTitleCorrect(String title) {
         pause(1000);
         String actualTitle = driver.findElement(By.tagName("h1")).getText();
-        Assert.assertTrue(actualTitle.equals(title), "Page title doesn't match");
+        return title.equals(actualTitle);
+        //Assert.assertEquals(title, actualTitle, "Page title doesn't match");
     }
 
     public boolean isElementPresent(By locator){

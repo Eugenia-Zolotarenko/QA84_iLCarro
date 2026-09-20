@@ -2,6 +2,7 @@ package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.pages.HomePage;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -18,12 +19,12 @@ public class HomePageTests extends TestBase {
 
     @Test(groups = {"smoke", "regr"})
     public void isPageTitleCorrectPositiveTest(){
-        home.isPageTitleCorrect("Find your car now!");
+        Assert.assertTrue(home.isPageTitleCorrect("Find your car now!"));
     }
 
     @Test (groups = {"smoke", "regr"})
     public void isHomePageDisplayedPositiveTest(){
-        home.isHomeComponentPresent();
+        Assert.assertTrue(home.isHomeComponentPresent());
     }
 
     @Test (groups = {"smoke", "regr", "header"})
@@ -36,5 +37,13 @@ public class HomePageTests extends TestBase {
     public void testPageLinks() {
         home.verifyLinks("https://icarro-v1.netlify.app/let-car-work", getSoftAssert());
     }
+
+    @Test (groups = {"header", "min"})
+    public void mobileHeaderIsVisiblePositiveTest() {
+        home.setWindowWidthTo(500);
+        Assert.assertTrue(home.isMobileHeaderPresent(),
+                "Mobile header is not displayed");
+    }
+
 }
 
