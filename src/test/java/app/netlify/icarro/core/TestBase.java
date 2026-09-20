@@ -28,11 +28,13 @@ public class TestBase {
     }
 
     @BeforeMethod(alwaysRun = true)
-
     public void setUp(Method method, Object[] p) {
+        String currentBrowser = app.getBrowser();
         driver = app.init();
         softly.set(new SoftAssert());
-        logger.info("start test {} with data:\n\t {}", method.getName(), Arrays.asList(p));
+        logger.info("\n*****************************************************");
+        logger.info("\n--START test <<<{}>>> [Browser: {}] with data:\n\t {}",
+                method.getName(), currentBrowser.toUpperCase(), Arrays.asList(p));
     }
 
     @AfterMethod(alwaysRun = true)
@@ -49,8 +51,8 @@ public class TestBase {
         } else if(result.getStatus()==ITestResult.SKIP){
             logger.info("Test SKIPPED");
         }
-        logger.info("Stop test");
-        logger.info("*****************************************************");
+        logger.info("STOP test");
+        logger.info("\n*****************************************************");
         softly.remove();
         app.stop();
     }

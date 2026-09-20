@@ -26,7 +26,8 @@ public class HomePageTests extends TestBase {
         home.isHomeComponentPresent();
     }
 
-    @Test public void testLoginElementsVisibility() {
+    @Test (groups = {"smoke", "regr", "header"})
+    public void loginLinkIsVisiblePositiveTest() {
         getSoftAssert().assertTrue(home.isYallaButtonPresent(),
                 "Button Sign Up is not displayed");
     }
