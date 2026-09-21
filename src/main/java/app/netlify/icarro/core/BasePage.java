@@ -58,7 +58,8 @@ public abstract class BasePage {
     public void type(WebElement element, String text){
         if(text!=null){
             click(element);
-            element.clear();
+            //element.clear();
+            element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
             element.sendKeys(text);
         }
     }
