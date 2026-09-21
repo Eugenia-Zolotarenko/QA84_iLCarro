@@ -37,6 +37,10 @@ public class ApplicationManager {
         return this.driver;
     }
 
+    public String getBrowser() {
+        return browser;
+    }
+
     public void stop() {
         if(driver != null){
             driver.quit();

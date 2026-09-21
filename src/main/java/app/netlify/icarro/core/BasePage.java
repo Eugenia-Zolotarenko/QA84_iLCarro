@@ -7,13 +7,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
-
-import static java.awt.SystemColor.window;
 
 public abstract class BasePage {
     protected WebDriver driver;
@@ -28,11 +27,11 @@ public abstract class BasePage {
     }
 
 
-    public void isPageTitleCorrect(String title) {
-        String actualTitle = driver.findElement(By.tagName("h1")).getAttribute("innerText");
-        //String actualTitle = driver.findElement(By.tagName("h1")).getText();
+    public boolean isPageTitleCorrect(String title) {
         pause(1000);
-        Assert.assertTrue(actualTitle.equals(title), "Page title doesn't match");
+        String actualTitle = driver.findElement(By.tagName("h1")).getText();
+        return title.equals(actualTitle);
+        //Assert.assertEquals(title, actualTitle, "Page title doesn't match");
     }
 
     public boolean isElementPresent(By locator){
@@ -67,6 +66,7 @@ public abstract class BasePage {
     public void  click(WebElement element){
         element.click();
     }
+
     public boolean isAlertPresent(int time){
         Alert alert = new WebDriverWait(driver, Duration.ofSeconds(time))
                 .until(ExpectedConditions.alertIsPresent());
@@ -93,26 +93,24 @@ public abstract class BasePage {
         e.getMessage();
         return false;
     }
-
-
 }
-//    protected void verifyLinks(String url) {
-//        try {
-//            URL linkUrl = new URL(url);
-//            HttpURLConnection connection =(HttpURLConnection) linkUrl
-//                    .openConnection();
-//            connection.setConnectTimeout(5000);
-//            connection.connect();
-//            int statusCode = connection.getResponseCode();
-//
-//            if(statusCode >= 400) {
-//                softly.fail(url + " --> " + connection.getResponseMessage() + " is a BROKEN link");
-//            } else
-//                softly.assertThat(statusCode).isLessThan(400);
-//        } catch (IOException e) {
-//            softly.fail(url + " --> " + "ERROR occurred");
-//        }
-//    }
+    public void verifyLinks(String url, SoftAssert softly) {
+        try {
+            URL linkUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) linkUrl.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.connect();
+            int statusCode = connection.getResponseCode();
+
+            // Используем тот ассерт, который нам передали из теста
+            softly.assertTrue(statusCode < 400,
+                    url + " --> " + connection.getResponseMessage() +
+                            " is a BROKEN link (Status: " + statusCode + ")");
+
+        } catch (IOException e) {
+            softly.fail(url + " --> ERROR occurred: " + e.getMessage());
+        }
+    }
 
 public void pause(int millis){
     try {

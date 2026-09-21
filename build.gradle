@@ -16,6 +16,7 @@ dependencies {
     implementation("io.github.bonigarcia:webdrivermanager:6.3.4")
     implementation("ch.qos.logback:logback-classic:1.6.3")
     implementation("org.assertj:assertj-core:3.27.5")
+    testRuntimeOnly 'org.apache-extras.beanshell:bsh:2.0b6'
 }
 
 test {
@@ -24,6 +25,8 @@ test {
 
 def registerTask(String taskName, String suitePath){
     tasks.register(taskName, Test){
+        outputs.upToDateWhen { false }
+
         testClassesDirs = sourceSets.test.output.classesDirs
         classpath = sourceSets.test.runtimeClasspath
         useTestNG(){
@@ -34,6 +37,11 @@ def registerTask(String taskName, String suitePath){
         }
     }
 }
+registerTask('smoke', 'src/test/resources/smoke.xml')
+registerTask('regr', 'src/test/resources/regression.xml')
+registerTask('header', 'src/test/resources/header.xml')
+registerTask('headerMin', 'src/test/resources/headerMin.xml')
+registerTask('footer', 'src/test/resources/footer.xml')
 
 task qa (type: Test){
     useTestNG()
