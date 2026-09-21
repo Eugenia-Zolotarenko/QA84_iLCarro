@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -57,10 +58,17 @@ public abstract class BasePage {
     }
     public void type(WebElement element, String text){
         if(text!=null){
-            click(element);
+            //click(element);
             //element.clear();
-            element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
-            element.sendKeys(text);
+            //element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+            //element.sendKeys(text);
+            if (element.getTagName().equals("select")) {
+                new Select(element).selectByValue(text);
+            } else {
+                click(element);
+                element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+                element.sendKeys(text);
+            }
         }
     }
 
