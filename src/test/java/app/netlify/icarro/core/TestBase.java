@@ -1,8 +1,12 @@
 package app.netlify.icarro.core;
 
 import app.netlify.icarro.utils.Screenshots;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Browser;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
@@ -13,6 +17,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.asserts.SoftAssert;
 
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Arrays;
 
 public class TestBase {
@@ -56,4 +61,17 @@ public class TestBase {
         logger.info("*****************************************************");
         softAssert.assertAll();
     }
+    public String newEmail(){
+        int i = (int) ((System.currentTimeMillis()/1000)%3600);
+        String email = "sara" + i + "@gmail.com";
+        return email;
+    }
+
+
+    protected void clickButton(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        button.click();
+    }
+
 }
