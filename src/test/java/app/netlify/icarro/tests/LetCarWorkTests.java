@@ -7,18 +7,19 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Method;
+
 public class LetCarWorkTests extends TestBase {
     LetCarWorkPage car;
 
-    @BeforeMethod
-    public void preconditions() {
-        driver = app.getDriver();
+    @BeforeMethod(alwaysRun = true)
+    public void setUp(Method method, Object[] p) {
+        super.setUp(method, p);
         car = new HomePage(driver).getLetCarWorkPage();
-        driver.navigate().refresh();
     }
 
-    @Test
-    public void isPageTitleCorrectPositiveSmokeTest() {
+    @Test(groups = {"smoke", "regr"})
+    public void isPageTitleCorrectPositiveTest(){
         car.isPageTitleCorrect("Let the car work");
     }
 
@@ -36,7 +37,7 @@ public class LetCarWorkTests extends TestBase {
         };
     }
 
-    @Test(dataProvider = "requiredFields")
+    @Test(dataProvider = "requiredFields", groups = {"regr"})
     public void requiredFieldBlocksSubmitAndRecovers(String field, String value, String label) {
         car.fillValidForm().verifySubmitEnabled(true);
         car.fillField(field, "")

@@ -9,13 +9,23 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver);
     }
-    public void isHomeComponentPresent(){
 
-        // isElementPresent(By.cssSelector(".search-card"));
+    public boolean isHomeComponentPresent(){
+      return  isElementPresent(By.cssSelector(".search-card"));
     }
+
     public LetCarWorkPage getLetCarWorkPage() {
         WebElement link = driver.findElement(By.cssSelector("a[href$='/let-car-work']"));
         clickWithJS(link);
         return new LetCarWorkPage(driver);
     }
+
+    public boolean isYallaButtonPresent(){
+        return  isElementPresent(By.cssSelector("button[type='submit']"));
+    }
+
+    public boolean isMobileHeaderPresent(){
+        return  driver.findElement(By.cssSelector(".mobile-header")).isDisplayed();
+    }
+
 }
