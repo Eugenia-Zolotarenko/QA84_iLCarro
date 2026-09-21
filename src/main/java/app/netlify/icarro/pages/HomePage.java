@@ -2,7 +2,6 @@ package app.netlify.icarro.pages;
 
 import app.netlify.icarro.core.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -29,9 +28,4 @@ public class HomePage extends BasePage {
         return  driver.findElement(By.cssSelector(".mobile-header")).isDisplayed();
     }
 
-    public void setWindowWidthTo(int px) {
-        int currentHeight = driver.manage().window().getSize().getHeight();
-        driver.manage().window().setSize(new Dimension(px, currentHeight));
-
-    }
 }

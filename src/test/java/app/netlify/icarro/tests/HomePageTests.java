@@ -44,6 +44,5 @@ public class HomePageTests extends TestBase {
         Assert.assertTrue(home.isMobileHeaderPresent(),
                 "Mobile header is not displayed");
     }
-
 }
 
