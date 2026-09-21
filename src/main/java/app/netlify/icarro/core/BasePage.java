@@ -119,6 +119,11 @@ public void pause(int millis){
         throw new RuntimeException(e);
     }
 }
+
+    public void setWindowWidthTo(int px) {
+        int currentHeight = driver.manage().window().getSize().getHeight();
+        driver.manage().window().setSize(new Dimension(px, currentHeight));
+    }
 }
 
 
