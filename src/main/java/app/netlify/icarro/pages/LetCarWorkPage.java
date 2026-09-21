@@ -6,7 +6,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 
 public class LetCarWorkPage extends BasePage {
     private final By submit = By.cssSelector("button[type='submit']");
@@ -32,15 +31,7 @@ public class LetCarWorkPage extends BasePage {
     public LetCarWorkPage fillField(String name, String value) {
         WebElement field = getWait(10).until(ExpectedConditions.elementToBeClickable(By.name(name)));
         scrollWithJS(field);
-        if (field.getTagName().equals("select")) {
-            new Select(field).selectByValue(value);
-        } else {
-            field.click();
-            field.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
-            if (!value.isEmpty()) {
-                field.sendKeys(value);
-            }
-        }
+        type(field, value);
         field.sendKeys(Keys.TAB);
         return this;
     }

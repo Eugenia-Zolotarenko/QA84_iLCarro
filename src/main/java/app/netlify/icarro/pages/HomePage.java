@@ -20,6 +20,12 @@ public class HomePage extends BasePage {
         return new LetCarWorkPage(driver);
     }
 
+    public LoginPage getLoginPage() {
+        WebElement link = driver.findElement(By.cssSelector("a[href$='/login']"));
+        clickWithJS(link);
+        return new LoginPage(driver);
+    }
+
     public boolean isYallaButtonPresent(){
         return  isElementPresent(By.cssSelector("button[type='submit']"));
     }
