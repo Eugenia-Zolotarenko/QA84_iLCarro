@@ -26,6 +26,18 @@ public class HomePage extends BasePage {
         return new LoginPage(driver);
     }
 
+    public HeaderPage getHeaderPage() {
+        WebElement logo = driver.findElement(By.cssSelector("a.logo"));
+        clickWithJS(logo);
+        return new HeaderPage(driver);
+    }
+
+    public FooterPage getFooterPage() {
+        WebElement logo = driver.findElement(By.cssSelector("a.logo"));
+        clickWithJS(logo);
+        return new FooterPage(driver);
+    }
+
     public boolean isYallaButtonPresent(){
         return  isElementPresent(By.cssSelector("button[type='submit']"));
     }
@@ -33,5 +45,6 @@ public class HomePage extends BasePage {
     public boolean isMobileHeaderPresent(){
         return  driver.findElement(By.cssSelector(".mobile-header")).isDisplayed();
     }
+
 
 }
