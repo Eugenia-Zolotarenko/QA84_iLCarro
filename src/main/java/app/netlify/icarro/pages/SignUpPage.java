@@ -12,11 +12,6 @@ public class SignUpPage extends BasePage {
         super(driver);
     }
 
-    public SignUpPage getSignUpPage() {
-        WebElement link = driver.findElement(By.cssSelector("h1[class='title']"));
-        clickWithJS(link);
-        return new SignUpPage(driver);
-    }
 
     @FindBy(css = "input[name='firstName']")
     WebElement firstNameInput;
@@ -25,7 +20,7 @@ public class SignUpPage extends BasePage {
     WebElement lastNameInput;
 
     @FindBy(css = "input[name='username']")
-    WebElement usernameInput;
+    WebElement userEmailInput;
 
     @FindBy(css = "input[name='password']")
     WebElement passwordInput;
@@ -36,36 +31,6 @@ public class SignUpPage extends BasePage {
     @FindBy(css = "button.btn.btn--primary")
     WebElement submitButton;
 
-    public void fillFirstName(String firstName) {
-        fillField(firstNameInput, firstName);
-    }
-
-    public void fillLastName(String lastName) {
-        fillField(lastNameInput, lastName);
-    }
-
-    public void fillEmail(String userEmail) {
-        fillField(usernameInput, userEmail);
-    }
-
-    public void fillPassword(String password) {
-        fillField(passwordInput, password);
-    }
-
-    public void acceptTerms() {
-        click(termsCheckbox);
-    }
-
-    public void clickSubmit() {
-        click(submitButton);
-    }
-
-    private void fillField(WebElement element, String text) {
-        getWait(10).until(ExpectedConditions.visibilityOf(element));
-        element.clear();
-        element.sendKeys(text);
-    }
-
     public void clickModalOkButton(By okButtonLocator) {
         WebElement okButton = getWait(10).until(
                 ExpectedConditions.elementToBeClickable(okButtonLocator)
@@ -75,5 +40,39 @@ public class SignUpPage extends BasePage {
 
     public boolean isLogOutButtonPresent() {
         return isElementPresent(By.cssSelector("button[class='navigation-link linklike']"));
+    }
+
+    public String newEmail() {
+        int i = (int) ((System.currentTimeMillis() / 1000) % 3600);
+        String email = "sara" + i + "@gmail.com";
+        return email;
+    }
+
+    public SignUpPage fillRegisterForm(String firstName, String lastName, String userEmail, String userPass, String checkBox) {
+        type(firstNameInput, firstName);
+        type(lastNameInput, lastName);
+        type(userEmailInput, userEmail);
+        type(passwordInput, userPass);
+        type(termsCheckbox, checkBox);
+        return this;
+    }
+
+    public SignUpPage clickSubmitButton() {
+        click(submitButton);
+        return this;
+    }
+
+    public boolean isMessageRegisteredPresent() {
+        return isElementPresent(By.xpath("//h3[text()='Registered']"))
+                && isElementPresent(By.xpath("//p[text()='You are logged in success']"));
+    }
+
+
+    public LoginPage goRegistrationFormFromLoginPage() {
+        LoginPage loginPage = new HomePage(driver).getLoginPage();
+        WebElement registrationLink = driver.findElement(By.cssSelector("a.navigator"));
+        clickWithJS(registrationLink);
+
+        return loginPage;
     }
 }
