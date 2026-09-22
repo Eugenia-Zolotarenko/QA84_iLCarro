@@ -6,8 +6,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 
 public class LetCarWorkPage extends BasePage {
     private final By submit = By.cssSelector("button[type='submit']");
@@ -33,34 +31,24 @@ public class LetCarWorkPage extends BasePage {
     public LetCarWorkPage fillField(String name, String value) {
         WebElement field = getWait(10).until(ExpectedConditions.elementToBeClickable(By.name(name)));
         scrollWithJS(field);
-        if (field.getTagName().equals("select")) {
-            new Select(field).selectByValue(value);
-        } else {
-            field.click();
-            field.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
-            if (!value.isEmpty()) {
-                field.sendKeys(value);
-            }
-        }
+        type(field, value);
         field.sendKeys(Keys.TAB);
         return this;
     }
 
-    public LetCarWorkPage verifyRequired(String name, boolean expected) {
-        By error = By.xpath("//*[@name='" + name + "']/../div[@class='error']");
-        if (expected) {
-            WebElement message = getWait(10).until(ExpectedConditions.visibilityOfElementLocated(error));
-            Assert.assertEquals(message.getText(), "Required", name + " validation message");
-        } else {
-            getWait(10).withMessage(name + " still shows Required")
-                    .until(d -> !d.findElement(By.name(name)).findElement(By.xpath("..")).getText().contains("Required"));
-        }
-        return this;
+    public String getFieldError(String name) {
+        return driver.findElement(By.name(name)).findElement(By.xpath(".."))
+                .findElements(By.cssSelector(".error")).stream()
+                .filter(WebElement::isDisplayed)
+                .map(WebElement::getText)
+                .findFirst().orElse("");
     }
 
-    public LetCarWorkPage verifySubmitEnabled(boolean expected) {
-        getWait(10).withMessage("Submit enabled should be " + expected)
-                .until(d -> d.findElement(submit).isEnabled() == expected);
-        return this;
+    public boolean isSubmitEnabled() {
+        return driver.findElement(submit).isEnabled();
+    }
+
+    public String getPageTitle() {
+        return getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1"))).getText();
     }
 }
