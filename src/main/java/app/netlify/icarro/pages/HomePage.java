@@ -38,6 +38,12 @@ public class HomePage extends BasePage {
         return new FooterPage(driver);
     }
 
+    public SignUpPage getSignUpPage() {
+        WebElement logo = driver.findElement(By.cssSelector("a[href$='/register']"));
+        clickWithJS(logo);
+        return new SignUpPage(driver);
+    }
+
     public boolean isYallaButtonPresent(){
         return  isElementPresent(By.cssSelector("button[type='submit']"));
     }
