@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.40.0")
     implementation("org.testng:testng:7.11.0")
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
 
     implementation("io.github.bonigarcia:webdrivermanager:6.3.4")
     implementation("ch.qos.logback:logback-classic:1.6.3")
