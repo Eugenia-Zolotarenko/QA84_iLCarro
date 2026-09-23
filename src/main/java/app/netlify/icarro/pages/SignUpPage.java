@@ -33,14 +33,14 @@ public class SignUpPage extends BasePage {
     @FindBy(css = "button.btn.btn--primary")
     WebElement submitButton;
 
-    public void clickModalOkButton(By okButtonLocator) {
+    public void clickModalWindowOkButton(By okButtonLocator) {
         WebElement okButton = getWait(10).until(
                 ExpectedConditions.elementToBeClickable(okButtonLocator)
         );
         okButton.click();
     }
-    public void clickModalOkButton() {
-        clickModalOkButton(By.xpath("//button[.='OK']"));
+    public void clickModalWindowOkButton() {
+        clickModalWindowOkButton(By.xpath("//button[.='OK']"));
     }
 
     public boolean isLogOutButtonPresent() {
@@ -96,7 +96,6 @@ public class SignUpPage extends BasePage {
             return false;
         }
     }
-
 
 
     public void acceptTerms() {

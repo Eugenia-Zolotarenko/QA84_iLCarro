@@ -27,7 +27,7 @@ public class CsvReader {
 
                 for (int i = 0; i < headers.length; i++) {
                     String value = (i < values.length) ? values[i].trim() : "";
-                    row.put(headers[i].trim(), value);
+                    row.put(headers[i], value);
                 }
                 data.add(row);
             }

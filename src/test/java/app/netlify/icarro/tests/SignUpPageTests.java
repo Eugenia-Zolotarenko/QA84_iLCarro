@@ -45,7 +45,7 @@ public class SignUpPageTests extends TestBase {
                         "Registered",
                         "You are logged in success"),
                 "User should be Registered");
-        signUp.clickModalOkButton();
+        signUp.clickModalWindowOkButton();
 
         Assert.assertTrue(
                 signUp.isLogOutButtonPresent(),
@@ -92,15 +92,13 @@ public class SignUpPageTests extends TestBase {
         boolean submitEnabled = signUp.isSubmitButtonEnabled();
 
         if (!submitEnabled) {
-            // Ожидаемое поведение: кнопка неактивна, под невалидным полем — ошибка
             softly.assertTrue(
                     signUp.isErrorMessageDisplayed(testData.getExpectedError()),
                     "Expected error not displayed: " + testData.getExpectedError() +
                             " | Test: " + testData.getTestDescription()
             );
         } else {
-            // Баг: кнопка активна вопреки невалидным данным
-            logger.warn("BUG: Submit button is enabled despite invalid data | Test: " +
+            logger.warn("BUG: Submit button 'Yalla' is enabled despite invalid data | Test: " +
                     testData.getTestDescription());
             signUp.clickSubmitButton();
             softly.assertTrue(
@@ -109,7 +107,6 @@ public class SignUpPageTests extends TestBase {
                             testData.getTestDescription()
             );
         }
-
         softly.assertAll();
     }
 }

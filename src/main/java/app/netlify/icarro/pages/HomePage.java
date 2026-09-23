@@ -51,11 +51,6 @@ public class HomePage extends BasePage {
     public boolean isMobileHeaderPresent(){
         return  driver.findElement(By.cssSelector(".mobile-header")).isDisplayed();
     }
-    public SignUpPage getSignUpPage() {
-        WebElement link = driver.findElement(By.cssSelector("a[href$='/register']")); //"h1[class='title']"
-        clickWithJS(link);
-        return new SignUpPage(driver);
-    }
 
 
 }
