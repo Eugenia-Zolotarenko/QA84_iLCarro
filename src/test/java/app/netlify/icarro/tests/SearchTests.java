@@ -154,3 +154,4 @@ public void searchWithCitySelectedFromListPositiveTest() {
         );
     }
 }
+//By.xpath("//*[normalize-space(.)='Chevrolet']");
