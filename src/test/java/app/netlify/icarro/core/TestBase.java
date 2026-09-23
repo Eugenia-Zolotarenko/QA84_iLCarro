@@ -17,7 +17,7 @@ public class TestBase {
     protected static final ApplicationManager app =
             new ApplicationManager(System.getProperty("browser", Browser.CHROME.browserName()));
 
-    private static final Logger logger = LoggerFactory.getLogger(TestBase.class);
+    protected static final Logger logger = LoggerFactory.getLogger(TestBase.class);
     private static final ThreadLocal<SoftAssert> softly = new ThreadLocal<>();
     protected Screenshots screen = new Screenshots();
     protected WebDriver driver;
