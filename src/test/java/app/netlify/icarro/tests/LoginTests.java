@@ -14,15 +14,16 @@ public class LoginTests extends TestBase {
 
     LoginPage login;
 
+
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method, Object[] p) {
+
         super.setUp(method, p);
+
         login = new HomePage(driver).getLoginPage();
     }
 
 
-    // POSITIVE
-    // Login with Valid Credentials
 
     @Test
     public void loginWithValidCredentialsPositiveTest() {
@@ -49,9 +50,6 @@ public class LoginTests extends TestBase {
     }
 
 
-    // NEGATIVE 1
-    // Login with Invalid Email
-
     @Test
     public void loginWithInvalidEmailNegativeTest() {
 
@@ -72,9 +70,6 @@ public class LoginTests extends TestBase {
         );
     }
 
-
-    // NEGATIVE 2
-    // Login with Invalid Password
 
     @Test
     public void loginWithInvalidPasswordNegativeTest() {
@@ -97,9 +92,6 @@ public class LoginTests extends TestBase {
     }
 
 
-    // NEGATIVE 3
-    // Login with Empty Email
-
     @Test
     public void loginWithEmptyEmailNegativeTest() {
 
@@ -114,9 +106,6 @@ public class LoginTests extends TestBase {
     }
 
 
-    // NEGATIVE 4
-    // Login with Empty Password
-
     @Test
     public void loginWithEmptyPasswordNegativeTest() {
 
@@ -130,9 +119,6 @@ public class LoginTests extends TestBase {
         );
     }
 
-
-    // NEGATIVE 5
-    // Login with Empty Email and Password
 
     @Test
     public void loginWithEmptyFieldsNegativeTest() {
