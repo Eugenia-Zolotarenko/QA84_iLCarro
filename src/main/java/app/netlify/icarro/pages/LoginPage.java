@@ -4,6 +4,7 @@ import app.netlify.icarro.core.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 public class LoginPage extends BasePage {
 
@@ -77,5 +78,21 @@ public class LoginPage extends BasePage {
         element.click();
 
         return this;
+    }
+    public LoginPage goRegistrationFormFromLoginPage() {
+        WebElement registrationLink =
+                driver.findElement(By.cssSelector("a.navigator"));
+
+        clickWithJS(registrationLink);
+
+        return this;
+    }
+
+    public void assertGoToRegForm() {
+        Assert.assertTrue(
+                isElementPresent(
+                        By.xpath("//h1[text()='Registration']")
+                )
+        );
     }
 }

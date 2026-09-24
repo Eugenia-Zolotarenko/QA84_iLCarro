@@ -14,15 +14,11 @@ public class LoginTests extends TestBase {
 
     LoginPage login;
 
-
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method, Object[] p) {
-
         super.setUp(method, p);
-
         login = new HomePage(driver).getLoginPage();
     }
-
 
 
     @Test
@@ -47,6 +43,15 @@ public class LoginTests extends TestBase {
                         By.xpath("//*[normalize-space(.)='Log out']")
                 )
         );
+    }
+
+
+    @Test(groups = {"regr"})
+    public void goRegistrationFormFromLoginPagePositiveTest() {
+
+        login.goRegistrationFormFromLoginPage();
+
+        login.assertGoToRegForm();
     }
 
 
@@ -118,7 +123,6 @@ public class LoginTests extends TestBase {
                 driver.getCurrentUrl().contains("/login")
         );
     }
-
 
     @Test
     public void loginWithEmptyFieldsNegativeTest() {
