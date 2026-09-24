@@ -108,8 +108,8 @@ public void searchWithCitySelectedFromListPositiveTest() {
     search.enterCity("ri")
             .selectCityFromDropdown("Rishon LeZion")
             .clickDatesField()
-            .selectDay("25")
-            .selectDay("27")
+            .selectFutureDay(2)
+            .selectFutureDay(4)
             .clickSearchButton()
             .scrollToSearchResults();
 

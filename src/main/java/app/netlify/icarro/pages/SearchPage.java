@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class SearchPage extends BasePage {
@@ -141,6 +142,13 @@ public class SearchPage extends BasePage {
     }
     public boolean isSearchButtonDisabled() {
         return !searchButton.isEnabled();
+    }
+
+    public SearchPage selectFutureDay(int daysFromToday) {
+        LocalDate futureDate = LocalDate.now().plusDays(daysFromToday);
+        String day = String.valueOf(futureDate.getDayOfMonth());
+
+        return selectDay(day);
     }
 
 }
