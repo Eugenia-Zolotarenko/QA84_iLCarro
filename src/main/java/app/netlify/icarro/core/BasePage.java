@@ -23,7 +23,7 @@ public abstract class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        js =(JavascriptExecutor) driver;
+        js = (JavascriptExecutor) driver;
         actions = new Actions(driver);
     }
 
@@ -35,29 +35,30 @@ public abstract class BasePage {
         //Assert.assertEquals(title, actualTitle, "Page title doesn't match");
     }
 
-    public boolean isElementPresent(By locator){
+    public boolean isElementPresent(By locator) {
         return !driver.findElements(locator).isEmpty();
     }
 
-    public void scrollWithJS(WebElement element){
+    public void scrollWithJS(WebElement element) {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public void scrollWithJSTopPage(){
+    public void scrollWithJSTopPage() {
         js.executeScript("window.scrollTo(0, 0);");
     }
 
-    public void clickWithJS(WebElement element){
+    public void clickWithJS(WebElement element) {
         scrollWithJS(element);
         js.executeScript("arguments[0].click();", element);
     }
 
-    public void typeWithJS(WebElement element, String text){
+    public void typeWithJS(WebElement element, String text) {
         scrollWithJS(element);
         type(element, text);
     }
-    public void type(WebElement element, String text){
-        if(text!=null){
+
+    public void type(WebElement element, String text) {
+        if (text != null) {
             //click(element);
             //element.clear();
             //element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
@@ -72,20 +73,21 @@ public abstract class BasePage {
         }
     }
 
-    public void  click(WebElement element){
+    public void click(WebElement element) {
         element.click();
     }
 
-    public boolean isAlertPresent(int time){
+    public boolean isAlertPresent(int time) {
         Alert alert = new WebDriverWait(driver, Duration.ofSeconds(time))
                 .until(ExpectedConditions.alertIsPresent());
-        if (alert==null){
+        if (alert == null) {
             return false;
         } else {
             driver.switchTo().alert().accept();//click OK in alert
             return true;
         }
     }
+
     public boolean isContainsText(String text, WebElement element) {
         return element.getText().contains(text);
     }
@@ -94,15 +96,16 @@ public abstract class BasePage {
         return new WebDriverWait(driver, Duration.ofSeconds(time));
     }
 
- public boolean isElementVisible(WebElement element) {
-    try {
-        element.isDisplayed();
-        return true;
-    } catch (NoSuchElementException e) {
-        e.getMessage();
-        return false;
+    public boolean isElementVisible(WebElement element) {
+        try {
+            element.isDisplayed();
+            return true;
+        } catch (NoSuchElementException e) {
+            e.getMessage();
+            return false;
+        }
     }
-}
+
     public void verifyLinks(String url, SoftAssert softly) {
         try {
             URL linkUrl = new URL(url);
@@ -121,17 +124,21 @@ public abstract class BasePage {
         }
     }
 
-public void pause(int millis){
-    try {
-        Thread.sleep(millis);
-    } catch (InterruptedException e) {
-        throw new RuntimeException(e);
+    public void pause(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
-}
 
     public void setWindowWidthTo(int px) {
         int currentHeight = driver.manage().window().getSize().getHeight();
         driver.manage().window().setSize(new Dimension(px, currentHeight));
+    }
+
+    public boolean isElementEnabled(WebElement element) {
+        return element.isEnabled();
     }
 }
 
