@@ -26,8 +26,8 @@ public class SearchTests extends TestBase {
     public void searchWithManuallyEnteredCityAndDatesPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
-                .selectDay("25")
-                .selectDay("27")
+                .selectFutureDay(2)
+                .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults();
         Assert.assertTrue(search.isSearchResultPresent());
@@ -37,8 +37,8 @@ public class SearchTests extends TestBase {
     public void displaySearchResultsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
-                .selectDay("25")
-                .selectDay("27")
+                .selectFutureDay(2)
+                .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults();
         Assert.assertEquals(search.getFirstCarName(), "Chevrolet Comaro");
@@ -48,8 +48,8 @@ public class SearchTests extends TestBase {
     public void paginationOfSearchResultsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
-                .selectDay("25")
-                .selectDay("27")
+                .selectFutureDay(2)
+                .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults();
 
@@ -65,8 +65,8 @@ public class SearchTests extends TestBase {
     public void rowsPerPagePositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
-                .selectDay("25")
-                .selectDay("27")
+                .selectFutureDay(2)
+                .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults();
 
@@ -82,8 +82,8 @@ public class SearchTests extends TestBase {
     public void selectCarFromSearchResultsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
-                .selectDay("25")
-                .selectDay("27")
+                .selectFutureDay(2)
+                .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults()
                 .selectFirstCar();
