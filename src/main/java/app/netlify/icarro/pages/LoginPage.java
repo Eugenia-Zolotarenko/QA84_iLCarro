@@ -4,10 +4,6 @@ import app.netlify.icarro.core.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-import java.util.List;
 
 public class LoginPage extends BasePage {
 
@@ -20,11 +16,8 @@ public class LoginPage extends BasePage {
     private final By submitButton =
             By.cssSelector("button[type='submit']");
 
-    private final By modalTitle =
-            By.xpath(
-                    "//*[normalize-space(.)='Login failed' " +
-                            "or normalize-space(.)='You are logged in success']"
-            );
+    private final By modalWindow =
+            By.cssSelector("h3");
 
     private final By okButton =
             By.xpath("//*[normalize-space(.)='OK']");
@@ -66,45 +59,22 @@ public class LoginPage extends BasePage {
 
     public String getModalTitleText() {
 
-        return new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(driver -> {
+        pause(1000);
 
-                    List<WebElement> elements =
-                            driver.findElements(modalTitle);
-
-                    for (WebElement element : elements) {
-                        if (element.isDisplayed()) {
-                            return element;
-                        }
-                    }
-
-                    return null;
-                })
-                .getText();
+        return driver.findElement(modalWindow).getText();
     }
 
 
     public LoginPage clickOkButton() {
 
-        WebElement ok = new WebDriverWait(
-                driver,
-                Duration.ofSeconds(5)
-        ).until(driver -> {
+        pause(1000);
 
-            List<WebElement> elements =
-                    driver.findElements(okButton);
+        WebElement element =
+                driver.findElement(
+                        By.xpath("//*[normalize-space(.)='OK']")
+                );
 
-            for (WebElement element : elements) {
-
-                if (element.isDisplayed()) {
-                    return element;
-                }
-            }
-
-            return null;
-        });
-
-        ok.click();
+        element.click();
 
         return this;
     }
