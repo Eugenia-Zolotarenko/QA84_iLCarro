@@ -150,5 +150,34 @@ public class SearchPage extends BasePage {
 
         return selectDay(day);
     }
+    public boolean areCarDetailsPresent(String... details) {
+        for (String detail : details) {
+            if (!isElementPresent(
+                    By.xpath("//*[normalize-space(.)='" + detail + "']")
+            )) {
+                return false;
+            }
+        }
+        return true;
+    }
+    @FindBy(css = ".cars-container .car-card")
+    List<WebElement> carsInContainer;
+
+    public boolean areCarsPresentInContainer() {
+        return !carsInContainer.isEmpty();
+    }
+
+    public int getCarsCountInContainer() {
+        return carsInContainer.size();
+    }
+    public String getCityValue() {
+        return cityInput.getAttribute("value");
+    }
+    public boolean isNoCarsMessagePresent() {
+        return isElementPresent(
+                By.xpath("//main//*[contains(text()," +
+                        "'No cars found for the selected search criteria')]")
+        );
+    }
 
 }

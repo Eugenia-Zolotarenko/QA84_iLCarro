@@ -30,6 +30,7 @@ public class SearchTests extends TestBase {
                 .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults();
+
         Assert.assertTrue(search.isSearchResultPresent());
 
     }
@@ -41,7 +42,8 @@ public class SearchTests extends TestBase {
                 .selectFutureDay(4)
                 .clickSearchButton()
                 .scrollToSearchResults();
-        Assert.assertEquals(search.getFirstCarName(), "Chevrolet Comaro");
+
+        getSoftAssert().assertEquals(search.getFirstCarName(), "Chevrolet Comaro");
         Assert.assertTrue(search.isCarPricePresent());
     }
     @Test(groups = {"regr"})
@@ -87,7 +89,8 @@ public class SearchTests extends TestBase {
                 .clickSearchButton()
                 .scrollToSearchResults()
                 .selectFirstCar();
-        Assert.assertTrue(search.isCarPageOpened());
+
+        getSoftAssert().assertTrue(search.isCarPageOpened());
         Assert.assertFalse(search.isCarLoadingErrorPresent());
     }
 //    @Test(groups = {"regr"})
@@ -152,6 +155,84 @@ public void searchWithCitySelectedFromListPositiveTest() {
                 search.isSearchButtonDisabled(),
                 "Yalla! button is enabled without dates"
         );
+    }
+    @Test(groups = {"regr"})
+    public void displayCarDetailsPositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults()
+                .selectFirstCar();
+
+        Assert.assertTrue(
+                search.areCarDetailsPresent(
+                        "Chevrolet",
+                        "Comaro",
+                        "2020",
+                        "30.0"
+                )
+        );
+    }
+    @Test(groups = {"regr"})
+    public void changeRowsPerPagePositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        Assert.assertTrue(search.areCarsPresentInContainer());
+        int carsBefore = search.getCarsCountInContainer();
+        search.selectRowsPerPage("20");
+        int carsAfter = search.getCarsCountInContainer();
+        Assert.assertNotEquals(carsBefore, carsAfter);
+    }
+    @Test(groups = {"regr"})
+    public void searchWithNoAvailableCarsPositiveTest() {
+        search.enterCity("Beersheba")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton();
+
+        Assert.assertTrue(search.isNoCarsMessagePresent());
+    }
+
+
+
+    @Test(groups = {"regr"})
+    public void searchWithEmptyCityNegativeTest() {
+        search.clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4);
+
+        Assert.assertTrue(search.isSearchButtonDisabled());
+    }
+
+    @Test(groups = {"regr"})
+    public void searchWithInvalidCityNegativeTest() {
+        search.enterCity("Berlin")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton();
+
+        Assert.assertFalse(search.isSearchResultPresent());
+    }
+    @Test(groups = {"regr"})
+    public void searchDataAfterPageRefreshNegativeTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4);
+
+        driver.navigate().refresh();
+
+        getSoftAssert().assertEquals(search.getCityValue(), "");
+        Assert.assertEquals(search.getDatesValue(), "");
     }
 }
 //By.xpath("//*[normalize-space(.)='Chevrolet']");
