@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
+import static org.openqa.selenium.devtools.v142.debugger.Debugger.pause;
+
 public class SearchTests extends TestBase {
     SearchPage search;
 
