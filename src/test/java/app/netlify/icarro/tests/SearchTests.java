@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-import static org.openqa.selenium.devtools.v142.debugger.Debugger.pause;
-
 public class SearchTests extends TestBase {
     SearchPage search;
 
@@ -81,7 +79,7 @@ public class SearchTests extends TestBase {
         Assert.assertNotEquals(resultsBefore, resultsAfter);
     }
     @Test(groups = {"regr"})
-    public void selectCarFromSearchResultsPositiveTest() {
+    public void selectCarFromSearchResultsPositiveTest() { //должна открыться без ошибки
         search.enterCity("Tel Aviv")
                 .clickDatesField()
                 .selectFutureDay(2)
@@ -200,8 +198,69 @@ public void searchWithCitySelectedFromListPositiveTest() {
 
         Assert.assertTrue(search.isNoCarsMessagePresent());
     }
+    @Test(groups = {"regr"})
+    public void rowsPerPageOptionsPositiveTest() {
+        search.enterCity("Petah Tikva")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults();
 
+        Assert.assertTrue(search.areCarsPresentInContainer());
 
+        search.selectRowsPerPage("10");
+        int carsFor10 = search.getCarsCountInContainer();
+        System.out.println("Rows per page: 10, actual cars: " + carsFor10);
+
+        search.selectRowsPerPage("20");
+        int carsFor20 = search.getCarsCountInContainer();
+        System.out.println("Rows per page: 20, actual cars: " + carsFor20);
+
+        search.selectRowsPerPage("50");
+        int carsFor50 = search.getCarsCountInContainer();
+        System.out.println("Rows per page: 50, actual cars: " + carsFor50);
+
+        getSoftAssert().assertTrue(carsFor10 <= 10);
+        getSoftAssert().assertTrue(carsFor20 <= 20);
+        getSoftAssert().assertTrue(carsFor50 <= 50);
+    }
+    @Test(groups = {"regr"})
+    public void paginationBoundaryButtonsPositiveTest() {// на этом тесте ноут пошел на взлет)))
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        // На первой странице назад перейти нельзя
+        Assert.assertTrue(search.isPreviousPageButtonDisabled());
+
+        // Идём вперёд, пока кнопка Next доступна
+        while (!search.isNextPageButtonDisabled()) {
+            search.clickNextPageButton();
+        }
+
+        // На последней странице вперёд перейти нельзя
+        Assert.assertTrue(search.isNextPageButtonDisabled());
+    }
+    @Test(groups = {"regr"})
+    public void paginationButtonHoverUIPositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        String colorBefore = search.getNextButtonColor();
+        search.hoverOverNextButton();
+        String colorAfter = search.getNextButtonColor();
+        Assert.assertNotEquals(colorBefore, colorAfter);
+    }
+
+// NEGATIVE
 
     @Test(groups = {"regr"})
     public void searchWithEmptyCityNegativeTest() {
@@ -234,5 +293,18 @@ public void searchWithCitySelectedFromListPositiveTest() {
         getSoftAssert().assertEquals(search.getCityValue(), "");
         Assert.assertEquals(search.getDatesValue(), "");
     }
+    @Test(groups = {"regr"})
+    public void carDetailsLoadingFailureNegativeTest() {//сообщение есть, машины нет
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults()
+                .selectFirstCar();
+
+        Assert.assertTrue(search.isCarLoadingErrorPresent());
+    }
+
 }
 //By.xpath("//*[normalize-space(.)='Chevrolet']");

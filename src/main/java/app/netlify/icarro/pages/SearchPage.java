@@ -179,5 +179,20 @@ public class SearchPage extends BasePage {
                         "'No cars found for the selected search criteria')]")
         );
     }
+    public boolean isPreviousPageButtonDisabled() {
+        return !previousPageButton.isEnabled();
+    }
+
+    public boolean isNextPageButtonDisabled() {
+        return !nextPageButton.isEnabled();
+    }
+    public SearchPage hoverOverNextButton() {
+        actions.moveToElement(nextPageButton).perform();
+        pause(2000);
+        return this;
+    }
+    public String getNextButtonColor() {
+        return nextPageButton.getCssValue("color");
+    }
 
 }
