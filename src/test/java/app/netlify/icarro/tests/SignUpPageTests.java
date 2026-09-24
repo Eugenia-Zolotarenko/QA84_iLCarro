@@ -61,7 +61,7 @@ public class SignUpPageTests extends TestBase {
 
     @DataProvider(name = "signUpNegativeTestData")
     public Object[][] provideSignUpNegativeData() {
-        List<Map<String, String>> csvData = CsvReader.readCsv("c:\\JavaQAProjects\\QA84_iLCarro\\src\\test\\resources\\signup_negative_testdata.csv");
+        List<Map<String, String>> csvData = CsvReader.readCsv("c:\\JavaQAProjects\\QA84_iLCarro\\src\\test\\resources\\signup_negative_testdata_big.csv");
         Object[][] data = new Object[csvData.size()][1];
 
         for (int i = 0; i < csvData.size(); i++) {
