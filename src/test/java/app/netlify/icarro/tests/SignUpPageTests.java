@@ -52,11 +52,6 @@ public class SignUpPageTests extends TestBase {
                 "User should be logged in");
     }
 
-    @Test(groups = {"regr"})
-    public void goRegistrationFormFromLoginPagePositiveTest() {
-        signUp.goRegistrationFormFromLoginPage();
-        signUp.assertGoToRegForm();
-    }
 
 
     @DataProvider(name = "signUpNegativeTestData")

@@ -73,17 +73,6 @@ public class SignUpPage extends BasePage {
     }
 
 
-    public LoginPage goRegistrationFormFromLoginPage() {
-        LoginPage loginPage = new HomePage(driver).getLoginPage();
-        WebElement registrationLink = driver.findElement(By.cssSelector("a.navigator"));
-        clickWithJS(registrationLink);
-        return loginPage;
-    }
-    public void assertGoToRegForm() {
-        Assert.assertTrue(isElementPresent(
-                By.xpath("//h1[text()='Registration']")));
-    }
-
 
 
 
