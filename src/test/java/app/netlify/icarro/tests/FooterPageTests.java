@@ -10,8 +10,8 @@ import java.lang.reflect.Method;
 public class FooterPageTests extends TestBase {
     FooterPage footer;
     @BeforeMethod(alwaysRun = true)
-    public void setUp(Method method, Object[] p) {
-        super.setUp(method, p);
-        footer = new HomePage(driver).getFooterPage();
+        public void setUp(Method method, Object[] p) {
+            super.setUp(method, p);
+            footer = new HomePage(driver).getFooterPage();
     }
 }
