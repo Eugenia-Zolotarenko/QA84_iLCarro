@@ -5,17 +5,17 @@ public class SignUpTestData {
     private String lastName;
     private String email;
     private String password;
-    private String expectedError;
+    private String expectedField;
     private String testDescription;
 
 
     public SignUpTestData(String firstName, String lastName, String email,
-                          String password, String expectedError, String testDescription) {
+                          String password, String expectedField, String testDescription) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.expectedError = expectedError;
+        this.expectedField = expectedField;
         this.testDescription = testDescription;
     }
 
@@ -36,8 +36,8 @@ public class SignUpTestData {
         return password;
     }
 
-    public String getExpectedError() {
-        return expectedError;
+    public String getExpectedField() {
+        return expectedField;
     }
 
     public String getTestDescription() {
@@ -47,7 +47,7 @@ public class SignUpTestData {
 
     @Override
     public String toString() {
-        return testDescription + " | " + expectedError;
+        return testDescription + " | " + expectedField;
     }
 
 }

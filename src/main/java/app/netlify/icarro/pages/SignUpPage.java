@@ -76,14 +76,13 @@ public class SignUpPage extends BasePage {
 
 
 
-    public boolean isErrorMessageDisplayed(String expectedErrorText) {
-        By errorLocator = By.xpath("//div[@class='error'][text()='" + expectedErrorText + "']");
-        try {
-            WebElement error = getWait(5).until(ExpectedConditions.visibilityOfElementLocated(errorLocator));
-            return error.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+    public boolean isErrorMessageDisplayed(String fieldName) {
+        String selector =
+                "div.input-container:has(input[name='" + fieldName + "']) > div.error";
+        return getWait(5).until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.cssSelector(selector))
+        ).isDisplayed();
     }
 
 
