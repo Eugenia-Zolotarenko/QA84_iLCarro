@@ -6,60 +6,63 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
-import java.lang.reflect.Method;
-
-import static app.netlify.icarro.core.TestBase.getSoftAssert;
-
 public class HomePageOlehTests extends TestBase {
+
     HomePage home;
 
     @BeforeMethod(alwaysRun = true)
-    public void setUp(Method method, Object[] p) {
-        super.setUp(method, p);
+    public void initHomePage() {
         home = new HomePage(driver);
     }
 
-    @Test(groups = {"smoke", "regr"})
-    public void isPageTitleCorrectPositiveTest(){
-        Assert.assertTrue(home.isPageTitleCorrect("Find your car now!"));
-    }
+// HOME PAGE TESTS //
 
-    @Test (groups = {"smoke", "regr"})
-    public void isHomePageDisplayedPositiveTest(){
-        Assert.assertTrue(home.isHomeComponentPresent());
-    }
+     @Test(groups = {"smoke", "regr"})
+     public void isPageTitleCorrectPositiveTest() {
 
-    @Test (groups = {"smoke", "regr", "header"})
+     Assert.assertTrue(home.isPageTitleCorrect("Find your car now!"));
+}
+     @Test(groups = {"smoke", "regr"})
+     public void isHomePageDisplayedPositiveTest() {
+
+    Assert.assertTrue(home.isHomeComponentPresent());
+}
+    @Test(groups = {"smoke", "regr", "header"})
     public void loginLinkIsVisiblePositiveTest() {
-        getSoftAssert().assertTrue(home.isYallaButtonPresent(),
-                "Button Sign Up is not displayed");
-    }
-
-    @Test
+    getSoftAssert().assertTrue( home.isYallaButtonPresent(),
+            "Button Sign Up is not displayed" );
+}
+    @Test(groups = {"smoke", "regr"})
     public void testPageLinks() {
-        home.verifyLinks("https://icarro-v1.netlify.app/let-car-work", getSoftAssert());
-    }
 
-    @Test (groups = {"header", "min"})
+         home.verifyLinks( "https://icarro-v1.netlify.app/let-car-work", getSoftAssert() );
+}
+
+// HEADER TESTS
+
+    @Test(groups = {"smoke", "regr", "header", "min"})
     public void mobileHeaderIsVisiblePositiveTest() {
+
         home.setWindowWidthTo(500);
-        Assert.assertTrue(home.isMobileHeaderPresent(),
-                "Mobile header is not displayed");
+
+        Assert.assertTrue(
+                home.isMobileHeaderPresent(),
+                "Mobile header is not displayed"
+        );
     }
 
+    @Test(groups = {"smoke", "regr"})
+    public void verifyHomePage() {
 
-        @Test
-        public void verifyHomePage() {
+        Assert.assertTrue(
+                home.isHomeComponentPresent(),
+                "Home component is not present"
+        );
+    }
 
-            Assert.assertTrue(
-                    home.isHomeComponentPresent(),
-                    "Home component is not present"
-            );
-        }
-
-    @Test
+    @Test(groups = {"smoke", "regr", "footer"})
     public void verifyFooter() {
+
         home.scrollToFooter();
 
         Assert.assertTrue(
@@ -68,214 +71,132 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-        @Test
-        public void verifyLogo() {
+    @Test(groups = {"smoke", "regr", "header"})
+    public void verifyLogo() {
 
-            Assert.assertTrue(
-                    home.isLogoPresent(),
-                    "Logo is not present"
-            );
-        }
+        Assert.assertTrue(
+                home.isLogoPresent(),
+                "Logo is not present"
+        );
+    }
 
-        @Test
-        public void verifyMainHeading() {
+    @Test(groups = {"smoke", "regr"})
+    public void verifyMainHeading() {
 
-            Assert.assertTrue(
-                    home.isMainHeadingPresent(),
-                    "Main heading is not present"
-            );
-        }
+        Assert.assertTrue(
+                home.isMainHeadingPresent(),
+                "Main heading is not present"
+        );
+    }
 
-        @Test
-        public void verifySearch() {
+    @Test(groups = {"smoke", "regr"})
+    public void verifySearch() {
 
-            Assert.assertTrue(
-                    home.isSearchInputPresent(),
-                    "Search input is not present"
-            );
-        }
+        Assert.assertTrue(
+                home.isSearchInputPresent(),
+                "Search input is not present"
+        );
+    }
 
+    @Test(groups = {"smoke", "regr", "reviews"})
+    public void verifyReviews() {
 
-        @Test
-        public void verifyReviews() {
+        Assert.assertTrue(
+                home.isReviewsPresent(),
+                "Reviews block is not present"
+        );
+    }
 
-            Assert.assertTrue(
-                    home.isReviewsPresent(),
-                    "Reviews block is not present"
-            );
-        }
+ // TERMS OF USE TESTS //
 
+     @Test(groups = {"smoke", "regr", "terms"})
+     public void verifyTermOfUsePage() {
 
-        @Test
-        public void verifyTermOfUsePage() {
+                home.scrollToFooter(); home.clickTermOfUse();
+         Assert.assertTrue( home.isTermsOfUsePageOpened(), "Terms of Use page is not opened" );
+}
+     @Test(groups = {"regr", "terms"})
+     public void verifyTermOfUseHeading() { home.scrollToFooter(); home.clickTermOfUse();
 
-            home.scrollToFooter();
+         Assert.assertFalse( home.getTermsOfUseHeading().isEmpty(), "Terms of Use heading is empty" );
+}
 
-            home.clickTermOfUse();
+     @Test(groups = {"regr", "terms"})
+     public void verifyTermOfUseContent() { home.scrollToFooter(); home.clickTermOfUse();
 
-            Assert.assertTrue(
-                    home.isTermsOfUsePageOpened(),
-                    "Terms of Use page is not opened"
-            );
-        }
-        @Test
-        public void verifyTermOfUseHeading() {
+         Assert.assertTrue( home.isTermsOfUseContentPresent(), "Terms of Use content is not present" );
+         Assert.assertTrue( home.isTermsOfUseParagraphPresent(), "Terms of Use paragraphs are not present" );
+}
+ // REVIEWS TESTS //
 
-            home.scrollToFooter();
+     @Test(groups = {"smoke", "regr", "reviews"})
+     public void verifyReviewsBlock() {
 
-            home.clickTermOfUse();
+                 home.scrollToReviews(); Assert.assertTrue( home.isReviewsPresent(),
+            "Reviews block is not present" );
+         Assert.assertTrue( home.isReviewsHeadingPresent(),
+            "Reviews heading is not present" );
+         Assert.assertTrue( home.areReviewCardsPresent(), "Review cards are not present" );
+         Assert.assertTrue( home.areAllReviewCardsPresent(), "Not all 6 review cards are present" );
+}
+     @Test(groups = {"regr", "reviews"})
+     public void verifyReviewsHeading() {
 
-            Assert.assertFalse(
-                    home.getTermsOfUseHeading().isEmpty(),
-                    "Terms of Use heading is empty"
-            );
-        }
-        @Test
-        public void verifyTermOfUseContent() {
+                 home.scrollToReviews(); Assert.assertTrue( home.isReviewsHeadingPresent(),
+            "Reviews heading is not present" );
+}
 
-            home.scrollToFooter();
+     @Test(groups = {"regr", "reviews"})
+     public void verifyReviewElements() { home.scrollToReviews();
 
-            home.clickTermOfUse();
+         Assert.assertTrue( home.areReviewElementsPresent(), "Review elements are not present" );
+}
 
-            Assert.assertTrue(
-                    home.isTermsOfUseContentPresent(),
-                    "Terms of Use content is not present"
-            );
+     @Test(groups = {"regr", "reviews"})
+     public void verifyReviewText() {
+               home.scrollToReviews();
 
-            Assert.assertTrue(
-                    home.isTermsOfUseParagraphPresent(),
-                    "Terms of Use paragraphs are not present"
-            );
-        }
-        // ==========================================
-        // REVIEWS TESTS
-        // ==========================================
+         Assert.assertTrue( home.areReviewTextsPresent(), "Review texts are not present" );
+         Assert.assertTrue( home.isReviewTextReadable(), "Review text is not readable" );
+}
 
-        @Test
-        public void verifyReviewsBlock() {
-            home.scrollToReviews();
+     @Test(groups = {"regr", "reviews"})
+     public void verifyReviewerInformation() {
 
-            Assert.assertTrue(
-                    home.isReviewsPresent(),
-                    "Reviews block is not present"
-            );
+               home.scrollToReviews();
 
-            Assert.assertTrue(
-                    home.isReviewsHeadingPresent(),
-                    "Reviews heading is not present"
-            );
+         Assert.assertTrue( home.areReviewerNamesPresent(), "Reviewer information is not present" );
+         Assert.assertTrue( home.isReviewerInformationReadable(), "Reviewer information is not readable" );
+}
 
-            Assert.assertTrue(
-                    home.areReviewCardsPresent(),
-                    "Review cards are not present"
-            );
+     @Test(groups = {"regr", "reviews"})
+     public void verifyReviewImages() { home.scrollToReviews();
 
-            Assert.assertTrue(
-                    home.areAllReviewCardsPresent(),
-                    "Not all 6 review cards are present"
-            );
-        }
-        @Test
-        public void verifyReviewsHeading() {
+         Assert.assertTrue( home.areReviewImagesLoaded(), "Review images are not loaded correctly" );
 
-            home.scrollToReviews();
+}
 
-            Assert.assertTrue(
-                    home.isReviewsHeadingPresent(),
-                    "Reviews heading is not present"
-            );
-        }
-        @Test
-        public void verifyReviewElements() {
+     @Test(groups = {"regr", "reviews"}) public void verifyReviewsPosition() {
 
-            home.scrollToReviews();
+               home.scrollToReviews();
+               Assert.assertTrue( home.areReviewsInsidePage(), "Reviews block is outside the page boundaries" );
+}
 
-            Assert.assertTrue(
-                    home.areReviewElementsPresent(),
-                    "Review elements are not present"
-            );
-        }
-        @Test
-        public void verifyReviewText() {
+     @Test(groups = {"regr", "reviews"})
+     public void verifyReviewsAfterScroll() {
 
-            home.scrollToReviews();
+               home.scrollToReviews();
+         Assert.assertTrue( home.isReviewsBlockVisible(), "Reviews block is not visible" );
+}
 
-            Assert.assertTrue(
-                    home.areReviewTextsPresent(),
-                    "Review texts are not present"
-            );
+        // NEVER MISTAKEN TESTS //
 
-            Assert.assertTrue(
-                    home.isReviewTextReadable(),
-                    "Review text is not readable"
-            );
-        }
-        @Test
-        public void verifyReviewerInformation() {
+    @Test(groups = {"smoke", "regr", "neverMistaken"})
+    public void verifyNeverMistakenSection() {
 
-            home.scrollToReviews();
+               home.scrollToNeverMistakenSection();
 
-            Assert.assertTrue(
-                    home.areReviewerNamesPresent(),
-                    "Reviewer information is not present"
-            );
-
-            Assert.assertTrue(
-                    home.isReviewerInformationReadable(),
-                    "Reviewer information is not readable"
-            );
-        }
-        @Test
-        public void verifyReviewImages() {
-
-            home.scrollToReviews();
-
-            Assert.assertTrue(
-                    home.areReviewImagesLoaded(),
-                    "Review images are not loaded correctly"
-            );
-        }
-        @Test
-        public void verifyReviewsPosition() {
-
-            home.scrollToReviews();
-
-            Assert.assertTrue(
-                    home.areReviewsInsidePage(),
-                    "Reviews block is outside the page boundaries"
-            );
-        }
-        @Test
-        public void verifyReviewsAfterScroll() {
-
-            home.scrollToReviews();
-
-            Assert.assertTrue(
-                    home.isReviewsBlockVisible(),
-                    "Reviews block is not visible"
-            );
-
-        }
-        // ==========================================
-// NEVER MISTAKEN TESTS
-// ==========================================
-
-        @Test
-        public void verifyNeverMistakenSection() {
-
-            home.scrollToNeverMistakenSection();
-
-            Assert.assertTrue(
-                    home.isNeverMistakenSectionPresent(),
-                    "NEVER MISTAKEN section is not present"
-            );
-
-            Assert.assertTrue(
-                    home.isNeverMistakenHeadingPresent(),
-                    "NEVER MISTAKEN heading is not present"
-            );
-        }
-
-
+    Assert.assertTrue( home.isNeverMistakenSectionPresent(), "NEVER MISTAKEN section is not present" );
+    }
 
 }
