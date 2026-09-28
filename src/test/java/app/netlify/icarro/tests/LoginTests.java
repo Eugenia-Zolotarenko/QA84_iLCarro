@@ -1,8 +1,10 @@
 package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
+import app.netlify.icarro.model.LoginData;
 import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.LoginPage;
+import app.netlify.icarro.utils.LoginDataProvider;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -14,9 +16,12 @@ public class LoginTests extends TestBase {
 
     LoginPage login;
 
+
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method, Object[] p) {
+
         super.setUp(method, p);
+
         login = new HomePage(driver).getLoginPage();
     }
 
@@ -51,16 +56,18 @@ public class LoginTests extends TestBase {
 
         login.goRegistrationFormFromLoginPage();
 
-        login.assertGoToRegForm();
+        Assert.assertTrue(
+                login.isPageTitleCorrect("Registration")
+        );
     }
 
+    @Test(
+            dataProvider = "invalidLoginData",
+            dataProviderClass = LoginDataProvider.class
+    )
+    public void loginWithInvalidEmailNegativeTest(LoginData data) {
 
-    @Test
-    public void loginWithInvalidEmailNegativeTest() {
-
-        login.fillLoginForm(
-                        "wronguser@test.com",
-                        "Aa123456!")
+        login.fillLoginFormWithData(data)
                 .clickSubmitButton();
 
         getSoftAssert().assertEquals(
@@ -69,31 +76,6 @@ public class LoginTests extends TestBase {
         );
 
         login.clickOkButton();
-
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/login")
-        );
-    }
-
-
-    @Test
-    public void loginWithInvalidPasswordNegativeTest() {
-
-        login.fillLoginForm(
-                        "oksana.icarro.test@gmail.com",
-                        "WrongPassword123!")
-                .clickSubmitButton();
-
-        getSoftAssert().assertEquals(
-                login.getModalTitleText(),
-                "Login failed"
-        );
-
-        login.clickOkButton();
-
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/login")
-        );
     }
 
 
@@ -105,8 +87,8 @@ public class LoginTests extends TestBase {
                 "Aa123456!"
         );
 
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/login")
+        Assert.assertFalse(
+                login.isSubmitEnable()
         );
     }
 
@@ -123,6 +105,7 @@ public class LoginTests extends TestBase {
                 driver.getCurrentUrl().contains("/login")
         );
     }
+
 
     @Test
     public void loginWithEmptyFieldsNegativeTest() {

@@ -33,5 +33,7 @@ public class HomePage extends BasePage {
     public boolean isMobileHeaderPresent(){
         return  driver.findElement(By.cssSelector(".mobile-header")).isDisplayed();
     }
-
+    public HeaderPage getHeaderPage() {
+        return new HeaderPage(driver);
+    }
 }
