@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class HeaderPage extends BasePage {
 
     private final By header =
@@ -36,8 +38,9 @@ public class HeaderPage extends BasePage {
     private final By loginLink =
             By.cssSelector("div.header a[href='/login']");
 
+    private final By headerLinks =
+            By.cssSelector("div.header a");
 
-    // MOBILE HEADER
 
     private final By mobileHeader =
             By.cssSelector("div.mobile-header");
@@ -51,7 +54,10 @@ public class HeaderPage extends BasePage {
             By.cssSelector("div.mobile-header button");
 
     private final By logOutButton =
-            By.cssSelector("div.header button.navigation-link.linklike");
+            By.cssSelector(
+                    "div.header button.navigation-link.linklike"
+            );
+
 
     public HeaderPage(WebDriver driver) {
         super(driver);
@@ -144,8 +150,14 @@ public class HeaderPage extends BasePage {
         return driver.findElement(hamburgerButton).isDisplayed();
     }
 
+
     public boolean isLogOutDisplayed() {
         return isElementPresent(logOutButton);
+    }
+
+
+    public List<WebElement> getHeaderLinks() {
+        return driver.findElements(headerLinks);
     }
 
 
@@ -157,5 +169,29 @@ public class HeaderPage extends BasePage {
         clickWithJS(menuButton);
 
         return this;
+    }
+    public boolean isHeaderImageLoaded() {
+
+        WebElement image =
+                driver.findElement(headerLogoImage);
+
+        Boolean loaded = (Boolean) js.executeScript(
+                "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                image
+        );
+
+        return Boolean.TRUE.equals(loaded);
+    }
+    public boolean isMobileHeaderImageLoaded() {
+
+        WebElement image =
+                driver.findElement(mobileHeaderLogo);
+
+        Boolean loaded = (Boolean) js.executeScript(
+                "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                image
+        );
+
+        return Boolean.TRUE.equals(loaded);
     }
 }

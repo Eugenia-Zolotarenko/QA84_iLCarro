@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class FooterPage extends BasePage {
 
     private final By footer =
@@ -68,7 +70,6 @@ public class FooterPage extends BasePage {
                     "div.footer-container div.page-links a[href='/login']"
             );
 
-
     private final By topCitiesContainer =
             By.cssSelector(
                     "div.footer-container div.top-cities-container"
@@ -84,7 +85,6 @@ public class FooterPage extends BasePage {
                     "div.footer-container div.top-cities-container div.top-cities a"
             );
 
-
     private final By contactInformation =
             By.cssSelector(
                     "div.footer-container address.address-container"
@@ -98,6 +98,16 @@ public class FooterPage extends BasePage {
     private final By footerAddress =
             By.cssSelector(
                     "div.footer-container address.address-container a.address"
+            );
+
+    private final By footerLinks =
+            By.cssSelector(
+                    "div.footer-container a"
+            );
+
+    private final By footerImages =
+            By.cssSelector(
+                    "div.footer-container img"
             );
 
 
@@ -144,12 +154,18 @@ public class FooterPage extends BasePage {
 
 
     public boolean areSocialMediaLinksPresent() {
-        return driver.findElements(socialMediaLinks).size() == 5;
+
+        return driver.findElements(
+                socialMediaLinks
+        ).size() == 5;
     }
 
 
     public boolean areSocialMediaIconsDisplayed() {
-        return driver.findElements(socialMediaIcons).size() == 5;
+
+        return driver.findElements(
+                socialMediaIcons
+        ).size() == 5;
     }
 
 
@@ -199,7 +215,10 @@ public class FooterPage extends BasePage {
 
 
     public boolean areTopCitiesLinksPresent() {
-        return driver.findElements(topCitiesLinks).size() == 10;
+
+        return driver.findElements(
+                topCitiesLinks
+        ).size() == 10;
     }
 
 
@@ -215,5 +234,31 @@ public class FooterPage extends BasePage {
 
     public boolean isFooterAddressDisplayed() {
         return isElementPresent(footerAddress);
+    }
+
+
+    public List<WebElement> getFooterLinks() {
+        return driver.findElements(footerLinks);
+    }
+
+
+    public boolean areFooterImagesLoaded() {
+
+        List<WebElement> images =
+                driver.findElements(footerImages);
+
+        for (WebElement image : images) {
+
+            Boolean loaded = (Boolean) js.executeScript(
+                    "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                    image
+            );
+
+            if (!Boolean.TRUE.equals(loaded)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -3,9 +3,11 @@ package app.netlify.icarro.tests;
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.pages.FooterPage;
 import app.netlify.icarro.pages.HomePage;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.lang.reflect.Method;
 
@@ -22,6 +24,7 @@ public class FooterPageTests extends TestBase {
         footer = new HomePage(driver).getFooterPage();
     }
 
+
     @Test
     public void verifySocialMediaLinksPositiveTest() {
 
@@ -29,6 +32,7 @@ public class FooterPageTests extends TestBase {
                 footer.areSocialMediaLinksPresent()
         );
     }
+
 
     @Test
     public void verifyFooterDisplayPositiveTest() {
@@ -38,6 +42,7 @@ public class FooterPageTests extends TestBase {
         );
     }
 
+
     @Test
     public void verifySocialMediaIconsDisplayPositiveTest() {
 
@@ -45,6 +50,7 @@ public class FooterPageTests extends TestBase {
                 footer.areSocialMediaIconsDisplayed()
         );
     }
+
 
     @Test
     public void verifyFacebookIconPositiveTest() {
@@ -54,6 +60,7 @@ public class FooterPageTests extends TestBase {
         );
     }
 
+
     @Test
     public void verifyFooterLogoLinkPositiveTest() {
 
@@ -62,6 +69,7 @@ public class FooterPageTests extends TestBase {
         );
     }
 
+
     @Test
     public void verifyFooterLogoImagePositiveTest() {
 
@@ -69,6 +77,7 @@ public class FooterPageTests extends TestBase {
                 footer.isFooterLogoImagePresent()
         );
     }
+
 
     @Test
     public void verifyFooterContactInformationPositiveTest() {
@@ -95,6 +104,7 @@ public class FooterPageTests extends TestBase {
         );
     }
 
+
     @Test
     public void verifyTopCitiesDisplayPositiveTest() {
 
@@ -115,6 +125,7 @@ public class FooterPageTests extends TestBase {
                 footer.isFooterLoginLinkDisplayed()
         );
     }
+
 
     @Test
     public void verifyFooterSignUpLinkPositiveTest() {
@@ -141,6 +152,7 @@ public class FooterPageTests extends TestBase {
                 footer.isFooterLetCarWorkLinkDisplayed()
         );
     }
+
 
     @Test
     public void verifyFooterSearchLinkPositiveTest() {
@@ -172,6 +184,7 @@ public class FooterPageTests extends TestBase {
         );
     }
 
+
     @Test
     public void verifyFooterElementsWithBodyWidthLessThan785PositiveTest() {
 
@@ -189,6 +202,80 @@ public class FooterPageTests extends TestBase {
 
         Assert.assertTrue(
                 footer.isTelephoneDisplayed()
+        );
+    }
+
+    @Test
+    public void verifyBrokenLinksInFooterNegativeTest() {
+
+        SoftAssert softly = new SoftAssert();
+
+        for (WebElement link : footer.getFooterLinks()) {
+
+            String url = link.getAttribute("href");
+
+            if (url != null
+                    && !url.isEmpty()
+                    && (url.startsWith("http://")
+                    || url.startsWith("https://"))) {
+
+                footer.verifyLinks(
+                        url,
+                        softly
+                );
+            }
+        }
+
+        softly.assertAll();
+    }
+
+    @Test
+    public void verifyBrokenImagesInFooterNegativeTest() {
+
+        Assert.assertTrue(
+                footer.areFooterImagesLoaded(),
+                "Broken image found in Footer"
+        );
+    }
+
+    @Test
+    public void verifyBrokenLinksInFooterWithBodyWidthLessThan785NegativeTest() {
+
+        footer.setWindowWidthTo(780);
+
+        footer.pause(1000);
+
+        SoftAssert softly = new SoftAssert();
+
+        for (WebElement link : footer.getFooterLinks()) {
+
+            String url = link.getAttribute("href");
+
+            if (url != null
+                    && !url.isEmpty()
+                    && (url.startsWith("http://")
+                    || url.startsWith("https://"))) {
+
+                footer.verifyLinks(
+                        url,
+                        softly
+                );
+            }
+        }
+
+        softly.assertAll();
+    }
+
+    @Test
+    public void verifyBrokenImagesInFooterWithBodyWidthLessThan785NegativeTest() {
+
+        footer.setWindowWidthTo(780);
+
+        footer.pause(1000);
+
+        Assert.assertTrue(
+                footer.areFooterImagesLoaded(),
+                "Broken image found in mobile Footer"
         );
     }
 }
