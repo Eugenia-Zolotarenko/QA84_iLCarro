@@ -5,9 +5,15 @@ import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.SearchPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchTests extends TestBase {
     SearchPage search;
@@ -41,15 +47,20 @@ public class SearchTests extends TestBase {
                 .clickSearchButton()
                 .scrollToSearchResults();
 
-        getSoftAssert().assertEquals(search.getFirstCarName(), "Chevrolet Comaro");
+        getSoftAssert().assertTrue(
+                search.isFirstCarName("Chevrolet Comaro")
+        );
+
         Assert.assertTrue(search.isCarPricePresent());
     }
     @Test(groups = {"regr"})
     public void paginationOfSearchResultsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
-                .selectFutureDay(2)
-                .selectFutureDay(4)
+                //.selectFutureDay(2)
+               // .selectFutureDay(4)
+                .selectFutureDay(100)
+                .selectFutureDay(102)
                 .clickSearchButton()
                 .scrollToSearchResults();
 
@@ -60,6 +71,19 @@ public class SearchTests extends TestBase {
         search.clickPreviousPageButton();
         String pageAfterPrevious = search.getPageNumber();
         Assert.assertEquals(pageAfterPrevious, pageBefore);
+    }
+
+    @Test(groups = {"regr"})
+    public void scrollToSearchResultsAfterPaginationPositiveTest() {//scroll bug
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(100)
+                .selectFutureDay(102)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        search.clickNextPageButton();
+        Assert.assertTrue(search.isSearchResultsVisibleInViewport());
     }
     @Test(groups = {"regr"})
     public void rowsPerPagePositiveTest() {
@@ -107,7 +131,7 @@ public class SearchTests extends TestBase {
 @Test(groups = {"regr"})
 public void searchWithCitySelectedFromListPositiveTest() {
     search.enterCity("ri")
-            .selectCityFromDropdown("Rishon LeZion")
+            .selectCityFromSuggestions("Rishon LeZion")
             .clickDatesField()
             .selectFutureDay(2)
             .selectFutureDay(4)
@@ -188,16 +212,7 @@ public void searchWithCitySelectedFromListPositiveTest() {
         int carsAfter = search.getCarsCountInContainer();
         Assert.assertNotEquals(carsBefore, carsAfter);
     }
-    @Test(groups = {"regr"})
-    public void searchWithNoAvailableCarsPositiveTest() {
-        search.enterCity("Beersheba")
-                .clickDatesField()
-                .selectFutureDay(2)
-                .selectFutureDay(4)
-                .clickSearchButton();
 
-        Assert.assertTrue(search.isNoCarsMessagePresent());
-    }
     @Test(groups = {"regr"})
     public void rowsPerPageOptionsPositiveTest() {
         search.enterCity("Petah Tikva")
@@ -304,6 +319,113 @@ public void searchWithCitySelectedFromListPositiveTest() {
                 .selectFirstCar();
 
         Assert.assertTrue(search.isCarLoadingErrorPresent());
+    }
+    @Test(groups = {"smoke", "regr"})
+    public void citySuggestionsPositiveTest() {
+        search.enterCity("ri");
+        search.pause(2000);
+
+        Assert.assertTrue(search.areCitySuggestionsPresent());
+        search.selectCityFromSuggestions("Rishon LeZion");
+        Assert.assertEquals(
+                search.getCityValue(),
+                "Rishon LeZion");
+        search.pause(2000);
+    }
+
+    @Test(groups = {"regr"})
+    public void citySuggestionsOnEmptyFieldPositiveTest() {
+        search.clickCityField();
+
+        Assert.assertTrue(search.areCitySuggestionsPresent());
+        search.pause(2000);
+        System.out.println(search.getCitySuggestions());
+        search.scrollCitySuggestionsToBottom()
+                .pause(2000);
+        Assert.assertTrue(search.isCitySuggestionsScrolledToBottom());
+    }
+    @DataProvider(name = "searchData")
+    public Object[][] searchData() throws IOException {
+
+        List<Object[]> data = new ArrayList<>();
+
+        BufferedReader reader = new BufferedReader(
+                new FileReader("src/test/resources/data/searchData.csv")
+        );
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+
+            if (line.isBlank()) {
+                continue;
+            }
+
+            String[] values = line.split(",");
+
+            data.add(new Object[]{
+                    values[0],
+                    Integer.parseInt(values[1]),
+                    Integer.parseInt(values[2])
+            });
+        }
+
+        reader.close();
+
+        return data.toArray(new Object[0][]);
+    }
+    @DataProvider(name = "beershebaNoCarsData")
+    public Object[][] beershebaNoCarsData() throws IOException {
+
+        List<Object[]> data = new ArrayList<>();
+
+        BufferedReader reader = new BufferedReader(
+                new FileReader("src/test/resources/data/beershebaNoCarsData.csv")
+        );
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+
+            if (line.isBlank()) {
+                continue;
+            }
+
+            String[] values = line.split(",");
+
+            data.add(new Object[]{
+                    Integer.parseInt(values[0]),
+                    Integer.parseInt(values[1])
+            });
+        }
+
+        reader.close();
+
+        return data.toArray(new Object[0][]);
+    }
+
+    @Test(dataProvider = "searchData", groups = {"regr"})
+    public void searchWithCsvDataPositiveTest(String city, int fromDays, int toDays) {
+
+        search.enterCity(city)
+                .clickDatesField()
+                .selectFutureDay(fromDays)
+                .selectFutureDay(toDays)
+                .clickSearchButton();
+
+        Assert.assertTrue(search.isSearchResultPresent());
+    }
+
+    @Test(dataProvider = "beershebaNoCarsData", groups = {"regr"})
+    public void searchWithNoAvailableCarsPositiveTest(int fromDays, int toDays) {
+
+        search.enterCity("Beersheba")
+                .clickDatesField()
+                .selectFutureDay(fromDays)
+                .selectFutureDay(toDays)
+                .clickSearchButton();
+
+        Assert.assertTrue(search.isNoCarsMessagePresent());
     }
 
 }
