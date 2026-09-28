@@ -1,13 +1,14 @@
 package app.netlify.icarro.pages;
 
 import app.netlify.icarro.core.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.openqa.selenium.Keys;
+import org.testng.IAttributes;
+import org.openqa.selenium.WebElement;
+
 
 public class SignUpPage extends BasePage {
     public SignUpPage(WebDriver driver) {
@@ -39,6 +40,7 @@ public class SignUpPage extends BasePage {
         );
         okButton.click();
     }
+
     public void clickModalWindowOkButton() {
         clickModalWindowOkButton(By.xpath("//button[.='OK']"));
     }
@@ -48,9 +50,7 @@ public class SignUpPage extends BasePage {
     }
 
     public String newEmail() {
-        int i = (int) ((System.currentTimeMillis() / 1000) % 3600);
-        String email = "sara" + i + "@gmail.com";
-        return email;
+        return "sara" + System.currentTimeMillis() + "@gmail.com";
     }
 
     public SignUpPage fillRegisterForm(String firstName, String lastName, String userEmail, String userPass, String checkBox) {
@@ -73,38 +73,43 @@ public class SignUpPage extends BasePage {
     }
 
 
-
-
-
     public boolean isErrorMessageDisplayed(String fieldName) {
         String selector =
                 "div.input-container:has(input[name='" + fieldName + "']) > div.error";
-        return getWait(5).until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        By.cssSelector(selector))
-        ).isDisplayed();
+        try {
+            return getWait(10).until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            By.cssSelector(selector)
+                    )
+            ).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
 
     public void acceptTerms() {
-        click(termsCheckbox);
+        if (!termsCheckbox.isSelected()) {
+            click(termsCheckbox);
+        }
     }
 
 
-
     public SignUpPage fillFirstName(String firstName) {
-        firstNameInput.click();
+        getWait(5).until(ExpectedConditions.visibilityOf(firstNameInput));
         if (firstName != null && !firstName.isEmpty()) {
-            firstNameInput.sendKeys(firstName);
-        }
+            type(firstNameInput, firstName);
+            js.executeScript("arguments[0].value = arguments[1];", firstNameInput, firstName);
+            pause(300);}
         firstNameInput.sendKeys(Keys.TAB);
         return this;
+
     }
 
     public SignUpPage fillLastName(String lastName) {
         lastNameInput.click();
         if (lastName != null && !lastName.isEmpty()) {
-            lastNameInput.sendKeys(lastName);
+            type(lastNameInput, lastName);
         }
         lastNameInput.sendKeys(Keys.TAB);
         return this;
@@ -113,7 +118,7 @@ public class SignUpPage extends BasePage {
     public SignUpPage fillEmail(String email) {
         userEmailInput.click();
         if (email != null && !email.isEmpty()) {
-            userEmailInput.sendKeys(email);
+            type(userEmailInput, email);
         }
         userEmailInput.sendKeys(Keys.TAB);
         return this;
@@ -122,14 +127,21 @@ public class SignUpPage extends BasePage {
     public SignUpPage fillPassword(String password) {
         passwordInput.click();
         if (password != null && !password.isEmpty()) {
-            passwordInput.sendKeys(password);
+            type(passwordInput, password);
         }
         passwordInput.sendKeys(Keys.TAB);
         return this;
     }
 
     public boolean isSubmitButtonEnabled() {
-        return submitButton.isEnabled();
+        getWait(5).until(ExpectedConditions.visibilityOf(submitButton));
+        // 1. Get the value of the "disabled" attribute
+        String disabledAttr = submitButton.getAttribute("disabled");
+        // In HTML, disabled="" or disabled="true" means that the button is DISABLED.
+        // If the attribute is null, the button is ACTIVE.
+        boolean hasDisabledAttribute = (disabledAttr != null);
+        // 2. We return true only if isEnabled() = true and the disabled attribute is not present
+        return submitButton.isEnabled() && !hasDisabledAttribute;
     }
 
     public boolean isRegistrationFailedModalDisplayed() {
@@ -137,4 +149,7 @@ public class SignUpPage extends BasePage {
     }
 
 
+    public WebElement getSubmitButton() {
+        return submitButton;
+    }
 }

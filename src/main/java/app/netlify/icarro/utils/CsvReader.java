@@ -14,7 +14,15 @@ public class CsvReader {
                 return data;
             }
 
+            // Delete the BOM if there is one
+            if (headerLine.startsWith("\uFEFF")) {
+                headerLine = headerLine.substring(1);
+            }
+            // Remove spaces only from HEADINGS, but not from values!
             String[] headers = headerLine.split(",");
+            for (int i = 0; i < headers.length; i++) {
+                headers[i] = headers[i].trim();
+            }
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -26,7 +34,7 @@ public class CsvReader {
                 Map<String, String> row = new LinkedHashMap<>();
 
                 for (int i = 0; i < headers.length; i++) {
-                    String value = (i < values.length) ? values[i].trim() : "";
+                    String value = (i < values.length) ? values[i] : "";
                     row.put(headers[i], value);
                 }
                 data.add(row);
