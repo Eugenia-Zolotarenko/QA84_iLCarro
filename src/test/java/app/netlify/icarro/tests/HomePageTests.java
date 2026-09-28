@@ -19,7 +19,7 @@ public class HomePageTests extends TestBase {
 
     @Test(groups = {"smoke", "regr"})
     public void isPageTitleCorrectPositiveTest(){
-        Assert.assertTrue(home.isPageTitleCorrect("Find your car "));
+        Assert.assertTrue(home.isPageTitleCorrect("Find your car now!"));
     }
 
     @Test (groups = {"smoke", "regr"})
