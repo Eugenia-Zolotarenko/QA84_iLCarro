@@ -1,10 +1,10 @@
 package app.netlify.icarro.pages;
 
 import app.netlify.icarro.core.BasePage;
+import app.netlify.icarro.model.LoginData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 public class LoginPage extends BasePage {
 
@@ -21,7 +21,9 @@ public class LoginPage extends BasePage {
             By.cssSelector("h3");
 
     private final By okButton =
-            By.xpath("//*[normalize-space(.)='OK']");
+            By.cssSelector(
+                    "div[role='dialog'] div.modal-content a.btn.btn--primary"
+            );
 
 
     public LoginPage(WebDriver driver) {
@@ -38,6 +40,15 @@ public class LoginPage extends BasePage {
         driver.findElement(passwordInput).sendKeys(password);
 
         return this;
+    }
+
+
+    public LoginPage fillLoginFormWithData(LoginData data) {
+
+        return fillLoginForm(
+                data.login,
+                data.password
+        );
     }
 
 
@@ -70,29 +81,30 @@ public class LoginPage extends BasePage {
 
         pause(1000);
 
-        WebElement element =
-                driver.findElement(
-                        By.xpath("//*[normalize-space(.)='OK']")
-                );
+        WebElement ok =
+                driver.findElement(okButton);
 
-        element.click();
+        clickWithJS(ok);
 
         return this;
     }
+
+
     public LoginPage goRegistrationFormFromLoginPage() {
+
         WebElement registrationLink =
-                driver.findElement(By.cssSelector("a.navigator"));
+                driver.findElement(
+                        By.cssSelector("a.navigator")
+                );
 
         clickWithJS(registrationLink);
 
         return this;
     }
 
-    public void assertGoToRegForm() {
-        Assert.assertTrue(
-                isElementPresent(
-                        By.xpath("//h1[text()='Registration']")
-                )
-        );
+
+    public boolean isSubmitEnable() {
+
+        return driver.findElement(submitButton).isEnabled();
     }
 }
