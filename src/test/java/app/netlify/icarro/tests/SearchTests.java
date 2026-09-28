@@ -427,6 +427,21 @@ public void searchWithCitySelectedFromListPositiveTest() {
 
         Assert.assertTrue(search.isNoCarsMessagePresent());
     }
+    @Test(groups = {"regr"})
+    public void calendarUpperBoundaryPositiveTest() {
+        search.clickDatesField()
+                .selectMaxFutureDate();
+
+        Assert.assertTrue(search.isMaxFutureDateSelected());
+        Assert.assertTrue(search.isDateAfterMaxDisabled());
+    }
+    @Test(groups = {"regr"})
+    public void nextMonthButtonAtUpperBoundaryPositiveTest() {
+        search.clickDatesField()
+                .selectMaxFutureDate();
+
+        Assert.assertTrue(search.isNextMonthButtonDisabled());
+    }
 
 }
 //By.xpath("//*[normalize-space(.)='Chevrolet']");

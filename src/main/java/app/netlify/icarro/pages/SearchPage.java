@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class SearchPage extends BasePage {
@@ -97,6 +98,9 @@ public class SearchPage extends BasePage {
     public SearchPage clickNextPageButton() {
         click(nextPageButton);
         return this;
+    }
+    public boolean isNextMonthButtonDisabled() {
+        return !nextMonthButton.isEnabled();
     }
 
     @FindBy(xpath = "//button[@title='Prev']/following-sibling::span")
@@ -285,4 +289,40 @@ public class SearchPage extends BasePage {
                 citySuggestions);
     }
 
-   }
+
+
+    public SearchPage selectMaxFutureDate() {
+        LocalDate maxDate = LocalDate.now().plusYears(1);
+
+        selectYear(String.valueOf(maxDate.getYear()));
+        selectMonth(maxDate.getMonthValue());
+
+        return selectDay(String.valueOf(maxDate.getDayOfMonth()));
+    }
+
+    public boolean isMaxFutureDateSelected() {
+        LocalDate maxDate = LocalDate.now().plusYears(1);
+
+        String expectedDate = maxDate.format(
+                DateTimeFormatter.ofPattern("M/d/yyyy")
+        );
+
+        return datesInput.getAttribute("value").contains(expectedDate);
+    }
+
+    public boolean isDateAfterMaxDisabled() {
+        LocalDate dateAfterMax = LocalDate.now()
+                .plusYears(1)
+                .plusDays(1);
+
+        selectYear(String.valueOf(dateAfterMax.getYear()));
+        selectMonth(dateAfterMax.getMonthValue());
+
+        String day = String.valueOf(dateAfterMax.getDayOfMonth());
+
+        return isElementPresent(
+                By.xpath("//button[contains(@class,'rdrDayDisabled')]" +
+                        "[.//span[@class='rdrDayNumber']/span[text()='" + day + "']]")
+        );
+    }
+}
