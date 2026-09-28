@@ -35,5 +35,9 @@ public class HomePage extends BasePage {
     }
     public HeaderPage getHeaderPage() {
         return new HeaderPage(driver);
+
+    }
+    public FooterPage getFooterPage() {
+        return new FooterPage(driver);
     }
 }
