@@ -3,7 +3,7 @@
 <suite name="Footer" verbose="1">
     <test name="footer">
         <classes>
-            <class name="app.netlify.icarro.tests.FooterPageTests"/>
+            <class name="app.netlify.icarro.tests.LoginTests"/>
         </classes>
     </test>
 </suite>
