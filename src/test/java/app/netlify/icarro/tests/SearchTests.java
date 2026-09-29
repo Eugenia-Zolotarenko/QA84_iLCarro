@@ -346,15 +346,12 @@ public void searchWithCitySelectedFromListPositiveTest() {
     }
     @DataProvider(name = "searchData")
     public Object[][] searchData() throws IOException {
-
         List<Object[]> data = new ArrayList<>();
-
         BufferedReader reader = new BufferedReader(
                 new FileReader("src/test/resources/data/searchData.csv")
         );
 
         String line;
-
         while ((line = reader.readLine()) != null) {
 
             if (line.isBlank()) {
@@ -362,7 +359,6 @@ public void searchWithCitySelectedFromListPositiveTest() {
             }
 
             String[] values = line.split(",");
-
             data.add(new Object[]{
                     values[0],
                     Integer.parseInt(values[1]),
@@ -376,13 +372,10 @@ public void searchWithCitySelectedFromListPositiveTest() {
     }
     @DataProvider(name = "beershebaNoCarsData")
     public Object[][] beershebaNoCarsData() throws IOException {
-
         List<Object[]> data = new ArrayList<>();
-
         BufferedReader reader = new BufferedReader(
                 new FileReader("src/test/resources/data/beershebaNoCarsData.csv")
         );
-
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -392,7 +385,6 @@ public void searchWithCitySelectedFromListPositiveTest() {
             }
 
             String[] values = line.split(",");
-
             data.add(new Object[]{
                     Integer.parseInt(values[0]),
                     Integer.parseInt(values[1])
@@ -400,7 +392,6 @@ public void searchWithCitySelectedFromListPositiveTest() {
         }
 
         reader.close();
-
         return data.toArray(new Object[0][]);
     }
 
