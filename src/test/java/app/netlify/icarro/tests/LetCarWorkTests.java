@@ -3,7 +3,6 @@ package app.netlify.icarro.tests;
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.LetCarWorkPage;
-import app.netlify.icarro.utils.CarDataProvider;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -30,8 +29,55 @@ public class LetCarWorkTests extends TestBase {
         Assert.assertTrue(car.fillValidForm().isSubmitEnabled(), "Submit enabled");
     }
 
-    @Test(dataProvider = "requiredFields", dataProviderClass = CarDataProvider.class, groups = {"regr"})
-    public void emptyRequiredFieldShowsErrorAndBlocksSubmitNegativeTest(String field) {
+    @Test(groups = {"regr"})
+    public void fillRequiredFieldsSubmitEnabledPositiveTest() {
+        car.fillRequiredFields("Toyota", "Corolla", "2020",
+                "petrol", "5", "Economy",
+                "QA12345", "50");
+        Assert.assertTrue(car.isSubmitEnabled(), "Submit enabled");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptyManufactureShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("manufacture");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptyModelShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("model");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptyYearShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("year");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptyFuelShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("fuel");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptySeatsShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("seats");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptyCarClassShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("carClass");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptySerialNumberShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("serialNumber");
+    }
+
+    @Test(groups = {"regr"})
+    public void emptyPricePerDayShowsErrorAndBlocksSubmitNegativeTest() {
+        assertRequiredFieldBlocksSubmit("pricePerDay");
+    }
+
+    private void assertRequiredFieldBlocksSubmit(String field) {
         car.fillValidForm().fillField(field, "");
         Assert.assertEquals(car.getFieldError(field), "Required", field + " error");
         Assert.assertFalse(car.isSubmitEnabled(), "Submit enabled");

@@ -17,7 +17,6 @@ public class LetCarWorkPage extends BasePage {
     public LetCarWorkPage fillValidForm() {
         WebElement city = getWait(10).until(ExpectedConditions.elementToBeClickable(By.id("city")));
         type(city, "Berlin");
-        city.sendKeys(Keys.TAB);
         return fillField("manufacture", "Toyota")
                 .fillField("model", "Corolla")
                 .fillField("year", "2020")
@@ -28,10 +27,23 @@ public class LetCarWorkPage extends BasePage {
                 .fillField("pricePerDay", "50");
     }
 
+    public LetCarWorkPage fillRequiredFields(String make, String model, String year, String fuel,
+                                              String seats, String carClass, String regNumber, String price) {
+        WebElement city = getWait(10).until(ExpectedConditions.elementToBeClickable(By.id("city")));
+        type(city, "Berlin");
+        return fillField("manufacture", make)
+                .fillField("model", model)
+                .fillField("year", year)
+                .fillField("fuel", fuel)
+                .fillField("seats", seats)
+                .fillField("carClass", carClass)
+                .fillField("serialNumber", regNumber)
+                .fillField("pricePerDay", price);
+    }
+
     public LetCarWorkPage fillField(String name, String value) {
         WebElement field = getWait(10).until(ExpectedConditions.elementToBeClickable(By.name(name)));
-        scrollWithJS(field);
-        type(field, value);
+        typeWithJS(field, value);
         field.sendKeys(Keys.TAB);
         return this;
     }
