@@ -62,7 +62,7 @@ public class SignUpPageTests extends TestBase {
 
     @DataProvider(name = "signUpNegativeTestData")
     public Object[][] provideSignUpNegativeData() {
-        List<Map<String, String>> csvData = CsvReader.readCsv("src/test/resources/signup_negative_testdata_10.csv");
+        List<Map<String, String>> csvData = CsvReader.readCsv("src/test/resources/signup_negative_testdata_all.csv");
         Object[][] data = new Object[csvData.size()][1];
 
         for (int i = 0; i < csvData.size(); i++) {
@@ -85,20 +85,20 @@ public class SignUpPageTests extends TestBase {
             priority = 10)
     public void testSignUpNegativeScenarios(SignUpTestData testData) {
         logger.info("=================================================");
-        logger.info("START NEGATIVE SIGN UP TEST");
-        logger.info("Test: {}", testData.getTestDescription());
+        logger.info("TEST: {}", testData.getTestDescription());
         logger.info("Expected error field: {}", testData.getExpectedField());
+
+
 
         // =================================================
         // STEP 1: Fill registration form
         // =================================================
-        signUp.getWait(100);
 
         signUp.fillFirstName(testData.getFirstName());
         signUp.fillLastName(testData.getLastName());
 
-        // For all negative tests except email-related tests
-        // generate a new valid email.
+        // Generate a new valid email for all negative tests
+        // except tests where email itself is being tested.
         String email = testData.getEmail();
 
         if (!"username".equals(testData.getExpectedField())) {
@@ -115,131 +115,192 @@ public class SignUpPageTests extends TestBase {
         logger.info("Registration form filled.");
         logger.info("Terms of use: accepted");
 
+        // =================================================
+        // STEP 2. EXPECTED CLIENT RESULT
+        // =================================================
+
+        logger.info("-------------------------------------------------");
+        logger.info("EXPECTED CLIENT RESULT:");
+        logger.info("- Submit button should be DISABLED");
+        logger.info("- Validation error should be displayed for field '{}'",
+                testData.getExpectedField());
+
+
+        // =================================================
+        // STEP 3. ACTUAL CLIENT RESULT
+        // =================================================
+
         boolean submitEnabled = signUp.isSubmitButtonEnabled();
 
-        logger.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        logger.info("SUBMIT BUTTON STATE CHECK:");
-        logger.info("Is 'Y'alla!' button clickable/enabled? -> {}", submitEnabled);
-        logger.info("Button HTML 'disabled' attribute present? -> {}",
-                signUp.getSubmitButton().getAttribute("disabled") != null);
-        logger.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        boolean errorDisplayed =
+                signUp.isErrorMessageDisplayed(
+                        testData.getExpectedField());
+
+        boolean submitDisabled = !submitEnabled;
+
+        logger.info("-------------------------------------------------");
+        logger.info("ACTUAL CLIENT RESULT:");
+        logger.info("- Submit button enabled: {}", submitEnabled);
+        logger.info("- Submit button disabled: {}", submitDisabled);
+        logger.info("- Validation error displayed: {}", errorDisplayed);
+
+
+        // =================================================
+        // STEP 4. CLIENT VALIDATION
+        // =================================================
+
+        boolean clientValidationPassed =
+                submitDisabled && errorDisplayed;
+
+        logger.info("-------------------------------------------------");
+        logger.info("CLIENT VALIDATION:");
+
+        logger.info(
+                "Expected: Submit disabled = true, Error displayed = true");
+
+        logger.info(
+                "Actual:   Submit disabled = {}, Error displayed = {}",
+                submitDisabled,
+                errorDisplayed);
+
+        logger.info(
+                "CLIENT VALIDATION: {}",
+                clientValidationPassed ? "PASS" : "FAIL");
+
 
         // =================================================
         // SCENARIO A
-        // Submit button is disabled
+        // Client validation works
         // =================================================
 
         if (!submitEnabled) {
 
-            logger.info("SCENARIO A: Submit button is DISABLED (Expected for invalid input).");
+            logger.info("-------------------------------------------------");
+            logger.info("SCENARIO A: Submit button is DISABLED.");
 
-            boolean errorDisplayed =
-                    signUp.isErrorMessageDisplayed(
-                            testData.getExpectedField());
-            if (errorDisplayed) {
-                logger.info("CLIENT VALIDATION: PASS | Error displayed for field '{}'", testData.getExpectedField());
-                logger.info("SERVER VALIDATION: N/A");
+            logger.info("SERVER VALIDATION: N/A");
+            logger.info("Expected: Backend request should not be submitted.");
+            logger.info("Actual:   Registration was not submitted through UI.");
+
+            logger.info("-------------------------------------------------");
+
+            if (clientValidationPassed) {
+
                 logger.info("OVERALL TEST RESULT: PASS");
 
             } else {
-                logger.error("CLIENT VALIDATION: FAIL | Button is disabled, but no validation error message for '{}'"
-                        , testData.getExpectedField());
-                logger.info("SERVER VALIDATION: N/A");
+
                 logger.error("OVERALL TEST RESULT: FAIL");
             }
 
             getSoftAssert().assertTrue(
-                    errorDisplayed,
-                    "Submit button is disabled, but expected validation " +
-                            "error is not displayed. Field: " +
-                            testData.getExpectedField() + " | Test: " +
+                    clientValidationPassed,
+                    "Client validation failed. " +
+                            "Expected Submit disabled and validation error displayed. " +
+                            "Test: " +
                             testData.getTestDescription());
 
-            // =================================================
-            // SCENARIO B
-            // Submit button is enabled
-            // =================================================
+            logger.info("END NEGATIVE SIGN UP TEST");
+            logger.info("=================================================");
 
-        } else {
-            logger.warn(
-                    "SCENARIO B: Submit button is ENABLED despite invalid data.");
-            logger.warn("CLIENT VALIDATION DEFECT: Button stayed active.");
-            logger.info(
-                    "Submitting invalid registration to verify server-side validation.");
-            signUp.clickSubmitButton();
-
-            // -------------------------------------------------
-            // STEP 4B: Check server response
-            // -------------------------------------------------
-
-            boolean registrationFailed =
-                    signUp.isRegistrationFailedModalDisplayed();
-
-            boolean registrationSucceeded =
-                    signUp.isMessageRegisteredPresent(
-                            "Registered",
-                            "You are logged in success");
-
-            logger.info(
-                    "Server result: Registration failed modal = {}",
-                    registrationFailed);
-
-            logger.info(
-                    "Server result: Registration succeeded = {}",
-                    registrationSucceeded);
-
-            // -------------------------------------------------
-            // Server rejected invalid data
-            // -------------------------------------------------
-
-            if (registrationFailed) {
-
-                logger.info("SERVER VALIDATION: PASS");
-                logger.info("Server rejected invalid registration.");
-                logger.info("OVERALL TEST RESULT: PASS");
-
-                logger.warn("NOTE: Client-side validation defect detected, "
-                        + "but server-side validation protected the application.");
-            }
-
-            // -------------------------------------------------
-            // CRITICAL BUG: server accepted invalid data
-            // -------------------------------------------------
-
-            else if (registrationSucceeded) {
-
-                logger.error("SERVER VALIDATION: FAIL");
-
-                logger.error(
-                        "CRITICAL BUG: Server ACCEPTED invalid registration. " +
-                                "User was successfully registered with: " + testData.getTestDescription());
-
-                logger.error("OVERALL TEST RESULT: FAIL");
-
-                getSoftAssert().fail(
-                        "CRITICAL BUG: Invalid registration was accepted by server. " +
-                                "Test: " +
-                                testData.getTestDescription());
-            }
-
-            // -------------------------------------------------
-            // Unexpected result
-            // -------------------------------------------------
-
-            else {
-                logger.error("SERVER VALIDATION: UNEXPECTED");
-
-                logger.error("Neither 'Registration failed' nor 'Registered' "
-                        + "modal was displayed.");
-
-                logger.error("OVERALL TEST RESULT: FAIL");
-
-                getSoftAssert().fail(
-                        "Unexpected result after submitting invalid registration. " +
-                                "Test: " + testData.getTestDescription());
-            }
+            return;
         }
-        logger.info("END NEGATIVE SIGN UP TEST");
+
+            // =================================================
+           // SCENARIO B
+          //Client validation failed
+         // =================================================
+
+        logger.info("-------------------------------------------------");
+        logger.warn("SCENARIO B: Submit button is ENABLED.");
+        logger.warn("Client-side validation did not block invalid data.");
+
+        logger.info("CLIENT VALIDATION: FAIL");
+
+        logger.info("Expected: Submit disabled = true");
+        logger.info("Actual:   Submit disabled = false");
+
+
+        // =================================================
+        // STEP 5. Submit invalid data
+        // =================================================
+
+        logger.info("Submitting invalid registration to test backend validation.");
+
+        signUp.clickSubmitButton();
+
+
+        // =================================================
+        // STEP 6. Backend actual result
+        // =================================================
+
+        boolean registrationFailed =
+                signUp.isRegistrationFailedModalDisplayed();
+
+        boolean registrationSucceeded =
+                signUp.isMessageRegisteredPresent(
+                        "Registered",
+                        "You are logged in success");
+
+
+        // =================================================
+        // STEP 7. Backend validation
+        // =================================================
+
+        logger.info("-------------------------------------------------");
+        logger.info("SERVER VALIDATION:");
+
+        logger.info("Expected: Backend must REJECT invalid registration.");
+
+        logger.info(
+                "Actual: Registration failed modal = {}",
+                registrationFailed);
+
+        logger.info(
+                "Actual: Registration succeeded = {}",
+                registrationSucceeded);
+
+
+        boolean serverValidationPassed =
+                registrationFailed && !registrationSucceeded;
+
+        logger.info(
+                "SERVER VALIDATION: {}",
+                serverValidationPassed ? "PASS" : "FAIL");
+
+
+        // =================================================
+        // STEP 8. Overall result
+        // =================================================
+
+        boolean overallPassed =
+                clientValidationPassed && serverValidationPassed;
+
+        logger.info("-------------------------------------------------");
+
+        logger.info(
+                "OVERALL TEST RESULT: {}",
+                overallPassed ? "PASS" : "FAIL");
+
+
+        // =================================================
+        // STEP 9. Assertions
+        // =================================================
+
+        getSoftAssert().assertTrue(
+                clientValidationPassed,
+                "Client validation failed. " +
+                        "Invalid data was not blocked on client side. " +
+                        "Test: " +
+                        testData.getTestDescription());
+
+        getSoftAssert().assertTrue(
+                serverValidationPassed,
+                "Server validation failed. " +
+                        "Invalid registration was accepted or unexpected result occurred. " +
+                        "Test: " +
+                        testData.getTestDescription());
+
         logger.info("=================================================");
     }
 }
