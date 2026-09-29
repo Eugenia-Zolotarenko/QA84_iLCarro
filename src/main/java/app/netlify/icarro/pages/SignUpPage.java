@@ -35,7 +35,7 @@ public class SignUpPage extends BasePage {
     WebElement submitButton;
 
     public void clickModalWindowOkButton(By okButtonLocator) {
-        WebElement okButton = getWait(10).until(
+        WebElement okButton = getWait(3).until(
                 ExpectedConditions.elementToBeClickable(okButtonLocator)
         );
         okButton.click();
@@ -96,11 +96,11 @@ public class SignUpPage extends BasePage {
 
 
     public SignUpPage fillFirstName(String firstName) {
-        getWait(5).until(ExpectedConditions.visibilityOf(firstNameInput));
+        getWait(2).until(ExpectedConditions.visibilityOf(firstNameInput));
         if (firstName != null && !firstName.isEmpty()) {
             type(firstNameInput, firstName);
             js.executeScript("arguments[0].value = arguments[1];", firstNameInput, firstName);
-            pause(300);}
+            pause(100);}
         firstNameInput.sendKeys(Keys.TAB);
         return this;
 
@@ -134,7 +134,7 @@ public class SignUpPage extends BasePage {
     }
 
     public boolean isSubmitButtonEnabled() {
-        getWait(5).until(ExpectedConditions.visibilityOf(submitButton));
+        getWait(3).until(ExpectedConditions.visibilityOf(submitButton));
         // 1. Get the value of the "disabled" attribute
         String disabledAttr = submitButton.getAttribute("disabled");
         // In HTML, disabled="" or disabled="true" means that the button is DISABLED.
