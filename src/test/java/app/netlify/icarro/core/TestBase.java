@@ -44,8 +44,16 @@ public class TestBase {
             String screenshotPath = (screen != null && driver != null)
                     ? screen.takeScreenshot(driver)
                     : "Screenshot failed (driver or screen is null)";
-            logger.info("test FAILED: {}. \n\t\t Screenshot -> {} ",
-                    result.getMethod().getMethodName(),  screenshotPath);
+            String failedMethodName = "Unknown method";
+            Throwable throwable = result.getThrowable();
+            if (throwable != null && throwable.getStackTrace().length > 0) {
+                // Первый элемент стектрейса — это точное место, где выброшено исключение
+                StackTraceElement stackTraceElement = throwable.getStackTrace()[0];
+                failedMethodName = stackTraceElement.getClassName() + "." + stackTraceElement.getMethodName();
+            }
+
+            logger.info("test FAILED: {}. \n\t\t Failed at method -> {} \n\t\t Screenshot -> {} ",
+                    result.getMethod().getMethodName(),  failedMethodName,  screenshotPath);
 
         } else if(result.getStatus()==ITestResult.SKIP){
             logger.info("Test SKIPPED");
