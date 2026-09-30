@@ -1,64 +1,62 @@
 package app.netlify.icarro.pages;
 
 import app.netlify.icarro.core.BasePage;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import app.netlify.icarro.model.NewUserSignUp;
+import app.netlify.icarro.model.SignUpField;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
-import org.testng.IAttributes;
-import org.openqa.selenium.WebElement;
-
 
 public class SignUpPage extends BasePage {
+
     public SignUpPage(WebDriver driver) {
         super(driver);
     }
 
-
     @FindBy(css = "input[name='firstName']")
-    WebElement firstNameInput;
+    private WebElement firstNameInput;
 
     @FindBy(css = "input[name='lastName']")
-    WebElement lastNameInput;
+    private WebElement lastNameInput;
 
     @FindBy(css = "input[name='username']")
-    WebElement userEmailInput;
+    private WebElement userEmailInput;
 
     @FindBy(css = "input[name='password']")
-    WebElement passwordInput;
+    private WebElement passwordInput;
 
     @FindBy(id = "terms-of-use")
-    WebElement termsCheckbox;
+    private WebElement termsCheckbox;
 
     @FindBy(css = "button.btn.btn--primary")
-    WebElement submitButton;
+    private WebElement submitButton;
 
-    public void clickModalWindowOkButton(By okButtonLocator) {
-        WebElement okButton = getWait(3).until(
-                ExpectedConditions.elementToBeClickable(okButtonLocator)
-        );
-        okButton.click();
-    }
+    // ---------- Filling Out the Form ----------
 
-    public void clickModalWindowOkButton() {
-        clickModalWindowOkButton(By.xpath("//button[.='OK']"));
-    }
-
-    public boolean isLogOutButtonPresent() {
-        return isElementPresent(By.cssSelector("button[class='navigation-link linklike']"));
-    }
-
-    public String newEmail() {
-        return "sara" + System.currentTimeMillis() + "@gmail.com";
-    }
-
-    public SignUpPage fillRegisterForm(String firstName, String lastName, String userEmail, String userPass, String checkBox) {
+    public SignUpPage fillRegisterForm(String firstName, String lastName,
+                                       String userEmail, String userPass) {
         type(firstNameInput, firstName);
         type(lastNameInput, lastName);
         type(userEmailInput, userEmail);
         type(passwordInput, userPass);
-        type(termsCheckbox, checkBox);
+        return this;
+    }
+
+    public SignUpPage fillRegisterForm(NewUserSignUp user) {
+        return fillRegisterForm(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPassword());
+    }
+
+    public SignUpPage acceptTerms() {
+        if (!termsCheckbox.isSelected()) {
+            click(termsCheckbox);
+        }
         return this;
     }
 
@@ -67,89 +65,61 @@ public class SignUpPage extends BasePage {
         return this;
     }
 
-    public boolean isMessageRegisteredPresent(String modalTitle, String modalMessage) {
-        return isElementPresent(By.xpath("//h3[text()='" + modalTitle + "']"))
-                && isElementPresent(By.xpath("//p[text()='" + modalMessage + "']"));
-    }
+    // ---------- Inspections ----------
 
-
-    public boolean isErrorMessageDisplayed(String fieldName) {
-        String selector =
-                "div.input-container:has(input[name='" + fieldName + "']) > div.error";
+    public boolean isSubmitButtonDisabled() {
         try {
-            return getWait(10).until(
-                    ExpectedConditions.visibilityOfElementLocated(
-                            By.cssSelector(selector)
-                    )
-            ).isDisplayed();
+            getWait(3).until(d -> !submitButton.isEnabled());
+            return true;
         } catch (TimeoutException e) {
             return false;
         }
     }
 
-
-    public void acceptTerms() {
-        if (!termsCheckbox.isSelected()) {
-            click(termsCheckbox);
+    public boolean isErrorMessageDisplayed(SignUpField field) {
+        try {
+            getWait(5).until(ExpectedConditions.visibilityOfElementLocated(errorLocator(field)));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
         }
     }
 
-
-    public SignUpPage fillFirstName(String firstName) {
-        getWait(2).until(ExpectedConditions.visibilityOf(firstNameInput));
-        if (firstName != null && !firstName.isEmpty()) {
-            type(firstNameInput, firstName);
-            js.executeScript("arguments[0].value = arguments[1];", firstNameInput, firstName);
-            pause(100);}
-        firstNameInput.sendKeys(Keys.TAB);
-        return this;
-
+    public boolean isErrorMessageAbsent(SignUpField field) {
+        return getWait(1).until(ExpectedConditions.invisibilityOfElementLocated(errorLocator(field)));
     }
 
-    public SignUpPage fillLastName(String lastName) {
-        lastNameInput.click();
-        if (lastName != null && !lastName.isEmpty()) {
-            type(lastNameInput, lastName);
-        }
-        lastNameInput.sendKeys(Keys.TAB);
-        return this;
-    }
-
-    public SignUpPage fillEmail(String email) {
-        userEmailInput.click();
-        if (email != null && !email.isEmpty()) {
-            type(userEmailInput, email);
-        }
-        userEmailInput.sendKeys(Keys.TAB);
-        return this;
-    }
-
-    public SignUpPage fillPassword(String password) {
-        passwordInput.click();
-        if (password != null && !password.isEmpty()) {
-            type(passwordInput, password);
-        }
-        passwordInput.sendKeys(Keys.TAB);
-        return this;
-    }
-
-    public boolean isSubmitButtonEnabled() {
-        getWait(3).until(ExpectedConditions.visibilityOf(submitButton));
-        // 1. Get the value of the "disabled" attribute
-        String disabledAttr = submitButton.getAttribute("disabled");
-        // In HTML, disabled="" or disabled="true" means that the button is DISABLED.
-        // If the attribute is null, the button is ACTIVE.
-        boolean hasDisabledAttribute = (disabledAttr != null);
-        // 2. We return true only if isEnabled() = true and the disabled attribute is not present
-        return submitButton.isEnabled() && !hasDisabledAttribute;
+    public boolean isMessageRegisteredPresent(String modalTitle, String modalMessage) {
+        return isElementPresent(By.xpath("//h3[text()='" + modalTitle + "']"))
+                && isElementPresent(By.xpath("//p[text()='" + modalMessage + "']"));
     }
 
     public boolean isRegistrationFailedModalDisplayed() {
         return isElementPresent(By.xpath("//h3[text()='Registration failed']"));
     }
 
-
-    public WebElement getSubmitButton() {
-        return submitButton;
+    public boolean isLogOutButtonPresent() {
+        return isElementPresent(By.cssSelector("button.navigation-link.linklike"));
     }
+
+    // ---------- Modal window ----------
+
+    public void clickModalWindowOkButton(By okButtonLocator) {
+        WebElement okButton = getWait(3).until(
+                ExpectedConditions.elementToBeClickable(okButtonLocator));
+        okButton.click();
+    }
+
+    public void clickModalWindowOkButton() {
+        clickModalWindowOkButton(By.xpath("//button[.='OK']"));
+    }
+
+    // ---------- Supporting ----------
+
+    private By errorLocator(SignUpField field) {
+        return By.cssSelector(
+                "div.input-container:has(input[name='" + field.getInputName() + "']) > div.error");
+    }
+
+
 }

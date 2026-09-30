@@ -1,16 +1,17 @@
 package app.netlify.icarro.model;
 
-public class SignUpTestData {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String expectedField;
-    private String testDescription;
+import static app.netlify.icarro.utils.TestDataGenerator.generateEmail;
 
+public class NewUserSignUp {
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String password;
+    private final SignUpField expectedField;
+    private final String testDescription;
 
-    public SignUpTestData(String firstName, String lastName, String email,
-                          String password, String expectedField, String testDescription) {
+    public NewUserSignUp(String firstName, String lastName, String email,
+                         String password, SignUpField expectedField, String testDescription) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -36,9 +37,8 @@ public class SignUpTestData {
         return password;
     }
 
-    public String getExpectedField() {
-        return expectedField;
-    }
+    public SignUpField getExpectedField() {
+        return expectedField;}
 
     public String getTestDescription() {
         return testDescription;
