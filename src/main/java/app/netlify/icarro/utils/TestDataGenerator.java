@@ -1,8 +1,13 @@
 package app.netlify.icarro.utils;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class TestDataGenerator {
+
+    private static final AtomicLong COUNTER = new AtomicLong();
+
     public static String uniqueSuffix() {
-        return String.valueOf(System.currentTimeMillis());
+        return System.currentTimeMillis() + "" + COUNTER.incrementAndGet();
     }
 
     public static String generateEmail() {

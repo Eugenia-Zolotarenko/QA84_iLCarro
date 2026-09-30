@@ -31,6 +31,7 @@ public class SignUpApiTests {
             groups = {"regr", "backend"},
             description = "Sign up API: server rejects invalid data")
     public void signUpBackendNegativeTest(NewUserSignUp testData) {
+        logger.info("");
         logger.info("-----------------------------^-----------------------------");
 
         String caseName = "[" + testData.getTestDescription() + "]";
@@ -74,6 +75,7 @@ public class SignUpApiTests {
 
     private static String details(NewUserSignUp data, String expectedField,
                                   Response response, Set<String> errorFields) {
+        String body = response.asString();
         return String.join("\n",
                 "Request : POST " + SignUpApiClient.REGISTRATION_URL,
                 "  firstName: " + show(data.getFirstName()),
@@ -83,17 +85,29 @@ public class SignUpApiTests {
                 "Expected: HTTP " + EXPECTED_STATUS + " + error on field '" + expectedField + "'",
                 "Actual  : HTTP " + response.statusCode() + " in " + response.time()
                         + " ms | error fields: " + errorFields,
-                "Body    : " + truncate(response.asString()));
+                "Body    : " + truncate(body),
+                "Hint    : " + hint(body));
     }
 
     private static String show(String value) {
         return value == null ? "<null>" : "\"" + value + "\" (len " + value.length() + ")";
     }
 
+    private static String mask(String text) {
+        return text.replaceAll("\"accessToken\"\\s*:\\s*\"[^\"]+\"", "\"accessToken\":\"***\"");
+    }
+
     private static String truncate(String text) {
-        return text.length() <= MAX_BODY_LENGTH
-                ? text
-                : text.substring(0, MAX_BODY_LENGTH) + "... [truncated, total " + text.length() + " chars]";
+        String masked = mask(text);
+        return masked.length() <= MAX_BODY_LENGTH
+                ? masked
+                : masked.substring(0, MAX_BODY_LENGTH) + "... [truncated, total " + masked.length() + " chars]";
+    }
+
+    private static String hint(String body) {
+        return body.contains("User already exists")
+                ? "DATA PROBLEM: email already registered, field validation was not reached"
+                : "-";
     }
 
     private static Set<String> extractErrorFields(Response response) {
