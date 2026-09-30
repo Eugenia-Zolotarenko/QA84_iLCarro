@@ -9,6 +9,7 @@ import app.netlify.icarro.utils.TestDataGenerator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import java.lang.reflect.Method;
 
 
@@ -51,7 +52,35 @@ public class SignUpPageTests extends TestBase {
                 "User should be logged in");
     }
 
+    @Test(groups = {"regr"})
+    public void createAccountWithExistingEmailNegativeTest() {
+        String existingEmail = "sara.barabu@example.com";
 
+        signUp.fillRegisterForm("Sara", "Barabu", existingEmail, "Ss1a2r3a!")
+                .acceptTerms()
+                .clickSubmitButton();
+        signUp.clickModalWindowOkButton();
+
+        if (signUp.isLogOutButtonPresent()) {
+            signUp.clickLogOutButton();
+        }
+
+        signUp = new HomePage(driver).getSignUpPage();
+
+        signUp.fillRegisterForm("Sara", "Barabu", existingEmail, "Ss1a2r3a!")
+                .acceptTerms()
+                .clickSubmitButton();
+
+        getSoftAssert().assertTrue(
+                signUp.isErrorMessagePresent("Email already exists"),
+                "Error message about existing email should be displayed"
+        );
+
+        Assert.assertFalse(
+                signUp.isLogOutButtonPresent(),
+                "User should NOT be logged in"
+        );
+    }
 
     @Test(
             dataProvider = "signUpNegativeTestData",
@@ -94,8 +123,6 @@ public class SignUpPageTests extends TestBase {
 
         logger.info("-------------------------------------------------");
     }
-
-
 
 
 }

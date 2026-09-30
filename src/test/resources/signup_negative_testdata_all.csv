@@ -14,19 +14,19 @@ Sara,Barabu,,Ss1a2r3a!,username,Empty email
 Sara,Barabu,sara.bar.com,Ss1a2r3a!,username,Invalid Email format without '@' symbol
 Sara,Barabu,sara.bar@,Ss1a2r3a!,username,Invalid Email format without domain part
 Sara,Barabu,@email.com,Ss1a2r3a!,username,Invalid Email format without  local-part
-Sara,Barabu,sara.bar@~domain.com,Ss1a2r3a!,username,Invalid Email format: contain special character in domain part
-Sara,Barabu,s#ra.bar@domain.com,Ss1a2r3a!,username,Invalid Email format: contain special character in local-part
+Sara,Barabu,sara{UNIQUE}.bar@~domain.com,Ss1a2r3a!,username,Invalid Email format: contain special character in domain part
+Sara,Barabu,s#ra{UNIQUE}.bar@domain.com,Ss1a2r3a!,username,Invalid Email format: contain special character in local-part
 Sara,Barabu,sar a.bar@domain.com,Ss1a2r3a!,username,Invalid Email format: contain one or several spaces in domain part
 Sara,Barabu,sara.bar@dom ain.com,Ss1a2r3a!,username,Invalid Email format: one or several spaces character in local-part
 Sara,Barabu,sara.bar@dom@ain.com,Ss1a2r3a!,username,Invalid Email format contains more than one @ character
-Sara,Barabu,-sara.bar@email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the beginning of the local-part
-Sara,Barabu,sara.bar-@email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the end of the local-part
+Sara,Barabu,-sara{UNIQUE}.bar@email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the beginning of the local-part
+Sara,Barabu,sara{UNIQUE}.bar-@email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the end of the local-part
 Sara,Barabu,sara.bar@-email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the beginning of the domain  part
 Sara,Barabu,sara.bar@email-.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the endof the domain  part
 Sara,Barabu,sara.......bar@domain.com,Ss1a2r3a!,username,Invalid Email format contains more than one point in local-part
 Sara,Barabu,sara.bar@doma...in.com,Ss1a2r3a!,username,Invalid Email format contains more than one point in domain-part
-Sara,Barabu,saraЖbar@domain.com,Ss1a2r3a!,username,Invalid Email format contain non Latin letters in local-part
-Sara,Barabu,sara.bar@domЖain.com,Ss1a2r3a!,username,Invalid Email format contain non Latin letters in domain-part
+Sara,Barabu,saraЖ{UNIQUE}bar@domain.com,Ss1a2r3a!,username,Invalid Email format contain non Latin letters in local-part
+Sara,Barabu,sara{UNIQUE}.bar@domЖain.com,Ss1a2r3a!,username,Invalid Email format contain non Latin letters in domain-part
 Sara,Barabu,sara.bar@email.com,,password,Empty password
 Sara,Barabu,sara.bar@email.com,Aa!456,password,Password too short : Password  must contain minimum 8 symbols instead of 6 characters
 Sara,Barabu,sara.bar@email.com,Aa1!56юж,password,Invalid password -  contains non-Latin characters

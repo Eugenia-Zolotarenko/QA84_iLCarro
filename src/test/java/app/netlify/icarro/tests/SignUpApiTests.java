@@ -31,7 +31,7 @@ public class SignUpApiTests {
             groups = {"regr", "backend"},
             description = "Sign up API: server rejects invalid data")
     public void signUpBackendNegativeTest(NewUserSignUp testData) {
-        logger.info("");
+
         logger.info("-----------------------------^-----------------------------");
 
         String caseName = "[" + testData.getTestDescription() + "]";
@@ -53,10 +53,10 @@ public class SignUpApiTests {
         if (!noToken) failed.add("token");
 
         if (failed.isEmpty()) {
-            logger.info("PASS \n| {} \n| HTTP {} \n| error fields: {}",
+            logger.info("PASS \n| >>> {} <<< \n| HTTP {} \n| error fields: {} \n",
                     testData.getTestDescription(), status, errorFields);
         } else {
-            logger.error("FAIL \n({}) \n| {}\n{}",
+            logger.error("FAIL \n({}) \n| >>> {} <<< \n{} \n",
                     String.join(", ", failed),
                     testData.getTestDescription(),
                     details(testData, expectedField, response, errorFields));
@@ -64,12 +64,12 @@ public class SignUpApiTests {
 
         SoftAssert soft = new SoftAssert();
         soft.assertTrue(statusOk,
-                caseName + " Expected HTTP " + EXPECTED_STATUS + ", got " + status + ". Body: " + body);
+                caseName + " Expected HTTP " + EXPECTED_STATUS + ", got " + status + ". Body: " + body + "\n");
         soft.assertTrue(fieldOk,
                 caseName + " Expected validation error for field '" + expectedField
-                        + "', but got fields: " + errorFields);
+                        + "', but got fields: " + errorFields + "\n");
         soft.assertTrue(noToken,
-                caseName + " Server returned a token for invalid registration");
+                caseName + " Server returned a token for invalid registration \n");
         soft.assertAll();
     }
 
@@ -87,6 +87,7 @@ public class SignUpApiTests {
                         + " ms | error fields: " + errorFields,
                 "Body    : " + truncate(body),
                 "Hint    : " + hint(body));
+
     }
 
     private static String show(String value) {

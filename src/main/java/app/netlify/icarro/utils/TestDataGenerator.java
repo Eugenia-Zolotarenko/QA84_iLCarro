@@ -11,7 +11,7 @@ public class TestDataGenerator {
     }
 
     public static String generateEmail() {
-        return "sara" + uniqueSuffix() + "@gmail.com";
+        return "autotest.sara" + uniqueSuffix() + "@gmail.com";
     }
 
 //    public static String generateFirstName() {

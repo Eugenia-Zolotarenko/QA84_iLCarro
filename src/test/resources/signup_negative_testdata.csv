@@ -1,3 +1,0 @@
-﻿firstName,lastName,email,password,expectedField,testDescription,
-S,Barabu,test@email.com,Ss1a2r3a!,firstName,firstName too short,
-

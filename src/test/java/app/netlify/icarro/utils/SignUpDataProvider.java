@@ -3,7 +3,7 @@ package app.netlify.icarro.utils;
 import app.netlify.icarro.model.NewUserSignUp;
 import app.netlify.icarro.model.SignUpField;
 import org.testng.annotations.DataProvider;
-
+import static app.netlify.icarro.utils.TestDataGenerator.uniqueSuffix;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class SignUpDataProvider {
     private static NewUserSignUp toModel(Map<String, String> row) {
         SignUpField expected = SignUpField.fromCsv(value(row, "expectedField"));
         String email = (expected == SignUpField.EMAIL)
-                ? value(row, "email")
+                ? value(row, "email").replace("{UNIQUE}", uniqueSuffix())
                 : generateEmail();
 
         return new NewUserSignUp(

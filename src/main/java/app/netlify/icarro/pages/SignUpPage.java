@@ -34,6 +34,9 @@ public class SignUpPage extends BasePage {
     @FindBy(css = "button.btn.btn--primary")
     private WebElement submitButton;
 
+    @FindBy(xpath = "(//button[normalize-space()='Log out'])[1]")
+    private WebElement logOutButton;
+
     // ---------- Filling Out the Form ----------
 
     public SignUpPage fillRegisterForm(String firstName, String lastName,
@@ -85,18 +88,18 @@ public class SignUpPage extends BasePage {
         }
     }
 
-    public boolean isErrorMessageAbsent(SignUpField field) {
-        return getWait(1).until(ExpectedConditions.invisibilityOfElementLocated(errorLocator(field)));
-    }
+//    public boolean isErrorMessageAbsent(SignUpField field) {
+//        return getWait(1).until(ExpectedConditions.invisibilityOfElementLocated(errorLocator(field)));
+//    }
 
     public boolean isMessageRegisteredPresent(String modalTitle, String modalMessage) {
         return isElementPresent(By.xpath("//h3[text()='" + modalTitle + "']"))
                 && isElementPresent(By.xpath("//p[text()='" + modalMessage + "']"));
     }
 
-    public boolean isRegistrationFailedModalDisplayed() {
-        return isElementPresent(By.xpath("//h3[text()='Registration failed']"));
-    }
+//    public boolean isRegistrationFailedModalDisplayed() {
+//        return isElementPresent(By.xpath("//h3[text()='Registration failed']"));
+//    }
 
     public boolean isLogOutButtonPresent() {
         return isElementPresent(By.cssSelector("button.navigation-link.linklike"));
@@ -122,4 +125,11 @@ public class SignUpPage extends BasePage {
     }
 
 
+    public void clickLogOutButton() {
+        click(logOutButton);
+    }
+
+    public boolean isErrorMessagePresent(String modalTitle) {
+        return isElementPresent(By.xpath("(//p[normalize-space()='\"User already exists\"'])[1]"));
+    }
 }
