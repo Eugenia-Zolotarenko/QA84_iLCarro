@@ -1,8 +1,8 @@
 package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
-import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.SearchPage;
+import app.netlify.icarro.utils.SearchDataProvider;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchTests extends TestBase {
+
     SearchPage search;
 
     @BeforeMethod(alwaysRun = true)
@@ -25,6 +26,7 @@ public class SearchTests extends TestBase {
     }
 
 
+    // ==================== SEARCH ====================
 
     @Test(groups = {"smoke", "regr"})
     public void searchWithManuallyEnteredCityAndDatesPositiveTest() {
@@ -36,8 +38,23 @@ public class SearchTests extends TestBase {
                 .scrollToSearchResults();
 
         Assert.assertTrue(search.isSearchResultPresent());
-
     }
+
+
+    @Test(groups = {"regr"})
+    public void searchWithCitySelectedFromListPositiveTest() {
+        search.enterCity("ri")
+                .selectCityFromSuggestions("Rishon LeZion")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        Assert.assertTrue(search.isSearchResultPresent());
+    }
+
+
     @Test(groups = {"smoke", "regr"})
     public void displaySearchResultsPositiveTest() {
         search.enterCity("Tel Aviv")
@@ -53,38 +70,107 @@ public class SearchTests extends TestBase {
 
         Assert.assertTrue(search.isCarPricePresent());
     }
-    @Test(groups = {"regr"})
-    public void paginationOfSearchResultsPositiveTest() {
-        search.enterCity("Tel Aviv")
-                .clickDatesField()
-                //.selectFutureDay(2)
-               // .selectFutureDay(4)
-                .selectFutureDay(100)
-                .selectFutureDay(102)
-                .clickSearchButton()
-                .scrollToSearchResults();
 
-        String pageBefore = search.getPageNumber();
-        search.clickNextPageButton();
-        String pageAfter = search.getPageNumber();
-        Assert.assertNotEquals(pageBefore, pageAfter);
-        search.clickPreviousPageButton();
-        String pageAfterPrevious = search.getPageNumber();
-        Assert.assertEquals(pageAfterPrevious, pageBefore);
+
+    @Test(dataProvider = "searchData",dataProviderClass = SearchDataProvider.class, groups = {"regr"})
+    public void searchWithCsvDataPositiveTest(String city, int fromDays, int toDays) {
+        search.enterCity(city)
+                .clickDatesField()
+                .selectFutureDay(fromDays)
+                .selectFutureDay(toDays)
+                .clickSearchButton();
+
+        Assert.assertTrue(search.isSearchResultPresent());
     }
 
-    @Test(groups = {"regr"})
-    public void scrollToSearchResultsAfterPaginationPositiveTest() {//scroll bug
-        search.enterCity("Tel Aviv")
-                .clickDatesField()
-                .selectFutureDay(100)
-                .selectFutureDay(102)
-                .clickSearchButton()
-                .scrollToSearchResults();
 
-        search.clickNextPageButton();
-        Assert.assertTrue(search.isSearchResultsVisibleInViewport());
+    // ==================== CITY ====================
+
+    @Test(groups = {"smoke", "regr"})
+    public void citySuggestionsPositiveTest() {
+        search.enterCity("ri");
+        search.pause(2000);
+
+        Assert.assertTrue(search.areCitySuggestionsPresent());
+
+        search.selectCityFromSuggestions("Rishon LeZion");
+
+        Assert.assertEquals(
+                search.getCityValue(),
+                "Rishon LeZion"
+        );
+
+        search.pause(2000);
     }
+
+
+    @Test(groups = {"regr"})
+    public void citySuggestionsOnEmptyFieldPositiveTest() {
+        search.clickCityField();
+
+        Assert.assertTrue(search.areCitySuggestionsPresent());
+
+        search.pause(2000);
+        System.out.println(search.getCitySuggestions());
+
+        search.scrollCitySuggestionsToBottom()
+                .pause(2000);
+
+        Assert.assertTrue(search.isCitySuggestionsScrolledToBottom());
+    }
+
+
+    // ==================== CALENDAR ====================
+
+    @Test(groups = {"regr"})
+    public void disablePastDatesPositiveTest() {
+        search.clickDatesField();
+
+        Assert.assertTrue(
+                search.isPastDateDisabled(),
+                "Past date is not disabled"
+        );
+    }
+
+
+    @Test(groups = {"regr"})
+    public void calendarUpperBoundaryPositiveTest() {
+        search.clickDatesField()
+                .selectMaxFutureDate();
+
+        Assert.assertTrue(search.isMaxFutureDateSelected());
+        Assert.assertTrue(search.isDateAfterMaxDisabled());
+    }
+
+
+    @Test(groups = {"regr"})
+    public void nextMonthButtonAtUpperBoundaryPositiveTest() {
+        search.clickDatesField()
+                .selectMaxFutureDate();
+
+        Assert.assertTrue(search.isNextMonthButtonDisabled());
+    }
+
+
+    @Test(groups = {"regr"})
+    public void disableSearchWithoutDatesPositiveTest() {
+        search.enterCity("Tel Aviv");
+
+        Assert.assertEquals(
+                search.getDatesValue(),
+                "",
+                "Dates field is not empty"
+        );
+
+        Assert.assertTrue(
+                search.isSearchButtonDisabled(),
+                "Yalla! button is enabled without dates"
+        );
+    }
+
+
+    // ==================== SEARCH RESULTS ====================
+
     @Test(groups = {"regr"})
     public void rowsPerPagePositiveTest() {
         search.enterCity("Tel Aviv")
@@ -96,107 +182,17 @@ public class SearchTests extends TestBase {
 
         String rowsBefore = search.getRowsPerPageValue();
         int resultsBefore = search.getSearchResultsCount();
+
         search.selectRowsPerPage("20");
+
         String rowsAfter = search.getRowsPerPageValue();
         int resultsAfter = search.getSearchResultsCount();
+
         Assert.assertNotEquals(rowsBefore, rowsAfter);
         Assert.assertNotEquals(resultsBefore, resultsAfter);
     }
-    @Test(groups = {"regr"})
-    public void selectCarFromSearchResultsPositiveTest() { //должна открыться без ошибки
-        search.enterCity("Tel Aviv")
-                .clickDatesField()
-                .selectFutureDay(2)
-                .selectFutureDay(4)
-                .clickSearchButton()
-                .scrollToSearchResults()
-                .selectFirstCar();
 
-        getSoftAssert().assertTrue(search.isCarPageOpened());
-        Assert.assertFalse(search.isCarLoadingErrorPresent());
-    }
-//    @Test(groups = {"regr"})
-//    public void displayCarDetailsPositiveTest() {
-//        search.enterCity("Tel Aviv")
-//                .clickDatesField()
-//                .selectDay("25")
-//                .selectDay("27")
-//                .clickSearchButton()
-//                .scrollToSearchResults()
-//                .selectFirstCar();
-//
-//        Assert.assertTrue(search.isCarPageOpened());
-//        Assert.assertFalse(search.isCarLoadingErrorPresent());
-//    }
-@Test(groups = {"regr"})
-public void searchWithCitySelectedFromListPositiveTest() {
-    search.enterCity("ri")
-            .selectCityFromSuggestions("Rishon LeZion")
-            .clickDatesField()
-            .selectFutureDay(2)
-            .selectFutureDay(4)
-            .clickSearchButton()
-            .scrollToSearchResults();
 
-    Assert.assertTrue(search.isSearchResultPresent());
-}
-//    @Test(groups = {"regr"})
-//    public void invalidCityShouldNotBeAddedToDropdownNegativeTest() {
-//        search.enterCity("ZZZTest987")
-//                .clickDatesField()
-//                .selectDay("25")
-//                .selectDay("27")
-//                .clickSearchButton();
-//        driver.navigate().refresh();
-//        search.enterCity("ZZZ");
-//        search.pause(15000);
-//        Assert.assertFalse(
-//                search.isCityPresentInDropdown("ZZZTest987"),
-//                "Invalid city was added to the autocomplete dropdown"
-//        );
-//    }
-
-    @Test(groups = {"regr"})
-    public void disablePastDatesPositiveTest() {
-        search.clickDatesField();
-
-        Assert.assertTrue(
-                search.isPastDateDisabled(),
-                "Past date is not disabled"
-        );
-    }
-    @Test(groups = {"regr"})
-    public void disableSearchWithoutDatesPositiveTest() {
-        search.enterCity("Tel Aviv");
-
-        Assert.assertEquals(
-                search.getDatesValue(),
-                "",
-                "Dates field is not empty");
-        Assert.assertTrue(
-                search.isSearchButtonDisabled(),
-                "Yalla! button is enabled without dates"
-        );
-    }
-    @Test(groups = {"regr"})
-    public void displayCarDetailsPositiveTest() {
-        search.enterCity("Tel Aviv")
-                .clickDatesField()
-                .selectFutureDay(2)
-                .selectFutureDay(4)
-                .clickSearchButton()
-                .scrollToSearchResults()
-                .selectFirstCar();
-
-        Assert.assertTrue(
-                search.areCarDetailsPresent(
-                        "Chevrolet",
-                        "Comaro",
-                        "2020",
-                        "30.0"
-                )
-        );
-    }
     @Test(groups = {"regr"})
     public void changeRowsPerPagePositiveTest() {
         search.enterCity("Tel Aviv")
@@ -207,11 +203,16 @@ public void searchWithCitySelectedFromListPositiveTest() {
                 .scrollToSearchResults();
 
         Assert.assertTrue(search.areCarsPresentInContainer());
+
         int carsBefore = search.getCarsCountInContainer();
+
         search.selectRowsPerPage("20");
+
         int carsAfter = search.getCarsCountInContainer();
+
         Assert.assertNotEquals(carsBefore, carsAfter);
     }
+
 
     @Test(groups = {"regr"})
     public void rowsPerPageOptionsPositiveTest() {
@@ -240,8 +241,52 @@ public void searchWithCitySelectedFromListPositiveTest() {
         getSoftAssert().assertTrue(carsFor20 <= 20);
         getSoftAssert().assertTrue(carsFor50 <= 50);
     }
+
+
+    // ==================== PAGINATION ====================
+
     @Test(groups = {"regr"})
-    public void paginationBoundaryButtonsPositiveTest() {// на этом тесте ноут пошел на взлет)))
+    public void paginationOfSearchResultsPositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(100)
+                .selectFutureDay(102)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        String pageBefore = search.getPageNumber();
+
+        search.clickNextPageButton();
+
+        String pageAfter = search.getPageNumber();
+
+        Assert.assertNotEquals(pageBefore, pageAfter);
+
+        search.clickPreviousPageButton();
+
+        String pageAfterPrevious = search.getPageNumber();
+
+        Assert.assertEquals(pageAfterPrevious, pageBefore);
+    }
+
+
+    @Test(groups = {"regr"})
+    public void scrollToSearchResultsAfterPaginationPositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(100)
+                .selectFutureDay(102)
+                .clickSearchButton()
+                .scrollToSearchResults();
+
+        search.clickNextPageButton();
+
+        Assert.assertTrue(search.isSearchResultsVisibleInViewport());
+    }
+
+
+    @Test(groups = {"regr"})
+    public void paginationBoundaryButtonsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
                 .selectFutureDay(2)
@@ -249,17 +294,16 @@ public void searchWithCitySelectedFromListPositiveTest() {
                 .clickSearchButton()
                 .scrollToSearchResults();
 
-        // На первой странице назад перейти нельзя
         Assert.assertTrue(search.isPreviousPageButtonDisabled());
 
-        // Идём вперёд, пока кнопка Next доступна
         while (!search.isNextPageButtonDisabled()) {
             search.clickNextPageButton();
         }
 
-        // На последней странице вперёд перейти нельзя
         Assert.assertTrue(search.isNextPageButtonDisabled());
     }
+
+
     @Test(groups = {"regr"})
     public void paginationButtonHoverUIPositiveTest() {
         search.enterCity("Tel Aviv")
@@ -270,12 +314,68 @@ public void searchWithCitySelectedFromListPositiveTest() {
                 .scrollToSearchResults();
 
         String colorBefore = search.getNextButtonColor();
+
         search.hoverOverNextButton();
+
         String colorAfter = search.getNextButtonColor();
+
         Assert.assertNotEquals(colorBefore, colorAfter);
     }
 
-// NEGATIVE
+
+    // ==================== CAR DETAILS ====================
+
+    @Test(groups = {"regr"})
+    public void selectCarFromSearchResultsPositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults()
+                .selectFirstCar();
+
+        getSoftAssert().assertTrue(search.isCarPageOpened());
+        Assert.assertFalse(search.isCarLoadingErrorPresent());
+    }
+
+
+    @Test(groups = {"regr"})
+    public void displayCarDetailsPositiveTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults()
+                .selectFirstCar();
+
+        Assert.assertTrue(
+                search.areCarDetailsPresent(
+                        "Chevrolet",
+                        "Comaro",
+                        "2020",
+                        "30.0"
+                )
+        );
+    }
+
+
+    @Test(groups = {"regr"})
+    public void carDetailsLoadingFailureNegativeTest() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults()
+                .selectFirstCar();
+
+        Assert.assertTrue(search.isCarLoadingErrorPresent());
+    }
+
+
+    // ==================== NEGATIVE ====================
 
     @Test(groups = {"regr"})
     public void searchWithEmptyCityNegativeTest() {
@@ -285,6 +385,7 @@ public void searchWithCitySelectedFromListPositiveTest() {
 
         Assert.assertTrue(search.isSearchButtonDisabled());
     }
+
 
     @Test(groups = {"regr"})
     public void searchWithInvalidCityNegativeTest() {
@@ -296,6 +397,8 @@ public void searchWithCitySelectedFromListPositiveTest() {
 
         Assert.assertFalse(search.isSearchResultPresent());
     }
+
+
     @Test(groups = {"regr"})
     public void searchDataAfterPageRefreshNegativeTest() {
         search.enterCity("Tel Aviv")
@@ -308,108 +411,10 @@ public void searchWithCitySelectedFromListPositiveTest() {
         getSoftAssert().assertEquals(search.getCityValue(), "");
         Assert.assertEquals(search.getDatesValue(), "");
     }
-    @Test(groups = {"regr"})
-    public void carDetailsLoadingFailureNegativeTest() {//сообщение есть, машины нет
-        search.enterCity("Tel Aviv")
-                .clickDatesField()
-                .selectFutureDay(2)
-                .selectFutureDay(4)
-                .clickSearchButton()
-                .scrollToSearchResults()
-                .selectFirstCar();
 
-        Assert.assertTrue(search.isCarLoadingErrorPresent());
-    }
-    @Test(groups = {"smoke", "regr"})
-    public void citySuggestionsPositiveTest() {
-        search.enterCity("ri");
-        search.pause(2000);
 
-        Assert.assertTrue(search.areCitySuggestionsPresent());
-        search.selectCityFromSuggestions("Rishon LeZion");
-        Assert.assertEquals(
-                search.getCityValue(),
-                "Rishon LeZion");
-        search.pause(2000);
-    }
-
-    @Test(groups = {"regr"})
-    public void citySuggestionsOnEmptyFieldPositiveTest() {
-        search.clickCityField();
-
-        Assert.assertTrue(search.areCitySuggestionsPresent());
-        search.pause(2000);
-        System.out.println(search.getCitySuggestions());
-        search.scrollCitySuggestionsToBottom()
-                .pause(2000);
-        Assert.assertTrue(search.isCitySuggestionsScrolledToBottom());
-    }
-    @DataProvider(name = "searchData")
-    public Object[][] searchData() throws IOException {
-        List<Object[]> data = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(
-                new FileReader("src/test/resources/data/searchData.csv")
-        );
-
-        String line;
-        while ((line = reader.readLine()) != null) {
-
-            if (line.isBlank()) {
-                continue;
-            }
-
-            String[] values = line.split(",");
-            data.add(new Object[]{
-                    values[0],
-                    Integer.parseInt(values[1]),
-                    Integer.parseInt(values[2])
-            });
-        }
-
-        reader.close();
-
-        return data.toArray(new Object[0][]);
-    }
-    @DataProvider(name = "beershebaNoCarsData")
-    public Object[][] beershebaNoCarsData() throws IOException {
-        List<Object[]> data = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(
-                new FileReader("src/test/resources/data/beershebaNoCarsData.csv")
-        );
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-
-            if (line.isBlank()) {
-                continue;
-            }
-
-            String[] values = line.split(",");
-            data.add(new Object[]{
-                    Integer.parseInt(values[0]),
-                    Integer.parseInt(values[1])
-            });
-        }
-
-        reader.close();
-        return data.toArray(new Object[0][]);
-    }
-
-    @Test(dataProvider = "searchData", groups = {"regr"})
-    public void searchWithCsvDataPositiveTest(String city, int fromDays, int toDays) {
-
-        search.enterCity(city)
-                .clickDatesField()
-                .selectFutureDay(fromDays)
-                .selectFutureDay(toDays)
-                .clickSearchButton();
-
-        Assert.assertTrue(search.isSearchResultPresent());
-    }
-
-    @Test(dataProvider = "beershebaNoCarsData", groups = {"regr"})
+    @Test(dataProvider = "beershebaNoCarsData",dataProviderClass = SearchDataProvider.class, groups = {"regr"})
     public void searchWithNoAvailableCarsPositiveTest(int fromDays, int toDays) {
-
         search.enterCity("Beersheba")
                 .clickDatesField()
                 .selectFutureDay(fromDays)
@@ -418,21 +423,4 @@ public void searchWithCitySelectedFromListPositiveTest() {
 
         Assert.assertTrue(search.isNoCarsMessagePresent());
     }
-    @Test(groups = {"regr"})
-    public void calendarUpperBoundaryPositiveTest() {
-        search.clickDatesField()
-                .selectMaxFutureDate();
-
-        Assert.assertTrue(search.isMaxFutureDateSelected());
-        Assert.assertTrue(search.isDateAfterMaxDisabled());
-    }
-    @Test(groups = {"regr"})
-    public void nextMonthButtonAtUpperBoundaryPositiveTest() {
-        search.clickDatesField()
-                .selectMaxFutureDate();
-
-        Assert.assertTrue(search.isNextMonthButtonDisabled());
-    }
-
 }
-//By.xpath("//*[normalize-space(.)='Chevrolet']");
