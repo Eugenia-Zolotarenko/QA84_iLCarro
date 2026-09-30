@@ -2,7 +2,9 @@ package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.pages.HomePage;
+import app.netlify.icarro.model.Car;
 import app.netlify.icarro.pages.LetCarWorkPage;
+import app.netlify.icarro.utils.CarDataProvider;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -29,12 +31,9 @@ public class LetCarWorkTests extends TestBase {
         Assert.assertTrue(car.fillValidForm().isSubmitEnabled(), "Submit enabled");
     }
 
-    @Test(groups = {"regr"})
-    public void fillRequiredFieldsSubmitEnabledPositiveTest() {
-        car.fillRequiredFields("Toyota", "Corolla", "2020",
-                "petrol", "5", "Economy",
-                "QA12345", "50");
-        Assert.assertTrue(car.isSubmitEnabled(), "Submit enabled");
+    @Test(groups = {"regr"}, dataProvider = "validCarDataObj", dataProviderClass = CarDataProvider.class)
+    public void fillRequiredFieldsSubmitEnabledPositiveTest(Car carData) {
+        Assert.assertTrue(car.fillForm(carData).isSubmitEnabled(), "Submit enabled");
     }
 
     @Test(groups = {"regr"})
@@ -79,7 +78,7 @@ public class LetCarWorkTests extends TestBase {
 
     private void assertRequiredFieldBlocksSubmit(String field) {
         car.fillValidForm().fillField(field, "");
-        Assert.assertEquals(car.getFieldError(field), "Required", field + " error");
+        Assert.assertEquals(car.getFieldError(field), LetCarWorkPage.REQUIRED_ERROR, field + " error");
         Assert.assertFalse(car.isSubmitEnabled(), "Submit enabled");
     }
 }

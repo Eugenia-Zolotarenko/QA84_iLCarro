@@ -7,7 +7,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import app.netlify.icarro.model.Car;
+
 public class LetCarWorkPage extends BasePage {
+    public static final String REQUIRED_ERROR = "Required";
     private final By submit = By.cssSelector("button[type='submit']");
 
     public LetCarWorkPage(WebDriver driver) {
@@ -27,18 +30,17 @@ public class LetCarWorkPage extends BasePage {
                 .fillField("pricePerDay", "50");
     }
 
-    public LetCarWorkPage fillRequiredFields(String make, String model, String year, String fuel,
-                                              String seats, String carClass, String regNumber, String price) {
+    public LetCarWorkPage fillForm(Car car) {
         WebElement city = getWait(10).until(ExpectedConditions.elementToBeClickable(By.id("city")));
-        type(city, "Berlin");
-        return fillField("manufacture", make)
-                .fillField("model", model)
-                .fillField("year", year)
-                .fillField("fuel", fuel)
-                .fillField("seats", seats)
-                .fillField("carClass", carClass)
-                .fillField("serialNumber", regNumber)
-                .fillField("pricePerDay", price);
+        type(city, car.city);
+        return fillField("manufacture", car.manufacture)
+                .fillField("model", car.model)
+                .fillField("year", car.year)
+                .fillField("fuel", car.fuel)
+                .fillField("seats", car.seats)
+                .fillField("carClass", car.carClass)
+                .fillField("serialNumber", car.serialNumber)
+                .fillField("pricePerDay", car.pricePerDay);
     }
 
     public LetCarWorkPage fillField(String name, String value) {
