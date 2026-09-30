@@ -2,6 +2,7 @@ package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.pages.SearchPage;
+import app.netlify.icarro.utils.LinkChecker;
 import app.netlify.icarro.utils.SearchDataProvider;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -23,6 +24,14 @@ public class SearchTests extends TestBase {
     public void setUp(Method method, Object[] p) {
         super.setUp(method, p);
         search = new SearchPage(driver);
+    }
+    private void searchDefaultAndShowResults() {
+        search.enterCity("Tel Aviv")
+                .clickDatesField()
+                .selectFutureDay(2)
+                .selectFutureDay(4)
+                .clickSearchButton()
+                .scrollToSearchResults();
     }
 
 
@@ -81,6 +90,21 @@ public class SearchTests extends TestBase {
                 .clickSearchButton();
 
         Assert.assertTrue(search.isSearchResultPresent());
+    }
+
+    @Test(groups = {"regr"})
+    public void brokenLinksOnSearchPageTest() {
+        List<String> urls = search.getLinkUrls();
+        Assert.assertFalse(urls.isEmpty(), "No links found on the page");
+        List<String> broken = LinkChecker.checkAll(urls);
+        Assert.assertTrue(broken.isEmpty(), "Broken links: " + broken);
+    }
+
+    @Test(groups = {"regr"})
+    public void brokenImagesOnSearchResultsTest() {
+        searchDefaultAndShowResults();
+        List<String> broken = search.getBrokenImageUrls();
+        Assert.assertTrue(broken.isEmpty(), "Broken images on results: " + broken);
     }
 
 
