@@ -7,11 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.asserts.SoftAssert;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchPage extends BasePage {
@@ -411,45 +409,5 @@ public class SearchPage extends BasePage {
         return rowsPerPage
                 .getAttribute("value");
     }
-    @FindBy(tagName = "a")
-    List<WebElement> links;
 
-    public List<String> getLinkUrls() {
-        getWait(10).until(d -> !links.isEmpty());
-
-        return links.stream()
-                .map(link -> link.getAttribute("href"))
-                .filter(url -> url != null
-                        && (url.startsWith("http://") || url.startsWith("https://")))
-                .map(url -> url.split("#")[0])
-                .distinct()
-                .toList();
-    }
-    @FindBy(tagName = "img")
-    List<WebElement> images;
-
-    public List<String> getBrokenImageUrls() {
-        getWait(10).until(d -> !images.isEmpty());
-
-        List<String> broken = new ArrayList<>();
-
-        for (WebElement image : images) {
-            scrollWithJS(image);
-
-            try {
-                getWait(5).until(d -> (Boolean) js.executeScript(
-                        "return arguments[0].complete;", image));
-            } catch (TimeoutException ignored) {
-            }
-
-            boolean ok = (Boolean) js.executeScript(
-                    "return arguments[0].complete && arguments[0].naturalWidth > 0;", image);
-
-            if (!ok) {
-                broken.add(image.getAttribute("src"));
-            }
-        }
-
-        return broken;
-    }
 }
