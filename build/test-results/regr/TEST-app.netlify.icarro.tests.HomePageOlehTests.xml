@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.netlify.icarro.tests.HomePageOlehTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-09-21T08:41:44.302Z" hostname="AIT-PC" time="23.263">
+  <properties/>
+  <testcase name="isHomePageDisplayedPositiveTest" classname="app.netlify.icarro.tests.HomePageOlehTests" time="0.024"/>
+  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.HomePageOlehTests" time="1.165"/>
+  <testcase name="loginLinkIsVisiblePositiveTest" classname="app.netlify.icarro.tests.HomePageOlehTests" time="0.05"/>
+  <system-out><![CDATA[10:41:45.701 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:41:45.734 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7515534\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:41:53.133 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+10:41:53.140 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<isHomePageDisplayedPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+10:41:53.190 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:41:53.193 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:41:53.194 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+10:41:54.416 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:41:54.427 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7515534\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:41:59.860 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+10:41:59.861 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<isPageTitleCorrectPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+10:42:01.027 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:42:01.027 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:42:01.027 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+10:42:01.978 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:42:01.988 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7515534\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:42:07.514 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+10:42:07.514 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<loginLinkIsVisiblePositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+10:42:07.567 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:42:07.567 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:42:07.567 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
