@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FooterPage extends BasePage {
@@ -45,29 +46,9 @@ public class FooterPage extends BasePage {
                     "div.footer-container div.page-links"
             );
 
-    private final By footerSearchLink =
+    private final By footerMenuLinks =
             By.cssSelector(
-                    "div.footer-container div.page-links a[href='/search']"
-            );
-
-    private final By footerLetCarWorkLink =
-            By.cssSelector(
-                    "div.footer-container div.page-links a[href='/let-car-work']"
-            );
-
-    private final By footerTermsOfUseLink =
-            By.cssSelector(
-                    "div.footer-container div.page-links a[href='/terms-of-use']"
-            );
-
-    private final By footerSignUpLink =
-            By.cssSelector(
-                    "div.footer-container div.page-links a[href='/register']"
-            );
-
-    private final By footerLoginLink =
-            By.cssSelector(
-                    "div.footer-container div.page-links a[href='/login']"
+                    "div.footer-container div.page-links a"
             );
 
     private final By topCitiesContainer =
@@ -117,127 +98,209 @@ public class FooterPage extends BasePage {
 
 
     public boolean isFooterDisplayed() {
+
         return isElementPresent(footer);
     }
 
 
     public boolean isFooterLogoDisplayed() {
+
         return isElementPresent(footerLogoImage);
     }
 
 
-    public boolean isFooterLogoLinkPresent() {
+    public String getFooterLogoHref() {
 
-        WebElement logo =
-                driver.findElement(footerLogo);
-
-        String href = logo.getAttribute("href");
-
-        return href != null && !href.isEmpty();
+        return driver
+                .findElement(footerLogo)
+                .getAttribute("href");
     }
 
 
-    public boolean isFooterLogoImagePresent() {
+    public String getFooterLogoSrc() {
 
-        WebElement image =
-                driver.findElement(footerLogoImage);
-
-        String src = image.getAttribute("src");
-
-        return src != null && !src.isEmpty();
+        return driver
+                .findElement(footerLogoImage)
+                .getAttribute("src");
     }
 
 
     public boolean isSocialNetworksDisplayed() {
+
         return isElementPresent(socialNetworks);
     }
 
 
     public boolean areSocialMediaLinksPresent() {
 
-        return driver.findElements(
-                socialMediaLinks
-        ).size() == 5;
+        return driver
+                .findElements(socialMediaLinks)
+                .size() == 5;
     }
 
 
     public boolean areSocialMediaIconsDisplayed() {
 
-        return driver.findElements(
-                socialMediaIcons
-        ).size() == 5;
+        List<WebElement> icons =
+                driver.findElements(socialMediaIcons);
+
+        if (icons.size() != 5) {
+            return false;
+        }
+
+        for (WebElement icon : icons) {
+
+            if (!icon.isDisplayed()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
     public boolean isFacebookIconDisplayed() {
+
         return isElementPresent(facebookIcon);
     }
 
 
     public boolean isFooterMenuDisplayed() {
+
         return isElementPresent(footerMenu);
     }
 
 
-    public boolean isFooterSearchLinkDisplayed() {
-        return isElementPresent(footerSearchLink);
+    public List<String> getFooterMenuTexts() {
+
+        List<WebElement> elements =
+                driver.findElements(footerMenuLinks);
+
+        List<String> menuTexts =
+                new ArrayList<>();
+
+        for (WebElement element : elements) {
+
+            if (element.isDisplayed()) {
+
+                menuTexts.add(
+                        element.getText()
+                );
+            }
+        }
+
+        return menuTexts;
     }
 
 
-    public boolean isFooterLetCarWorkLinkDisplayed() {
-        return isElementPresent(footerLetCarWorkLink);
+    private WebElement findMenuItemByText(String text) {
+
+        List<WebElement> menuItems =
+                driver.findElements(footerMenuLinks);
+
+        for (WebElement menuItem : menuItems) {
+
+            if (menuItem.isDisplayed()
+                    && menuItem.getText().trim().equals(text)) {
+
+                return menuItem;
+            }
+        }
+
+        throw new RuntimeException(
+                "Footer menu item was not found: " + text
+        );
     }
 
 
-    public boolean isFooterTermsOfUseLinkDisplayed() {
-        return isElementPresent(footerTermsOfUseLink);
+    public boolean isMenuItemDisplayed(String text) {
+
+        return findMenuItemByText(text)
+                .isDisplayed();
     }
 
 
-    public boolean isFooterSignUpLinkDisplayed() {
-        return isElementPresent(footerSignUpLink);
+    public boolean isMenuItemEnabled(String text) {
+
+        return findMenuItemByText(text)
+                .isEnabled();
     }
 
 
-    public boolean isFooterLoginLinkDisplayed() {
-        return isElementPresent(footerLoginLink);
+    public FooterPage clickMenuItem(String text) {
+
+        WebElement menuItem =
+                findMenuItemByText(text);
+
+        clickWithJS(menuItem);
+
+        return this;
+    }
+
+
+    public FooterPage hoverMenuItem(String text) {
+
+        WebElement menuItem =
+                findMenuItemByText(text);
+
+        actions
+                .moveToElement(menuItem)
+                .perform();
+
+        return this;
+    }
+
+
+    public String getMenuItemCssValue(
+            String text,
+            String cssProperty
+    ) {
+
+        return findMenuItemByText(text)
+                .getCssValue(cssProperty);
     }
 
 
     public boolean isTopCitiesDisplayed() {
+
         return isElementPresent(topCitiesContainer);
     }
 
 
     public boolean isTopCitiesTitleDisplayed() {
+
         return isElementPresent(topCitiesTitle);
     }
 
 
     public boolean areTopCitiesLinksPresent() {
 
-        return driver.findElements(
-                topCitiesLinks
-        ).size() == 10;
+        return driver
+                .findElements(topCitiesLinks)
+                .size() == 10;
     }
 
 
     public boolean isContactInformationDisplayed() {
+
         return isElementPresent(contactInformation);
     }
 
 
     public boolean isTelephoneDisplayed() {
+
         return isElementPresent(telephone);
     }
 
 
     public boolean isFooterAddressDisplayed() {
+
         return isElementPresent(footerAddress);
     }
 
 
     public List<WebElement> getFooterLinks() {
+
         return driver.findElements(footerLinks);
     }
 
@@ -249,10 +312,11 @@ public class FooterPage extends BasePage {
 
         for (WebElement image : images) {
 
-            Boolean loaded = (Boolean) js.executeScript(
-                    "return arguments[0].complete && arguments[0].naturalWidth > 0;",
-                    image
-            );
+            Boolean loaded =
+                    (Boolean) js.executeScript(
+                            "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                            image
+                    );
 
             if (!Boolean.TRUE.equals(loaded)) {
                 return false;

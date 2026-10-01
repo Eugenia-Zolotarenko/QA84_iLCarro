@@ -1,20 +1,33 @@
 package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
+import app.netlify.icarro.model.MainMenu;
+import app.netlify.icarro.model.MenuItemData;
 import app.netlify.icarro.pages.HeaderPage;
 import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.LoginPage;
+import app.netlify.icarro.utils.LoginDataProvider;
+import app.netlify.icarro.utils.MenuDataProvider;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class HeaderPageTests extends TestBase {
 
     HeaderPage header;
+
+    private final MainMenu expectedMenu =
+            new MainMenu(
+                    "Log in",
+                    "Sign up",
+                    "Terms of use",
+                    "Let car work",
+                    "Search"
+            );
 
 
     @BeforeMethod(alwaysRun = true)
@@ -26,182 +39,313 @@ public class HeaderPageTests extends TestBase {
     }
 
 
-    @Test
-    public void verifyHeaderLogoImagePositiveTest() {
+    @Test(groups = {"regr", "positive"})
+    public void verifyHeaderLogoPositiveTest() {
 
-        Assert.assertTrue(
-                header.isHeaderLogoImagePresent()
+        getSoftAssert().assertTrue(
+                header.isHeaderLogoDisplayed(),
+                "Header logo is not displayed"
+        );
+
+        getSoftAssert().assertNotNull(
+                header.getHeaderLogoHref(),
+                "Header logo href is null"
+        );
+
+        getSoftAssert().assertFalse(
+                header.getHeaderLogoHref().isEmpty(),
+                "Header logo href is empty"
+        );
+
+        getSoftAssert().assertNotNull(
+                header.getHeaderLogoSrc(),
+                "Header logo src is null"
+        );
+
+        getSoftAssert().assertFalse(
+                header.getHeaderLogoSrc().isEmpty(),
+                "Header logo src is empty"
         );
     }
 
 
-    @Test
-    public void verifyHeaderLogoLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isHeaderLogoLinkPresent()
-        );
-    }
-
-
-    @Test
-    public void verifyHeaderLogoDisplayPositiveTest() {
-
-        Assert.assertTrue(
-                header.isHeaderLogoDisplayed()
-        );
-    }
-
-
-    @Test
-    public void verifyLoginLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isLoginLinkDisplayed()
-        );
-    }
-
-
-    @Test
-    public void verifySignUpLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isSignUpLinkDisplayed()
-        );
-    }
-
-
-    @Test
-    public void verifyTermsOfUseLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isTermsOfUseLinkDisplayed()
-        );
-    }
-
-
-    @Test
-    public void verifyLetCarWorkLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isLetCarWorkLinkDisplayed()
-        );
-    }
-
-
-    @Test
-    public void verifySearchLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isSearchLinkDisplayed()
-        );
-    }
-
-
-    @Test
-    public void verifyHomeMenuLinkPositiveTest() {
-
-        Assert.assertTrue(
-                header.isHomeLinkDisplayed()
-        );
-    }
-
-
-    @Test
+    @Test(groups = {"regr", "positive"})
     public void verifyHeaderMenuPositiveTest() {
 
-        Assert.assertTrue(
-                header.isHeaderMenuDisplayed()
+        List<String> actualMenu =
+                header.getHeaderMenuTexts();
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getSearch()),
+                "Search is absent in Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getAddCar()),
+                "Let car work is absent in Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getTerms()),
+                "Terms of use is absent in Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getSignUp()),
+                "Sign up is absent in Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getLogin()),
+                "Log in is absent in Header menu"
         );
     }
 
 
-    @Test
+    @Test(
+            groups = {"regr", "positive"},
+            dataProvider = "headerMenuData",
+            dataProviderClass = MenuDataProvider.class
+    )
+    public void verifyHeaderMenuNavigationPositiveTest(
+            MenuItemData data) {
+
+        getSoftAssert().assertTrue(
+                header.isMenuItemDisplayed(data.getText()),
+                data.getText() + " is not displayed"
+        );
+
+        getSoftAssert().assertTrue(
+                header.isMenuItemEnabled(data.getText()),
+                data.getText() + " is not enabled"
+        );
+
+        header.clickMenuItem(data.getText());
+
+        Assert.assertTrue(
+                driver.getCurrentUrl()
+                        .contains(data.getExpectedUrlPart()),
+                "Incorrect transition after click on "
+                        + data.getText()
+        );
+    }
+
+
+    @Test(
+            groups = {"regr", "positive"},
+            dataProvider = "headerMenuData",
+            dataProviderClass = MenuDataProvider.class
+    )
+    public void verifyHeaderMenuHoverPositiveTest(
+            MenuItemData data) {
+
+        String colorBefore =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "color"
+                );
+
+        String backgroundBefore =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "background-color"
+                );
+
+        String decorationBefore =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "text-decoration"
+                );
+
+        header.hoverMenuItem(data.getText());
+        header.pause(500);
+
+        String colorAfter =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "color"
+                );
+
+        String backgroundAfter =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "background-color"
+                );
+
+        String decorationAfter =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "text-decoration"
+                );
+
+        boolean hoverChanged =
+                !colorBefore.equals(colorAfter)
+                        || !backgroundBefore.equals(backgroundAfter)
+                        || !decorationBefore.equals(decorationAfter);
+
+        Assert.assertTrue(
+                hoverChanged,
+                "Hover style did not change for "
+                        + data.getText()
+        );
+    }
+
+
+    @Test(groups = {"regr", "positive"})
     public void verifyHeaderDisplayWithBodyWidthLessThan785PositiveTest() {
 
         header.setWindowWidthTo(780);
-
         header.pause(1000);
 
-        Assert.assertTrue(
-                header.isMobileHeaderDisplayed()
+        getSoftAssert().assertTrue(
+                header.isMobileHeaderDisplayed(),
+                "Mobile Header is not displayed"
         );
 
-        Assert.assertTrue(
-                header.isMobileHeaderLogoDisplayed()
+        getSoftAssert().assertTrue(
+                header.isMobileHeaderLogoDisplayed(),
+                "Mobile Header logo is not displayed"
         );
 
-        Assert.assertTrue(
-                header.isHamburgerButtonDisplayed()
+        getSoftAssert().assertTrue(
+                header.isHamburgerButtonDisplayed(),
+                "Hamburger button is not displayed"
         );
     }
 
 
-    @Test
+    @Test(groups = {"regr", "positive"})
     public void verifyHeaderMenuWithBodyWidthLessThan785PositiveTest() {
+
+        header.setWindowWidthTo(780);
+        header.pause(1000);
+
+        header.clickHamburgerButton();
+        header.pause(1000);
+
+        List<String> actualMenu =
+                header.getMobileMenuTexts();
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getSearch()),
+                "Search is absent in mobile Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getAddCar()),
+                "Let car work is absent in mobile Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getTerms()),
+                "Terms of use is absent in mobile Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getSignUp()),
+                "Sign up is absent in mobile Header menu"
+        );
+
+        getSoftAssert().assertTrue(
+                actualMenu.contains(expectedMenu.getLogin()),
+                "Log in is absent in mobile Header menu"
+        );
+    }
+
+
+    @Test(
+            groups = {"regr", "positive"},
+            dataProvider = "headerMenuData",
+            dataProviderClass = MenuDataProvider.class
+    )
+    public void verifyHeaderMenuNavigationWithBodyWidthLessThan785PositiveTest(
+            MenuItemData data) {
+
+        header.setWindowWidthTo(780);
+        header.pause(1000);
+
+        header.clickHamburgerButton();
+        header.pause(1000);
+
+        getSoftAssert().assertTrue(
+                header.isMenuItemDisplayed(data.getText()),
+                data.getText()
+                        + " is not displayed in mobile Header"
+        );
+
+        getSoftAssert().assertTrue(
+                header.isMenuItemEnabled(data.getText()),
+                data.getText()
+                        + " is not enabled in mobile Header"
+        );
+
+        header.clickMenuItem(data.getText());
+
+        Assert.assertTrue(
+                driver.getCurrentUrl()
+                        .contains(data.getExpectedUrlPart()),
+                "Incorrect mobile transition after click on "
+                        + data.getText()
+        );
+    }
+
+
+    @Test(groups = {"regr", "positive"})
+    public void verifyHeaderMenuAfterLoginWithBodyWidthLessThan785PositiveTest() {
 
         LoginPage login =
                 new HomePage(driver).getLoginPage();
 
-        login.fillLoginForm(
-                        "oksana.icarro.test@gmail.com",
-                        "Aa123456!")
-                .clickSubmitButton();
+        login.login(
+                LoginDataProvider.validUser()
+        );
 
         login.clickOkButton();
 
         header.setWindowWidthTo(780);
-
         header.pause(1000);
 
         header.clickHamburgerButton();
-
         header.pause(1000);
 
-        Assert.assertTrue(
-                header.isMobileHeaderLogoDisplayed()
+        getSoftAssert().assertTrue(
+                header.isMobileHeaderLogoDisplayed(),
+                "Mobile Header logo is not displayed"
         );
 
-        Assert.assertTrue(
-                header.isSearchLinkDisplayed()
-        );
-
-        Assert.assertTrue(
-                header.isLetCarWorkLinkDisplayed()
-        );
-
-        Assert.assertTrue(
-                header.isTermsOfUseLinkDisplayed()
-        );
-
-        Assert.assertTrue(
-                header.isLogOutDisplayed()
+        getSoftAssert().assertTrue(
+                header.isLogOutDisplayed(),
+                "Log out is not displayed after login"
         );
     }
 
-    @Test
-    public void verifyBrokenLinksInHeaderNegativeTest() {
 
-        SoftAssert softly = new SoftAssert();
+    @Test(groups = {"regr", "negative"})
+    public void verifyBrokenLinksInHeaderNegativeTest() {
 
         for (WebElement link : header.getHeaderLinks()) {
 
-            String url = link.getAttribute("href");
+            String url =
+                    link.getAttribute("href");
 
-            if (url != null && !url.isEmpty()) {
+            if (url != null
+                    && !url.isEmpty()
+                    && (url.startsWith("http://")
+                    || url.startsWith("https://"))) {
 
                 header.verifyLinks(
                         url,
-                        softly
+                        getSoftAssert()
                 );
             }
         }
-
-        softly.assertAll();
     }
 
-    @Test
+
+    @Test(groups = {"regr", "negative"})
     public void verifyBrokenImagesInHeaderNegativeTest() {
+
+        header.pause(1000);
 
         Assert.assertTrue(
                 header.isHeaderImageLoaded(),
@@ -209,31 +353,36 @@ public class HeaderPageTests extends TestBase {
         );
     }
 
-    @Test
+
+    @Test(groups = {"regr", "negative"})
     public void verifyBrokenLinksInHeaderWithBodyWidthLessThan785NegativeTest() {
 
         header.setWindowWidthTo(780);
         header.pause(1000);
 
-        SoftAssert softly = new SoftAssert();
+        header.clickHamburgerButton();
+        header.pause(1000);
 
         for (WebElement link : header.getHeaderLinks()) {
 
-            String url = link.getAttribute("href");
+            String url =
+                    link.getAttribute("href");
 
-            if (url != null && !url.isEmpty()) {
+            if (url != null
+                    && !url.isEmpty()
+                    && (url.startsWith("http://")
+                    || url.startsWith("https://"))) {
 
                 header.verifyLinks(
                         url,
-                        softly
+                        getSoftAssert()
                 );
             }
         }
-
-        softly.assertAll();
     }
 
-    @Test
+
+    @Test(groups = {"regr", "negative"})
     public void verifyBrokenImagesInHeaderWithBodyWidthLessThan785NegativeTest() {
 
         header.setWindowWidthTo(780);

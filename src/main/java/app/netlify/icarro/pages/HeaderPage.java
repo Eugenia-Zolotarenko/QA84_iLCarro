@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HeaderPage extends BasePage {
@@ -20,30 +21,20 @@ public class HeaderPage extends BasePage {
                     "div.header a.logo img[alt='IlCarro logo']"
             );
 
-    private final By homeLink =
-            By.cssSelector("div.header a.logo");
-
-    private final By searchLink =
-            By.cssSelector("div.header a[href='/search']");
-
-    private final By letCarWorkLink =
-            By.cssSelector("div.header a[href='/let-car-work']");
-
-    private final By termsOfUseLink =
-            By.cssSelector("div.header a[href='/terms-of-use']");
-
-    private final By signUpLink =
-            By.cssSelector("div.header a[href='/register']");
-
-    private final By loginLink =
-            By.cssSelector("div.header a[href='/login']");
+    private final By headerMenuLinks =
+            By.cssSelector(
+                    "div.header a.navigation-link"
+            );
 
     private final By headerLinks =
-            By.cssSelector("div.header a");
-
+            By.cssSelector(
+                    "div.header a"
+            );
 
     private final By mobileHeader =
-            By.cssSelector("div.mobile-header");
+            By.cssSelector(
+                    "div.mobile-header"
+            );
 
     private final By mobileHeaderLogo =
             By.cssSelector(
@@ -51,7 +42,9 @@ public class HeaderPage extends BasePage {
             );
 
     private final By hamburgerButton =
-            By.cssSelector("div.mobile-header button");
+            By.cssSelector(
+                    "div.mobile-header button"
+            );
 
     private final By logOutButton =
             By.cssSelector(
@@ -65,99 +58,152 @@ public class HeaderPage extends BasePage {
 
 
     public boolean isHeaderDisplayed() {
+
         return isElementPresent(header);
     }
 
 
     public boolean isHeaderLogoDisplayed() {
+
         return isElementPresent(headerLogoImage);
     }
 
 
-    public boolean isHeaderLogoImageDisplayed() {
-        return isElementPresent(headerLogoImage);
+    public String getHeaderLogoHref() {
+
+        return driver
+                .findElement(headerLogo)
+                .getAttribute("href");
     }
 
 
-    public boolean isHeaderLogoImagePresent() {
+    public String getHeaderLogoSrc() {
 
-        WebElement image =
-                driver.findElement(headerLogoImage);
-
-        String src = image.getAttribute("src");
-
-        return src != null && !src.isEmpty();
+        return driver
+                .findElement(headerLogoImage)
+                .getAttribute("src");
     }
 
 
-    public boolean isHeaderLogoLinkPresent() {
+    public List<String> getHeaderMenuTexts() {
 
-        WebElement logo =
-                driver.findElement(headerLogo);
+        List<WebElement> elements =
+                driver.findElements(headerMenuLinks);
 
-        String href = logo.getAttribute("href");
+        List<String> menuTexts =
+                new ArrayList<>();
 
-        return href != null && !href.isEmpty();
+        for (WebElement element : elements) {
+
+            if (element.isDisplayed()) {
+
+                menuTexts.add(
+                        element.getText()
+                );
+            }
+        }
+
+        return menuTexts;
     }
 
 
-    public boolean isHomeLinkDisplayed() {
-        return isElementPresent(homeLink);
+    private WebElement findMenuItemByText(String text) {
+
+        List<WebElement> menuItems =
+                driver.findElements(headerMenuLinks);
+
+        for (WebElement menuItem : menuItems) {
+
+            if (menuItem.isDisplayed()
+                    && menuItem.getText().trim().equals(text)) {
+
+                return menuItem;
+            }
+        }
+
+        throw new RuntimeException(
+                "Header menu item was not found: " + text
+        );
     }
 
 
-    public boolean isSearchLinkDisplayed() {
-        return isElementPresent(searchLink);
+    public boolean isMenuItemDisplayed(String text) {
+
+        return findMenuItemByText(text)
+                .isDisplayed();
     }
 
 
-    public boolean isLetCarWorkLinkDisplayed() {
-        return isElementPresent(letCarWorkLink);
+    public boolean isMenuItemEnabled(String text) {
+
+        return findMenuItemByText(text)
+                .isEnabled();
     }
 
 
-    public boolean isTermsOfUseLinkDisplayed() {
-        return isElementPresent(termsOfUseLink);
+    public HeaderPage clickMenuItem(String text) {
+
+        WebElement menuItem =
+                findMenuItemByText(text);
+
+        clickWithJS(menuItem);
+
+        return this;
     }
 
 
-    public boolean isSignUpLinkDisplayed() {
-        return isElementPresent(signUpLink);
+    public HeaderPage hoverMenuItem(String text) {
+
+        WebElement menuItem =
+                findMenuItemByText(text);
+
+        actions
+                .moveToElement(menuItem)
+                .perform();
+
+        return this;
     }
 
 
-    public boolean isLoginLinkDisplayed() {
-        return isElementPresent(loginLink);
-    }
+    public String getMenuItemCssValue(
+            String text,
+            String cssProperty
+    ) {
 
-
-    public boolean isHeaderMenuDisplayed() {
-        return isElementPresent(header);
+        return findMenuItemByText(text)
+                .getCssValue(cssProperty);
     }
 
 
     public boolean isMobileHeaderDisplayed() {
-        return driver.findElement(mobileHeader).isDisplayed();
+
+        return driver
+                .findElement(mobileHeader)
+                .isDisplayed();
     }
 
 
     public boolean isMobileHeaderLogoDisplayed() {
-        return driver.findElement(mobileHeaderLogo).isDisplayed();
+
+        return driver
+                .findElement(mobileHeaderLogo)
+                .isDisplayed();
     }
 
 
     public boolean isHamburgerButtonDisplayed() {
-        return driver.findElement(hamburgerButton).isDisplayed();
+
+        return driver
+                .findElement(hamburgerButton)
+                .isDisplayed();
     }
 
 
-    public boolean isLogOutDisplayed() {
-        return isElementPresent(logOutButton);
-    }
+    public boolean isHamburgerButtonEnabled() {
 
-
-    public List<WebElement> getHeaderLinks() {
-        return driver.findElements(headerLinks);
+        return driver
+                .findElement(hamburgerButton)
+                .isEnabled();
     }
 
 
@@ -170,27 +216,51 @@ public class HeaderPage extends BasePage {
 
         return this;
     }
+
+
+    public List<String> getMobileMenuTexts() {
+
+        return getHeaderMenuTexts();
+    }
+
+
+    public boolean isLogOutDisplayed() {
+
+        return isElementPresent(logOutButton);
+    }
+
+
+    public List<WebElement> getHeaderLinks() {
+
+        return driver.findElements(headerLinks);
+    }
+
+
     public boolean isHeaderImageLoaded() {
 
         WebElement image =
                 driver.findElement(headerLogoImage);
 
-        Boolean loaded = (Boolean) js.executeScript(
-                "return arguments[0].complete && arguments[0].naturalWidth > 0;",
-                image
-        );
+        Boolean loaded =
+                (Boolean) js.executeScript(
+                        "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                        image
+                );
 
         return Boolean.TRUE.equals(loaded);
     }
+
+
     public boolean isMobileHeaderImageLoaded() {
 
         WebElement image =
                 driver.findElement(mobileHeaderLogo);
 
-        Boolean loaded = (Boolean) js.executeScript(
-                "return arguments[0].complete && arguments[0].naturalWidth > 0;",
-                image
-        );
+        Boolean loaded =
+                (Boolean) js.executeScript(
+                        "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                        image
+                );
 
         return Boolean.TRUE.equals(loaded);
     }

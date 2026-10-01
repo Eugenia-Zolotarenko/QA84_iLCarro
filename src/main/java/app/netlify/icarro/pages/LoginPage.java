@@ -25,6 +25,9 @@ public class LoginPage extends BasePage {
                     "div[role='dialog'] div.modal-content a.btn.btn--primary"
             );
 
+    private final By registrationLink =
+            By.cssSelector("a.navigator");
+
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -46,8 +49,8 @@ public class LoginPage extends BasePage {
     public LoginPage fillLoginFormWithData(LoginData data) {
 
         return fillLoginForm(
-                data.login,
-                data.password
+                data.getLogin(),
+                data.getPassword()
         );
     }
 
@@ -60,9 +63,9 @@ public class LoginPage extends BasePage {
     }
 
 
-    public LoginPage login(String email, String password) {
+    public LoginPage login(LoginData data) {
 
-        fillLoginForm(email, password);
+        fillLoginFormWithData(data);
         clickSubmitButton();
 
         return this;
@@ -73,7 +76,9 @@ public class LoginPage extends BasePage {
 
         pause(1000);
 
-        return driver.findElement(modalWindow).getText();
+        return driver
+                .findElement(modalWindow)
+                .getText();
     }
 
 
@@ -92,12 +97,10 @@ public class LoginPage extends BasePage {
 
     public LoginPage goRegistrationFormFromLoginPage() {
 
-        WebElement registrationLink =
-                driver.findElement(
-                        By.cssSelector("a.navigator")
-                );
+        WebElement link =
+                driver.findElement(registrationLink);
 
-        clickWithJS(registrationLink);
+        clickWithJS(link);
 
         return this;
     }
@@ -105,6 +108,8 @@ public class LoginPage extends BasePage {
 
     public boolean isSubmitEnable() {
 
-        return driver.findElement(submitButton).isEnabled();
+        return driver
+                .findElement(submitButton)
+                .isEnabled();
     }
 }
