@@ -50,7 +50,7 @@ public class SearchTests extends TestBase {
     }
 
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void searchWithCitySelectedFromListPositiveTest() {
         search.enterCity("ri")
                 .selectCityFromSuggestions("Rishon LeZion")
@@ -81,7 +81,8 @@ public class SearchTests extends TestBase {
     }
 
 
-    @Test(dataProvider = "searchData",dataProviderClass = SearchDataProvider.class, groups = {"regr"})
+    @Test(dataProvider = "searchData",dataProviderClass = SearchDataProvider.class,
+            groups = {"regr"})
     public void searchWithCsvDataPositiveTest(String city, int fromDays, int toDays) {
         search.enterCity(city)
                 .clickDatesField()
@@ -92,7 +93,7 @@ public class SearchTests extends TestBase {
         Assert.assertTrue(search.isSearchResultPresent());
     }
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void brokenLinksOnSearchPageTest() {
         List<String> urls = search.getLinkUrls();
         Assert.assertFalse(urls.isEmpty(), "No links found on the page");
@@ -100,7 +101,7 @@ public class SearchTests extends TestBase {
         Assert.assertTrue(broken.isEmpty(), "Broken links: " + broken);
     }
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void brokenImagesOnSearchResultsTest() {
         searchDefaultAndShowResults();
         List<String> broken = search.getBrokenImageUrls();
@@ -195,7 +196,7 @@ public class SearchTests extends TestBase {
 
     // ==================== SEARCH RESULTS ====================
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void rowsPerPagePositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
@@ -217,7 +218,7 @@ public class SearchTests extends TestBase {
     }
 
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void changeRowsPerPagePositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
@@ -251,15 +252,12 @@ public class SearchTests extends TestBase {
 
         search.selectRowsPerPage("10");
         int carsFor10 = search.getCarsCountInContainer();
-        System.out.println("Rows per page: 10, actual cars: " + carsFor10);
 
         search.selectRowsPerPage("20");
         int carsFor20 = search.getCarsCountInContainer();
-        System.out.println("Rows per page: 20, actual cars: " + carsFor20);
 
         search.selectRowsPerPage("50");
         int carsFor50 = search.getCarsCountInContainer();
-        System.out.println("Rows per page: 50, actual cars: " + carsFor50);
 
         getSoftAssert().assertTrue(carsFor10 <= 10);
         getSoftAssert().assertTrue(carsFor20 <= 20);
@@ -349,7 +347,7 @@ public class SearchTests extends TestBase {
 
     // ==================== CAR DETAILS ====================
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void selectCarFromSearchResultsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
@@ -364,7 +362,7 @@ public class SearchTests extends TestBase {
     }
 
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void displayCarDetailsPositiveTest() {
         search.enterCity("Tel Aviv")
                 .clickDatesField()
