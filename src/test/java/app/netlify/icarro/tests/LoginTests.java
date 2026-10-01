@@ -2,10 +2,10 @@ package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.model.LoginData;
+import app.netlify.icarro.pages.HeaderPage;
 import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.LoginPage;
 import app.netlify.icarro.utils.LoginDataProvider;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -26,27 +26,29 @@ public class LoginTests extends TestBase {
     }
 
 
-    @Test
-    public void loginWithValidCredentialsPositiveTest() {
+    @Test(
+            groups = {"regr"},
+            dataProvider = "validLoginData",
+            dataProviderClass = LoginDataProvider.class
+    )
+    public void loginWithValidCredentialsPositiveTest(LoginData data) {
 
-        login.fillLoginForm(
-                        "oksana.icarro.test@gmail.com",
-                        "Aa123456!")
-                .clickSubmitButton();
+        login.login(data);
 
         getSoftAssert().assertEquals(
                 login.getModalTitleText(),
-                "You are logged in success"
+                "You are logged in success",
+                "Successful login message is incorrect"
         );
 
         login.clickOkButton();
 
-        login.pause(1000);
+        HeaderPage header =
+                new HomePage(driver).getHeaderPage();
 
-        Assert.assertTrue(
-                login.isElementPresent(
-                        By.xpath("//*[normalize-space(.)='Log out']")
-                )
+        getSoftAssert().assertTrue(
+                header.isLogOutDisplayed(),
+                "Log out is not displayed after successful login"
         );
     }
 
@@ -57,66 +59,41 @@ public class LoginTests extends TestBase {
         login.goRegistrationFormFromLoginPage();
 
         Assert.assertTrue(
-                login.isPageTitleCorrect("Registration")
+                login.isPageTitleCorrect("Registration"),
+                "Registration page is not opened"
         );
     }
 
+
     @Test(
+            groups = {"regr"},
             dataProvider = "invalidLoginData",
             dataProviderClass = LoginDataProvider.class
     )
-    public void loginWithInvalidEmailNegativeTest(LoginData data) {
+    public void loginWithInvalidCredentialsNegativeTest(LoginData data) {
 
-        login.fillLoginFormWithData(data)
-                .clickSubmitButton();
+        login.login(data);
 
         getSoftAssert().assertEquals(
                 login.getModalTitleText(),
-                "Login failed"
+                "Login failed",
+                "Login failed message is incorrect"
         );
-
-        login.clickOkButton();
     }
 
 
-    @Test
-    public void loginWithEmptyEmailNegativeTest() {
+    @Test(
+            groups = {"regr"},
+            dataProvider = "emptyLoginData",
+            dataProviderClass = LoginDataProvider.class
+    )
+    public void loginWithEmptyFieldsNegativeTest(LoginData data) {
 
-        login.login(
-                "",
-                "Aa123456!"
-        );
+        login.fillLoginFormWithData(data);
 
         Assert.assertFalse(
-                login.isSubmitEnable()
-        );
-    }
-
-
-    @Test
-    public void loginWithEmptyPasswordNegativeTest() {
-
-        login.login(
-                "oksana.icarro.test@gmail.com",
-                ""
-        );
-
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/login")
-        );
-    }
-
-
-    @Test
-    public void loginWithEmptyFieldsNegativeTest() {
-
-        login.login(
-                "",
-                ""
-        );
-
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/login")
+                login.isSubmitEnable(),
+                "Submit button is enabled for empty required field"
         );
     }
 }
