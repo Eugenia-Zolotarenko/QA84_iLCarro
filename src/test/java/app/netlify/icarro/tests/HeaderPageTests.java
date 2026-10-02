@@ -38,7 +38,6 @@ public class HeaderPageTests extends TestBase {
         header = new HomePage(driver).getHeaderPage();
     }
 
-
     @Test(groups = {"regr", "positive"})
     public void verifyHeaderLogoPositiveTest() {
 
@@ -67,7 +66,6 @@ public class HeaderPageTests extends TestBase {
                 "Header logo src is empty"
         );
     }
-
 
     @Test(groups = {"regr", "positive"})
     public void verifyHeaderMenuPositiveTest() {
@@ -101,7 +99,6 @@ public class HeaderPageTests extends TestBase {
         );
     }
 
-
     @Test(
             groups = {"regr", "positive"},
             dataProvider = "headerMenuData",
@@ -129,7 +126,6 @@ public class HeaderPageTests extends TestBase {
                         + data.getText()
         );
     }
-
 
     @Test(
             groups = {"regr", "positive"},
@@ -178,6 +174,25 @@ public class HeaderPageTests extends TestBase {
                         "text-decoration"
                 );
 
+        System.out.println(
+                "Menu item: " + data.getText()
+        );
+
+        System.out.println(
+                "Color before: " + colorBefore
+                        + " | Color after: " + colorAfter
+        );
+
+        System.out.println(
+                "Background before: " + backgroundBefore
+                        + " | Background after: " + backgroundAfter
+        );
+
+        System.out.println(
+                "Decoration before: " + decorationBefore
+                        + " | Decoration after: " + decorationAfter
+        );
+
         boolean hoverChanged =
                 !colorBefore.equals(colorAfter)
                         || !backgroundBefore.equals(backgroundAfter)
@@ -189,7 +204,6 @@ public class HeaderPageTests extends TestBase {
                         + data.getText()
         );
     }
-
 
     @Test(groups = {"regr", "positive"})
     public void verifyHeaderDisplayWithBodyWidthLessThan785PositiveTest() {
@@ -212,7 +226,6 @@ public class HeaderPageTests extends TestBase {
                 "Hamburger button is not displayed"
         );
     }
-
 
     @Test(groups = {"regr", "positive"})
     public void verifyHeaderMenuWithBodyWidthLessThan785PositiveTest() {
@@ -252,7 +265,6 @@ public class HeaderPageTests extends TestBase {
         );
     }
 
-
     @Test(
             groups = {"regr", "positive"},
             dataProvider = "headerMenuData",
@@ -289,6 +301,111 @@ public class HeaderPageTests extends TestBase {
         );
     }
 
+    @Test(
+            groups = {"regr", "positive"},
+            dataProvider = "headerMenuData",
+            dataProviderClass = MenuDataProvider.class
+    )
+    public void verifyHeaderMenuHoverWithBodyWidthLessThan785PositiveTest(
+            MenuItemData data) {
+
+        header.setWindowWidthTo(780);
+        header.pause(1000);
+
+        getSoftAssert().assertTrue(
+                header.isHamburgerButtonDisplayed(),
+                "Hamburger button is not displayed"
+        );
+
+        getSoftAssert().assertTrue(
+                header.isHamburgerButtonEnabled(),
+                "Hamburger button is not enabled"
+        );
+
+        header.clickHamburgerButton();
+        header.pause(1000);
+
+        getSoftAssert().assertTrue(
+                header.isMenuItemDisplayed(data.getText()),
+                data.getText()
+                        + " is not displayed in mobile Header"
+        );
+
+        getSoftAssert().assertTrue(
+                header.isMenuItemEnabled(data.getText()),
+                data.getText()
+                        + " is not enabled in mobile Header"
+        );
+
+        String colorBefore =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "color"
+                );
+
+        String backgroundBefore =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "background-color"
+                );
+
+        String decorationBefore =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "text-decoration"
+                );
+
+        header.hoverMenuItem(data.getText());
+        header.pause(500);
+
+        String colorAfter =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "color"
+                );
+
+        String backgroundAfter =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "background-color"
+                );
+
+        String decorationAfter =
+                header.getMenuItemCssValue(
+                        data.getText(),
+                        "text-decoration"
+                );
+
+        System.out.println(
+                "Mobile menu item: " + data.getText()
+        );
+
+        System.out.println(
+                "Color before: " + colorBefore
+                        + " | Color after: " + colorAfter
+        );
+
+        System.out.println(
+                "Background before: " + backgroundBefore
+                        + " | Background after: " + backgroundAfter
+        );
+
+        System.out.println(
+                "Decoration before: " + decorationBefore
+                        + " | Decoration after: " + decorationAfter
+        );
+
+        boolean hoverChanged =
+                !colorBefore.equals(colorAfter)
+                        || !backgroundBefore.equals(backgroundAfter)
+                        || !decorationBefore.equals(decorationAfter);
+
+        Assert.assertTrue(
+                hoverChanged,
+                "Hover style did not change for mobile Header item: "
+                        + data.getText()
+        );
+    }
 
     @Test(groups = {"regr", "positive"})
     public void verifyHeaderMenuAfterLoginWithBodyWidthLessThan785PositiveTest() {
@@ -319,7 +436,6 @@ public class HeaderPageTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "negative"})
     public void verifyBrokenLinksInHeaderNegativeTest() {
 
@@ -340,7 +456,6 @@ public class HeaderPageTests extends TestBase {
             }
         }
     }
-
 
     @Test(groups = {"regr", "negative"})
     public void verifyBrokenImagesInHeaderNegativeTest() {

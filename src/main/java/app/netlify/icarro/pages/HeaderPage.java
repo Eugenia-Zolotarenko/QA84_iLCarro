@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,6 @@ public class HeaderPage extends BasePage {
         super(driver);
     }
 
-
     public boolean isHeaderDisplayed() {
 
         return isElementPresent(header);
@@ -84,7 +84,6 @@ public class HeaderPage extends BasePage {
                 .getAttribute("src");
     }
 
-
     public List<String> getHeaderMenuTexts() {
 
         List<WebElement> elements =
@@ -98,14 +97,13 @@ public class HeaderPage extends BasePage {
             if (element.isDisplayed()) {
 
                 menuTexts.add(
-                        element.getText()
+                        element.getText().trim()
                 );
             }
         }
 
         return menuTexts;
     }
-
 
     private WebElement findMenuItemByText(String text) {
 
@@ -115,7 +113,9 @@ public class HeaderPage extends BasePage {
         for (WebElement menuItem : menuItems) {
 
             if (menuItem.isDisplayed()
-                    && menuItem.getText().trim().equals(text)) {
+                    && menuItem.getText()
+                    .trim()
+                    .equals(text.trim())) {
 
                 return menuItem;
             }
@@ -126,20 +126,17 @@ public class HeaderPage extends BasePage {
         );
     }
 
-
     public boolean isMenuItemDisplayed(String text) {
 
         return findMenuItemByText(text)
                 .isDisplayed();
     }
 
-
     public boolean isMenuItemEnabled(String text) {
 
         return findMenuItemByText(text)
                 .isEnabled();
     }
-
 
     public HeaderPage clickMenuItem(String text) {
 
@@ -151,29 +148,46 @@ public class HeaderPage extends BasePage {
         return this;
     }
 
-
     public HeaderPage hoverMenuItem(String text) {
 
         WebElement menuItem =
                 findMenuItemByText(text);
 
+        js.executeScript(
+                "arguments[0].scrollIntoView({block:'center'});",
+                menuItem
+        );
+
         actions
                 .moveToElement(menuItem)
+                .pause(Duration.ofMillis(700))
                 .perform();
 
         return this;
     }
-
 
     public String getMenuItemCssValue(
             String text,
             String cssProperty
     ) {
 
-        return findMenuItemByText(text)
-                .getCssValue(cssProperty);
-    }
+        WebElement menuItem =
+                findMenuItemByText(text);
 
+        Object value =
+                js.executeScript(
+                        "return window.getComputedStyle(arguments[0])" +
+                                ".getPropertyValue(arguments[1]);",
+                        menuItem,
+                        cssProperty
+                );
+
+        if (value == null) {
+            return "";
+        }
+
+        return value.toString().trim();
+    }
 
     public boolean isMobileHeaderDisplayed() {
 
@@ -230,6 +244,7 @@ public class HeaderPage extends BasePage {
     }
 
 
+
     public List<WebElement> getHeaderLinks() {
 
         return driver.findElements(headerLinks);
@@ -243,7 +258,8 @@ public class HeaderPage extends BasePage {
 
         Boolean loaded =
                 (Boolean) js.executeScript(
-                        "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                        "return arguments[0].complete " +
+                                "&& arguments[0].naturalWidth > 0;",
                         image
                 );
 
@@ -258,7 +274,8 @@ public class HeaderPage extends BasePage {
 
         Boolean loaded =
                 (Boolean) js.executeScript(
-                        "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                        "return arguments[0].complete " +
+                                "&& arguments[0].naturalWidth > 0;",
                         image
                 );
 

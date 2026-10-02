@@ -22,7 +22,8 @@ public class FooterPageTests extends TestBase {
 
         super.setUp(method, p);
 
-        footer = new HomePage(driver).getFooterPage();
+        footer = new HomePage(driver)
+                .getFooterPage();
     }
 
 

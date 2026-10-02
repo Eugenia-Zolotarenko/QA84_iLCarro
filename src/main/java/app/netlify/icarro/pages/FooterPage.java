@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +103,6 @@ public class FooterPage extends BasePage {
         return isElementPresent(footer);
     }
 
-
     public boolean isFooterLogoDisplayed() {
 
         return isElementPresent(footerLogoImage);
@@ -184,7 +184,7 @@ public class FooterPage extends BasePage {
             if (element.isDisplayed()) {
 
                 menuTexts.add(
-                        element.getText()
+                        element.getText().trim()
                 );
             }
         }
@@ -201,7 +201,9 @@ public class FooterPage extends BasePage {
         for (WebElement menuItem : menuItems) {
 
             if (menuItem.isDisplayed()
-                    && menuItem.getText().trim().equals(text)) {
+                    && menuItem.getText()
+                    .trim()
+                    .equals(text.trim())) {
 
                 return menuItem;
             }
@@ -211,6 +213,7 @@ public class FooterPage extends BasePage {
                 "Footer menu item was not found: " + text
         );
     }
+
 
 
     public boolean isMenuItemDisplayed(String text) {
@@ -237,14 +240,19 @@ public class FooterPage extends BasePage {
         return this;
     }
 
-
     public FooterPage hoverMenuItem(String text) {
 
         WebElement menuItem =
                 findMenuItemByText(text);
 
+        js.executeScript(
+                "arguments[0].scrollIntoView({block:'center'});",
+                menuItem
+        );
+
         actions
                 .moveToElement(menuItem)
+                .pause(Duration.ofMillis(700))
                 .perform();
 
         return this;
@@ -256,8 +264,24 @@ public class FooterPage extends BasePage {
             String cssProperty
     ) {
 
-        return findMenuItemByText(text)
-                .getCssValue(cssProperty);
+        WebElement menuItem =
+                findMenuItemByText(text);
+
+        Object value =
+                js.executeScript(
+                        "return window.getComputedStyle(arguments[0])" +
+                                ".getPropertyValue(arguments[1]);",
+                        menuItem,
+                        cssProperty
+                );
+
+        if (value == null) {
+            return "";
+        }
+
+        return value
+                .toString()
+                .trim();
     }
 
 
@@ -280,7 +304,6 @@ public class FooterPage extends BasePage {
                 .size() == 10;
     }
 
-
     public boolean isContactInformationDisplayed() {
 
         return isElementPresent(contactInformation);
@@ -301,7 +324,8 @@ public class FooterPage extends BasePage {
 
     public List<WebElement> getFooterLinks() {
 
-        return driver.findElements(footerLinks);
+        return driver
+                .findElements(footerLinks);
     }
 
 
@@ -314,11 +338,13 @@ public class FooterPage extends BasePage {
 
             Boolean loaded =
                     (Boolean) js.executeScript(
-                            "return arguments[0].complete && arguments[0].naturalWidth > 0;",
+                            "return arguments[0].complete " +
+                                    "&& arguments[0].naturalWidth > 0;",
                             image
                     );
 
             if (!Boolean.TRUE.equals(loaded)) {
+
                 return false;
             }
         }
