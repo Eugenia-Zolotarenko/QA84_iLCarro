@@ -22,20 +22,22 @@ public class LoginTests extends TestBase {
 
         super.setUp(method, p);
 
-        login = new HomePage(driver).getLoginPage();
+        login = new HomePage(driver)
+                .getLoginPage();
     }
 
 
     @Test(
-            groups = {"regr"},
+            groups = {"regr", "positive"},
             dataProvider = "validLoginData",
             dataProviderClass = LoginDataProvider.class
     )
-    public void loginWithValidCredentialsPositiveTest(LoginData data) {
+    public void loginWithValidCredentialsPositiveTest(
+            LoginData data) {
 
         login.login(data);
 
-        getSoftAssert().assertEquals(
+        Assert.assertEquals(
                 login.getModalTitleText(),
                 "You are logged in success",
                 "Successful login message is incorrect"
@@ -44,16 +46,17 @@ public class LoginTests extends TestBase {
         login.clickOkButton();
 
         HeaderPage header =
-                new HomePage(driver).getHeaderPage();
+                new HomePage(driver)
+                        .getHeaderPage();
 
-        getSoftAssert().assertTrue(
+        Assert.assertTrue(
                 header.isLogOutDisplayed(),
                 "Log out is not displayed after successful login"
         );
     }
 
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "positive"})
     public void goRegistrationFormFromLoginPagePositiveTest() {
 
         login.goRegistrationFormFromLoginPage();
@@ -66,15 +69,16 @@ public class LoginTests extends TestBase {
 
 
     @Test(
-            groups = {"regr"},
+            groups = {"regr", "negative"},
             dataProvider = "invalidLoginData",
             dataProviderClass = LoginDataProvider.class
     )
-    public void loginWithInvalidCredentialsNegativeTest(LoginData data) {
+    public void loginWithInvalidCredentialsNegativeTest(
+            LoginData data) {
 
         login.login(data);
 
-        getSoftAssert().assertEquals(
+        Assert.assertEquals(
                 login.getModalTitleText(),
                 "Login failed",
                 "Login failed message is incorrect"
@@ -83,11 +87,12 @@ public class LoginTests extends TestBase {
 
 
     @Test(
-            groups = {"regr"},
+            groups = {"regr", "negative"},
             dataProvider = "emptyLoginData",
             dataProviderClass = LoginDataProvider.class
     )
-    public void loginWithEmptyFieldsNegativeTest(LoginData data) {
+    public void loginWithEmptyFieldsNegativeTest(
+            LoginData data) {
 
         login.fillLoginFormWithData(data);
 
