@@ -1,54 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="app.netlify.icarro.tests.HomePageTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-09-29T07:32:35.158Z" hostname="AIT-PC" time="9.976">
+<testsuite name="app.netlify.icarro.tests.HomePageTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-09-21T08:34:01.277Z" hostname="MY-COMP11" time="63.48">
   <properties/>
-  <testcase name="isHomePageDisplayedPositiveTest" classname="app.netlify.icarro.tests.HomePageTests" time="0.052"/>
-  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.HomePageTests" time="1.769"/>
-  <testcase name="loginLinkIsVisiblePositiveTest" classname="app.netlify.icarro.tests.HomePageTests" time="0.24"/>
-  <system-out><![CDATA[09:32:35.638 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:35.715 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:32:38.230 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+  <testcase name="isHomePageDisplayedPositiveTest" classname="app.netlify.icarro.tests.HomePageTests" time="0.09"/>
+  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.HomePageTests" time="1.105"/>
+  <testcase name="loginLinkIsVisiblePositiveTest" classname="app.netlify.icarro.tests.HomePageTests" time="0.094"/>
+  <system-out><![CDATA[10:34:02.395 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:34:02.507 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\asus\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:34:27.955 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
-09:32:38.231 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<isHomePageDisplayedPositiveTest>>> [Browser: CHROME] with data:
+10:34:27.957 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<isHomePageDisplayedPositiveTest>>> [Browser: FIREFOX] with data:
 	 []
-09:32:38.325 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:32:38.325 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:32:38.326 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+10:34:28.082 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:34:28.084 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:34:28.084 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
-09:32:38.812 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:38.888 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:32:40.788 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+10:34:30.703 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:34:30.722 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\asus\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:34:49.498 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
-09:32:40.789 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<isPageTitleCorrectPositiveTest>>> [Browser: CHROME] with data:
+10:34:49.501 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<isPageTitleCorrectPositiveTest>>> [Browser: FIREFOX] with data:
 	 []
-09:32:42.564 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:32:42.565 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:32:42.565 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+10:34:50.608 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:34:50.608 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:34:50.608 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
-09:32:43.042 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:43.111 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:32:44.892 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+10:34:52.365 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:34:52.381 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\asus\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:35:04.659 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
-09:32:44.893 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<loginLinkIsVisiblePositiveTest>>> [Browser: CHROME] with data:
+10:35:04.659 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<loginLinkIsVisiblePositiveTest>>> [Browser: FIREFOX] with data:
 	 []
-09:32:45.136 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:32:45.136 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:32:45.136 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+10:35:04.761 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:35:04.761 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:35:04.761 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
 ]]></system-out>
-  <system-err><![CDATA[сент. 29, 2026 9:32:37 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:32:37 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:32:40 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:32:40 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:32:44 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:32:44 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-]]></system-err>
+  <system-err><![CDATA[]]></system-err>
 </testsuite>

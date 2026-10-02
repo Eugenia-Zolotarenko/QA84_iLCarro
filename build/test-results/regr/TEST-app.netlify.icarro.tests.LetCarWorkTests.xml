@@ -1,150 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="app.netlify.icarro.tests.LetCarWorkTests" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-09-29T07:32:45.503Z" hostname="AIT-PC" time="55.652">
+<testsuite name="app.netlify.icarro.tests.LetCarWorkTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-09-21T08:35:06.258Z" hostname="MY-COMP11" time="10.443">
   <properties/>
-  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.LetCarWorkTests" time="1.04"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[0](manufacture, Toyota, Make)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="3.18"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[1](model, Corolla, Model)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="3.261"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[2](year, 2020, Year)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="3.553"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[3](fuel, petrol, Fuel)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="3.747"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[4](seats, 5, Seats)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="3.204"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[5](carClass, Economy, Car class)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="3.098"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[6](serialNumber, QA12345, Car registration number)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="6.165"/>
-  <testcase name="requiredFieldBlocksSubmitAndRecovers[7](pricePerDay, 50, Price)" classname="app.netlify.icarro.tests.LetCarWorkTests" time="5.887"/>
-  <system-out><![CDATA[09:32:45.519 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:45.587 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:32:47.255 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+  <testcase name="isPageTitleCorrectPositiveTest" classname="app.netlify.icarro.tests.LetCarWorkTests" time="1.053"/>
+  <system-out><![CDATA[10:35:06.292 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+10:35:06.317 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\asus\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+10:35:15.501 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
-09:32:47.255 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<isPageTitleCorrectPositiveTest>>> [Browser: CHROME] with data:
+10:35:15.503 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<isPageTitleCorrectPositiveTest>>> [Browser: FIREFOX] with data:
 	 []
-09:32:48.456 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:32:48.456 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:32:48.457 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:32:48.900 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:48.961 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:32:50.531 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:32:50.531 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [manufacture, Toyota, Make]
-09:32:53.795 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:32:53.796 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:32:53.796 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:32:54.160 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:54.211 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:32:55.762 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:32:55.763 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [model, Corolla, Model]
-09:32:59.085 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:32:59.085 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:32:59.085 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:32:59.458 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:32:59.522 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:33:01.493 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:01.493 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [year, 2020, Year]
-09:33:05.187 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:33:05.187 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:33:05.187 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:05.437 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:33:05.507 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:33:07.335 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:07.335 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [fuel, petrol, Fuel]
-09:33:11.387 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:33:11.387 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:33:11.387 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:12.334 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:33:12.406 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:33:14.055 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:14.061 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [seats, 5, Seats]
-09:33:17.514 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:33:17.514 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:33:17.514 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:17.849 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:33:17.905 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:33:20.021 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:20.022 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [carClass, Economy, Car class]
-09:33:23.331 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:33:23.331 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:33:23.331 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:23.683 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:33:23.737 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:33:25.363 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:25.363 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [serialNumber, QA12345, Car registration number]
-09:33:31.616 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:33:31.616 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:33:31.616 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:32.560 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 153.0.8010.52 (resolved driver for Chrome 153)
-09:33:32.643 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500308\.cache\selenium\chromedriver\win64\153.0.8010.52\chromedriver.exe
-09:33:35.116 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
-*****************************************************
-09:33:35.117 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
---START test <<<requiredFieldBlocksSubmitAndRecovers>>> [Browser: CHROME] with data:
-	 [pricePerDay, 50, Price]
-09:33:41.157 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
-09:33:41.157 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
-09:33:41.157 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+10:35:16.704 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+10:35:16.705 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+10:35:16.705 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
 *****************************************************
 ]]></system-out>
-  <system-err><![CDATA[сент. 29, 2026 9:32:46 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:32:46 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:32:49 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:32:49 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:32:55 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:32:55 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:33:00 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:33:00 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:33:06 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:33:06 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:33:13 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:33:13 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:33:18 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:33:18 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:33:24 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:33:24 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-сент. 29, 2026 9:33:34 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 153
-сент. 29, 2026 9:33:34 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
-WARNING: Unable to find version of CDP to use for 153.0.8010.54. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.40.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-]]></system-err>
+  <system-err><![CDATA[]]></system-err>
 </testsuite>
