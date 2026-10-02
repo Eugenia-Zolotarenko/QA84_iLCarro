@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.netlify.icarro.tests.SearchTests" tests="10" skipped="0" failures="2" errors="0" timestamp="2026-10-02T05:51:46.422Z" hostname="AIT-PC" time="143.709">
+  <properties/>
+  <testcase name="brokenImagesOnSearchResultsTest" classname="app.netlify.icarro.tests.SearchTests" time="8.93"/>
+  <testcase name="brokenLinksOnSearchPageTest" classname="app.netlify.icarro.tests.SearchTests" time="1.222"/>
+  <testcase name="changeRowsPerPagePositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="4.148"/>
+  <testcase name="citySuggestionsPositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="4.509"/>
+  <testcase name="displayCarDetailsPositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="14.107">
+    <failure message="java.lang.AssertionError: expected [true] but found [false]" type="java.lang.AssertionError">java.lang.AssertionError: expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:111)
+	at org.testng.Assert.failNotEquals(Assert.java:1590)
+	at org.testng.Assert.assertTrue(Assert.java:57)
+	at org.testng.Assert.assertTrue(Assert.java:67)
+	at app.netlify.icarro.tests.SearchTests.displayCarDetailsPositiveTest(SearchTests.java:375)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:687)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:741)
+	at org.testng.TestRunner.run(TestRunner.java:616)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
+	at org.testng.TestNG.runSuites(TestNG.java:1112)
+	at org.testng.TestNG.run(TestNG.java:1079)
+	at org.gradle.api.internal.tasks.testing.testng.TestNGTestRunner.runTests(TestNGTestRunner.java:131)
+	at org.gradle.api.internal.tasks.testing.testng.TestNGTestDefinitionProcessor.stop(TestNGTestDefinitionProcessor.java:110)
+	at org.gradle.api.internal.tasks.testing.SuiteTestDefinitionProcessor.stop(SuiteTestDefinitionProcessor.java:63)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.gradle.internal.dispatch.MethodInvocation.invokeOn(MethodInvocation.java:77)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:28)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:19)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:88)
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:195)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:126)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <testcase name="displaySearchResultsPositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="4.559"/>
+  <testcase name="rowsPerPagePositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="3.943"/>
+  <testcase name="searchWithCitySelectedFromListPositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="3.282"/>
+  <testcase name="searchWithManuallyEnteredCityAndDatesPositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="4.281"/>
+  <testcase name="selectCarFromSearchResultsPositiveTest" classname="app.netlify.icarro.tests.SearchTests" time="4.453">
+    <failure message="java.lang.AssertionError: expected [false] but found [true]" type="java.lang.AssertionError">java.lang.AssertionError: expected [false] but found [true]
+	at org.testng.Assert.fail(Assert.java:111)
+	at org.testng.Assert.failNotEquals(Assert.java:1590)
+	at org.testng.Assert.assertFalse(Assert.java:79)
+	at org.testng.Assert.assertFalse(Assert.java:89)
+	at app.netlify.icarro.tests.SearchTests.selectCarFromSearchResultsPositiveTest(SearchTests.java:361)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:687)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:741)
+	at org.testng.TestRunner.run(TestRunner.java:616)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
+	at org.testng.TestNG.runSuites(TestNG.java:1112)
+	at org.testng.TestNG.run(TestNG.java:1079)
+	at org.gradle.api.internal.tasks.testing.testng.TestNGTestRunner.runTests(TestNGTestRunner.java:131)
+	at org.gradle.api.internal.tasks.testing.testng.TestNGTestDefinitionProcessor.stop(TestNGTestDefinitionProcessor.java:110)
+	at org.gradle.api.internal.tasks.testing.SuiteTestDefinitionProcessor.stop(SuiteTestDefinitionProcessor.java:63)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.gradle.internal.dispatch.MethodInvocation.invokeOn(MethodInvocation.java:77)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:28)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:19)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:88)
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:195)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:126)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <system-out><![CDATA[07:51:46.438 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:51:46.507 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:51:56.441 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:51:56.442 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<brokenImagesOnSearchResultsTest>>> [Browser: FIREFOX] with data:
+	 []
+07:52:05.401 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:52:05.402 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:52:05.402 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:06.672 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:52:06.723 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:52:14.198 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:14.198 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<brokenLinksOnSearchPageTest>>> [Browser: FIREFOX] with data:
+	 []
+07:52:15.423 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:52:15.426 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:52:15.427 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:16.604 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:52:16.658 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:52:24.829 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:24.829 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<changeRowsPerPagePositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:52:28.980 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:52:28.980 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:52:28.980 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:30.209 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:52:30.277 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:52:37.846 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:37.847 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<citySuggestionsPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:52:42.363 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:52:42.363 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:52:42.363 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:43.548 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:52:43.603 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:52:51.939 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:52:51.941 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<displayCarDetailsPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:53:06.150 [Test worker] INFO  app.netlify.icarro.core.TestBase -- test FAILED: displayCarDetailsPositiveTest. 
+		 Failed at method -> org.testng.Assert.fail 
+		 Screenshot -> C:\JavaQAProjects\QA84_iLCarro\screenshots\screen-1790920386133.png 
+07:53:06.153 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:53:06.154 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:07.224 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:53:07.279 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:53:14.731 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:14.731 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<displaySearchResultsPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:53:19.295 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:53:19.295 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:53:19.296 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:20.805 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:53:20.870 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:53:27.597 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:27.598 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<rowsPerPagePositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:53:31.547 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:53:31.548 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:53:31.550 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:32.822 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:53:32.876 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:53:41.160 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:41.161 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<searchWithCitySelectedFromListPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:53:44.445 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:53:44.445 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:53:44.445 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:45.680 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:53:45.742 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:53:52.568 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:52.569 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<searchWithManuallyEnteredCityAndDatesPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:53:56.852 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:53:56.853 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:53:56.853 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:53:58.150 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:53:58.203 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:54:05.674 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:54:05.675 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<selectCarFromSearchResultsPositiveTest>>> [Browser: FIREFOX] with data:
+	 []
+07:54:10.244 [Test worker] INFO  app.netlify.icarro.core.TestBase -- test FAILED: selectCarFromSearchResultsPositiveTest. 
+		 Failed at method -> org.testng.Assert.fail 
+		 Screenshot -> C:\JavaQAProjects\QA84_iLCarro\screenshots\screen-1790920450241.png 
+07:54:10.244 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:54:10.245 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
