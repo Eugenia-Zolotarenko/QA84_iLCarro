@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class HomePageTests extends TestBase {
     HomePage home;
@@ -44,5 +45,18 @@ public class HomePageTests extends TestBase {
         Assert.assertTrue(home.isMobileHeaderPresent(),
                 "Mobile header is not displayed");
     }
+
+    @Test(groups = {"regr", "smoke"})
+    public void brokenLinksOnSearchPageTest() {
+        List<String> urls = home.getLinkUrls();
+        home.verifyBrokenLinks(urls);
+    }
+
+    @Test(groups = {"regr", "smoke"})
+    public void brokenImagesOnSearchResultsTest() {
+        List<String> broken = home.getBrokenImageUrls();
+        home.verifyBrokenImg(broken);
+    }
+
 }
 

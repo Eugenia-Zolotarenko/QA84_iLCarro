@@ -1,0 +1,28 @@
+{
+	"id": "1d844f51-9f42-40df-8825-7368ef2f7f0b",
+	"name": "QA84iLCarro",
+	"values": [
+		{
+			"key": "BaseURI",
+			"value": "https://ilcarro-backend.herokuapp.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "id",
+			"value": "d1f801d6-1d6e-4455-9b8e-9b2a690c9f07",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-09-26T17:45:46.470Z",
+	"_postman_exported_using": "Postman/12.29.5"
+}
