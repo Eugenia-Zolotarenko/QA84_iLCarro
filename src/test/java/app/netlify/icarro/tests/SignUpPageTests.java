@@ -2,6 +2,7 @@ package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.model.NewUserSignUp;
+import app.netlify.icarro.model.SignUpField;
 import app.netlify.icarro.pages.HomePage;
 import app.netlify.icarro.pages.SignUpPage;
 import app.netlify.icarro.utils.SignUpDataProvider;
@@ -11,6 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class SignUpPageTests extends TestBase {
@@ -81,6 +84,25 @@ public class SignUpPageTests extends TestBase {
                 "User should NOT be logged in"
         );
     }
+
+    @Test(
+            groups = {"regr", "smoke"},
+            description = "Registration form fields have the expected autocomplete attributes")
+    public void verifyRegistrationFormAutocompleteAttributesTest() {
+
+        Map<SignUpField, String> expected = new LinkedHashMap<>();
+        expected.put(SignUpField.FIRST_NAME, "name");
+        expected.put(SignUpField.LAST_NAME, "family-name");
+        expected.put(SignUpField.EMAIL, "email");
+        expected.put(SignUpField.PASSWORD, "new-password");
+
+        expected.forEach((field, value) ->
+                getSoftAssert().assertEquals(
+                        signUp.getAutocompleteAttribute(field),
+                        value,
+                        "Incorrect autocomplete value for field " + field));
+    }
+
 
     @Test(
             dataProvider = "signUpNegativeTestData",
