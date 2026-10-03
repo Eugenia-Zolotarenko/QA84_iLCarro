@@ -88,21 +88,22 @@ public class SignUpPage extends BasePage {
         }
     }
 
-//    public boolean isErrorMessageAbsent(SignUpField field) {
-//        return getWait(1).until(ExpectedConditions.invisibilityOfElementLocated(errorLocator(field)));
-//    }
 
     public boolean isMessageRegisteredPresent(String modalTitle, String modalMessage) {
         return isElementPresent(By.xpath("//h3[text()='" + modalTitle + "']"))
                 && isElementPresent(By.xpath("//p[text()='" + modalMessage + "']"));
     }
 
-//    public boolean isRegistrationFailedModalDisplayed() {
-//        return isElementPresent(By.xpath("//h3[text()='Registration failed']"));
-//    }
 
     public boolean isLogOutButtonPresent() {
         return isElementPresent(By.cssSelector("button.navigation-link.linklike"));
+    }
+
+    public String getAutocompleteAttribute(SignUpField field) {
+        By input = By.cssSelector("input[name='" + field.getInputName() + "']");
+        return getWait(5)
+                .until(ExpectedConditions.presenceOfElementLocated(input))
+                .getDomAttribute("autocomplete");
     }
 
     // ---------- Modal window ----------
