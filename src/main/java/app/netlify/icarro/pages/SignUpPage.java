@@ -81,7 +81,7 @@ public class SignUpPage extends BasePage {
 
     public boolean isErrorMessageDisplayed(SignUpField field) {
         try {
-            getWait(5).until(ExpectedConditions.visibilityOfElementLocated(errorLocator(field)));
+            getWait(3).until(ExpectedConditions.visibilityOfElementLocated(errorLocator(field)));
             return true;
         } catch (TimeoutException e) {
             return false;

@@ -146,5 +146,4 @@ public class SignUpPageTests extends TestBase {
         logger.info("-------------------------------------------------");
     }
 
-
 }

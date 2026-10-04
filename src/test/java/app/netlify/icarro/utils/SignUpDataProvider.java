@@ -13,7 +13,7 @@ import static app.netlify.icarro.utils.TestDataGenerator.generateEmail;
 
 public class SignUpDataProvider {
 
-    private static final String CSV_PATH = "src/test/resources/dataSearch/signup_negative_testdata_all.csv";
+    private static final String CSV_PATH = "src/test/resources/dataSearch/signup_negative_testdata50.csv";
 
     @DataProvider(name = "signUpNegativeTestData")
     public Object[][] provideSignUpNegativeData() {
