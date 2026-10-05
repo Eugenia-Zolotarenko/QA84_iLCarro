@@ -37,7 +37,7 @@ Sara,Barabu,sara'OR'1'='1@domain.com,Ss1a2r3a!,username,SQL injection in email l
 Sara,Barabu,sara.bar@domain'--.com,Ss1a2r3a!,username,SQL injection in email domain part
 Sara,Barabu,<script>alert(1)</script>@domain.com,Ss1a2r3a!,username,XSS payload in email local-part
 Sara,Barabu,sara{UNIQUE}.bar@<script>alert(1)</script>.com,Ss1a2r3a!,username,XSS payload in email domain part
-Sara,Barabu,null@domain.com,Ss1a2r3a!,username,Reserved word 'null' in email local-part
+Sara,Barabu,null@domain.com,Ss1a2r3a!,username,Reserved word 'null' in email local_part
 Sara,Barabu,sara{UNIQUE}.bar@email.com,,password,Empty password
 Sara,Barabu,sara{UNIQUE}.bar@email.com,Aa!456,password,Password too short : Password  must contain minimum 8 symbols instead of 6 characters.
 Sara,Barabu,sara{UNIQUE}.bar@email.com,Aa1!56юж,password,Invalid password -  contains non-Latin characters.

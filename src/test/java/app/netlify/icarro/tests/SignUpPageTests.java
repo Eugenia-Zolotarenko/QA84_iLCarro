@@ -69,7 +69,6 @@ public class SignUpPageTests extends TestBase {
         }
 
         signUp = new HomePage(driver).getSignUpPage();
-
         signUp.fillRegisterForm("Sara", "Barabu", existingEmail, "Ss1a2r3a!")
                 .acceptTerms()
                 .clickSubmitButton();
