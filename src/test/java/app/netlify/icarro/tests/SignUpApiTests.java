@@ -26,11 +26,11 @@ public class SignUpApiTests {
     private final SignUpApiClient signUpApi = new SignUpApiClient();
 
     @Test(
-            dataProvider = "signUpNegativeTestData",
+            dataProvider = "signUpControlCharsApiData",
             dataProviderClass = SignUpDataProvider.class,
             groups = {"regr", "backend"},
             description = "Sign up API: server rejects invalid data")
-    public void signUpBackendNegativeTest(NewUserSignUp testData) {
+    public void signUpBackendControlCharsTest(NewUserSignUp testData) {
 
         logger.info("-----------------------------^-----------------------------");
 
