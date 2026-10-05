@@ -40,8 +40,9 @@ public class CsvReader {
                 data.add(row);
             }
         } catch (IOException e) {
-            System.err.println("Error reading CSV file: " + filePath);
-            e.printStackTrace();
+//            System.err.println("Error reading CSV file: " + filePath);
+//            e.printStackTrace();
+            throw new UncheckedIOException("Error reading CSV file: " + filePath, e);
         }
         return data;
     }

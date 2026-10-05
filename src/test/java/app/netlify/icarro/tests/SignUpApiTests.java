@@ -90,8 +90,33 @@ public class SignUpApiTests {
 
     }
 
+//    private static String show(String value) {
+//        return value == null ? "<null>" : "\"" + value + "\" (len " + value.length() + ")";
+//    }
+
     private static String show(String value) {
-        return value == null ? "<null>" : "\"" + value + "\" (len " + value.length() + ")";
+        if (value == null) return "<null>";
+        String esc = escape(value);
+        String shown = esc.length() <= 80 ? esc : esc.substring(0, 80) + "...";
+        return "\"" + shown + "\" (len " + value.length() + ")";
+    }
+
+    private static String escape(String s) {
+        StringBuilder sb = new StringBuilder(s.length());
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case '\n' -> sb.append("\\n");
+                case '\r' -> sb.append("\\r");
+                case '\t' -> sb.append("\\t");
+                case '\0' -> sb.append("\\0");
+                case '\7' -> sb.append("\\a");
+                default -> {
+                    if (c < 32) sb.append(String.format("\\u%04x", (int) c));
+                    else sb.append(c);
+                }
+            }
+        }
+        return sb.toString();
     }
 
     private static String mask(String text) {
