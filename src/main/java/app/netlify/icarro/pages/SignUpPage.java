@@ -109,6 +109,7 @@ public class SignUpPage extends BasePage {
     // ---------- Modal window ----------
 
     public void clickModalWindowOkButton(By okButtonLocator) {
+
         WebElement okButton = getWait(3).until(
                 ExpectedConditions.elementToBeClickable(okButtonLocator));
         okButton.click();
