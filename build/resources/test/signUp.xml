@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="SignUp" verbose="1">
+    <test name="signUp">
+        <classes>
+            <class name="app.netlify.icarro.tests.SignUpPageTests"/>
+        </classes>
+    </test>
+</suite>

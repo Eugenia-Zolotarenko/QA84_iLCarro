@@ -1,0 +1,12 @@
+firstName,lastName,email,password,expectedField,testDescription
+Sa{LF}ra,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: LF control character inside
+Sa{TAB}ra,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: TAB control character inside
+Sa{NUL}ra,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: NUL control character inside
+Sa{BEL}ra,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: BEL control character inside
+Sara,Bara{LF}bu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: LF control character inside
+Sara,Bara{TAB}bu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: TAB control character inside
+Sara,Bara{NUL}bu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: NUL control character inside
+Sara,Barabu,sara{TAB}{UNIQUE}.bar@email.com,Ss1a2r3a!,username,Email: TAB control character in local part
+Sara,Barabu,sara{NUL}{UNIQUE}.bar@email.com,Ss1a2r3a!,username,Email: NUL control character in local part
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Pass{TAB}123!,password,Password: TAB control character inside
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Pass{NUL}123!,password,Password: NUL control character inside
