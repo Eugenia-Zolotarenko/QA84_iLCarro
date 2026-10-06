@@ -1,0 +1,789 @@
+{
+  "info": {
+    "_postman_id": "f821d6aa-10ea-40c3-a183-6a2a21bc7645",
+    "name": "iLcarro_SignUp_Postman_collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57879907",
+    "_collection_link": "https://go.postman.co/collection/57879907-f821d6aa-10ea-40c3-a183-6a2a21bc7645?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "SignUp",
+      "item": [
+        {
+          "name": "positive",
+          "item": [
+            {
+              "name": "SignUp[200]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "\n\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Response time is less than 2000ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(2000);\n});\n\npm.test(\"Status code name has string: OK\", function () {\n    pm.response.to.have.status(\"OK\");\n});\n\npm.test(\"Content-Type is JSON\", function () {\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n\npm.test(\"Response contains token\", function () {\n    const json = pm.response.json();\n    pm.expect(json.accessToken).to.be.a(\"string\").and.not.empty;\n    pm.environment.set(\"token\", json.accessToken);\n});"
+                    ]
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.environment.set(\"email\", `user_${Date.now()}@mail.com`);\npm.environment.set(\"password\", \"Manuel11234!\");"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"firstName\": \"Manuel\",\r\n  \"lastName\": \"Test\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "LoginSignUp(200)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Response contains token\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.accessToken).to.be.a(\"string\").and.not.empty;\r\n    pm.environment.set(\"token\", json.accessToken);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n   \"username\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "AuthorizedRequest(200)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n    pm.expect(pm.response.json()).to.be.an(\"object\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/my",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "my"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[200] invalid Authorization header",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Error body is correct\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.error).to.eql(\"Bad Request\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "abc.123456sv45311",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": ""
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative",
+          "item": [
+            {
+              "name": "SignUp[400] with existing in DB email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Duplicate user is rejected (status code is 400)\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"User already exists\");\r\n});\r\n\r\npm.test(\"No token in response\", function () {\r\n    pm.expect(pm.response.json()).to.not.have.property(\"accessToken\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with empty body",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Error body is correct\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.error).to.eql(\"Bad Request\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with empty Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Error body is correct\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.error).to.eql(\"Bad Request\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: less then 8 symbol",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Error body is correct\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.error).to.eql(\"Bad Request\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{$randomExampleEmail}}\",\r\n  \"password\": \"Manas1!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without number",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Error body is correct\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.error).to.eql(\"Bad Request\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{$randomEmail}}\",\r\n  \"password\": \"Manueas!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without uppercase",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"manueas1!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without lowercase",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"MANUEA1!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without special symbol",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n});\r\n\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Error body is correct\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.error).to.eql(\"Bad Request\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"Manueas11\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] empty email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must not be blank\");\r\n});\r\n\r\npm.test(\"Error message structure is correct\", function(){\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql({ \"username\": \"must not be blank\" });\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"\",\r\n  \"password\": \"{{password}}\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid email without @",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must be a well-formed email address\");\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must not be blank\");\r\n});\r\n\r\npm.test(\"Error message structure is correct\", function(){\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql({ \"username\": \"must not be blank\" });\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"l123gm.com\",\r\n  \"password\": \"{{password}}\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"No token in response\", function () {\r\n    pm.expect(pm.response.text()).to.not.include(\"accessToken\");\r\n});\r\n\r\npm.test(\"Server did not crash (no 5xx)\", function () {\r\n    pm.expect(pm.response.code).to.be.below(500);\r\n});\r\n\r\npm.test(\"Request is rejected with 4xx\", function () {\r\n    pm.expect(pm.response.code).to.be.within(400, 499);\r\n});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "negative2",
+          "item": [
+            {
+              "name": "SignUp[500]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 500\", function () {\r\n    pm.response.to.have.status(500);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Internal Server Error\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Server broken\");\r\n}\r\n);\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}\",\r\n  \"password\": \"{{password}}\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://4a582a22-4d5a-45c9-9345-a1ee15e0510d.mock.pstmn.io",
+                  "protocol": "https",
+                  "host": [
+                    "4a582a22-4d5a-45c9-9345-a1ee15e0510d",
+                    "mock",
+                    "pstmn",
+                    "io"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "SignUp[500]",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://4a582a22-4d5a-45c9-9345-a1ee15e0510d.mock.pstmn.io",
+                      "protocol": "https",
+                      "host": [
+                        "4a582a22-4d5a-45c9-9345-a1ee15e0510d",
+                        "mock",
+                        "pstmn",
+                        "io"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "body": "{\"error\": \"Server broken\"}"
+                }
+              ]
+            },
+            {
+              "name": "SignUp[400] with wrong field's name format",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must not be blank\");\r\n});\r\n\r\npm.test(\"Error message structure is correct\", function(){\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql({ \"username\": \"must not be blank\" });\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"first\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with wrong json format",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must not be blank\");\r\n});\r\n\r\npm.test(\"Error message structure is correct\", function(){\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql({ \"username\": \"must not be blank\" });\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"firstName: \"string\",\r\n  \"lastName\": \"string\"\r\n}\r\n\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
