@@ -55,11 +55,43 @@
         },
         {
           "name": "deleteCar200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Message is Car deleted successfully\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car deleted successfully\");\r\n});"
+                ]
+              }
+            }
+          ],
           "request": {
-            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/QA12346",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "cars",
+                "QA12346"
+              ]
             }
           },
           "response": []
@@ -533,11 +565,43 @@
         },
         {
           "name": "deleteCar400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error is Bad Request\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Message contains car not found\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"not found\");\r\n});"
+                ]
+              }
+            }
+          ],
           "request": {
-            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/QA12346",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "cars",
+                "QA12346"
+              ]
             }
           },
           "response": []
