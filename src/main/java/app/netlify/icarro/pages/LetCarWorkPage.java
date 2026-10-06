@@ -6,11 +6,16 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import app.netlify.icarro.model.Car;
 
+import java.util.List;
+
 public class LetCarWorkPage extends BasePage {
     public static final String REQUIRED_ERROR = "Required";
+    public static final String SEATS_MIN_ERROR = "seats must be greater than or equal to 1";
+    public static final String PRICE_MIN_ERROR = "pricePerDay must be greater than or equal to 1";
     private final By submit = By.cssSelector("button[type='submit']");
 
     public LetCarWorkPage(WebDriver driver) {
@@ -56,6 +61,37 @@ public class LetCarWorkPage extends BasePage {
                 .filter(WebElement::isDisplayed)
                 .map(WebElement::getText)
                 .findFirst().orElse("");
+    }
+
+    public boolean hasField(String name) {
+        return isElementPresent(By.name(name));
+    }
+
+    public boolean hasCityField() {
+        return isElementPresent(By.id("city"));
+    }
+
+    public boolean hasPhotoFileInput() {
+        return isElementPresent(By.cssSelector("input[type='file']"));
+    }
+
+    public String getFieldType(String name) {
+        return driver.findElement(By.name(name)).getAttribute("type");
+    }
+
+    public List<String> getOptions(String name) {
+        return new Select(driver.findElement(By.name(name))).getOptions().stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public String getSelectedOption(String name) {
+        return new Select(driver.findElement(By.name(name))).getFirstSelectedOption().getText();
+    }
+
+    public LetCarWorkPage selectByText(String name, String text) {
+        new Select(driver.findElement(By.name(name))).selectByVisibleText(text);
+        return this;
     }
 
     public boolean isSubmitEnabled() {
