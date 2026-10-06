@@ -32,8 +32,10 @@ public class HomePage extends BasePage {
         return isElementPresent(By.cssSelector("input"));
     }
     public void scrollToFooter() {
-        WebElement footer = driver.findElement(By.cssSelector("footer"));
-        scrollWithJS(footer);
+        WebElement link = driver.findElement(
+                By.xpath("//a[contains(translate(normalize-space(.), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms of use')]")
+        );
+        scrollWithJS(link);
     }
     public boolean isFooterPresent() {
         return isElementPresent(By.cssSelector("footer"));

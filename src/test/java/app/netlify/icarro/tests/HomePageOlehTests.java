@@ -351,4 +351,42 @@ public class HomePageOlehTests extends TestBase {
                 "Negative test: expected review cards count should not be accepted as valid"
         );
     }
+
+    // =========================================================
+    // TASK #14 - TERMS OF USE
+    // =========================================================
+
+    @Test(groups = {"smoke", "regr", "terms"})
+    public void termsOfUsePageTest() {
+
+        // 1. Scroll to footer
+        home.scrollToFooter();
+
+        // 2. Open Terms of Use
+        home.clickTermOfUse();
+
+        // 3. Verify Terms of Use page is opened
+        Assert.assertTrue(
+                home.isTermsOfUsePageOpened(),
+                "Terms of Use page is not opened"
+        );
+
+        // 4. Verify page heading
+        Assert.assertFalse(
+                home.getTermsOfUseHeading().isEmpty(),
+                "Terms of Use heading is empty"
+        );
+
+        // 5. Verify page content
+        Assert.assertTrue(
+                home.isTermsOfUseContentPresent(),
+                "Terms of Use content is not present"
+        );
+
+        // 6. Verify paragraphs
+        Assert.assertTrue(
+                home.isTermsOfUseParagraphPresent(),
+                "Terms of Use paragraphs are not present"
+        );
+    }
 }
