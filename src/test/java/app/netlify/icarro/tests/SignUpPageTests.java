@@ -33,7 +33,7 @@ public class SignUpPageTests extends TestBase {
     }
 
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void createAccountPositiveTest() {
         signUp.fillRegisterForm(
                         "Sara",
@@ -55,7 +55,7 @@ public class SignUpPageTests extends TestBase {
                 "User should be logged in");
     }
 
-    @Test(groups = {"regr"})
+    @Test(groups = {"regr", "smoke"})
     public void createAccountWithExistingEmailNegativeTest() {
         String existingEmail = "sara.barabu@example.com";
 
