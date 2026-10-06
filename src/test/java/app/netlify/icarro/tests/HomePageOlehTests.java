@@ -8,15 +8,16 @@ import org.testng.annotations.Test;
 
 public class HomePageOlehTests extends TestBase {
 
-    HomePage home;
+    private HomePage home;
 
     @BeforeMethod(alwaysRun = true)
     public void initHomePage() {
         home = new HomePage(driver);
     }
 
+    // =========================================================
     // HOME PAGE - POSITIVE TESTS
-
+    // =========================================================
 
     @Test(groups = {"smoke", "regr"})
     public void isPageTitleCorrectPositiveTest() {
@@ -45,7 +46,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"smoke", "regr"})
     public void testPageLinks() {
 
@@ -55,9 +55,9 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
+    // =========================================================
     // HEADER - POSITIVE TESTS
-
+    // =========================================================
 
     @Test(groups = {"smoke", "regr", "header", "min"})
     public void mobileHeaderIsVisiblePositiveTest() {
@@ -70,7 +70,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"smoke", "regr"})
     public void verifyHomePage() {
 
@@ -79,7 +78,6 @@ public class HomePageOlehTests extends TestBase {
                 "Home component is not present"
         );
     }
-
 
     @Test(groups = {"smoke", "regr", "header"})
     public void verifyLogo() {
@@ -90,7 +88,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"smoke", "regr"})
     public void verifyMainHeading() {
 
@@ -99,7 +96,6 @@ public class HomePageOlehTests extends TestBase {
                 "Main heading is not present"
         );
     }
-
 
     @Test(groups = {"smoke", "regr"})
     public void verifySearch() {
@@ -110,10 +106,9 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
-
+    // =========================================================
     // FOOTER - POSITIVE TESTS
-
+    // =========================================================
 
     @Test(groups = {"smoke", "regr", "footer"})
     public void verifyFooter() {
@@ -126,9 +121,9 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
+    // =========================================================
     // TERMS OF USE - POSITIVE TESTS
-
+    // =========================================================
 
     @Test(groups = {"smoke", "regr", "terms"})
     public void verifyTermOfUsePage() {
@@ -142,7 +137,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "terms"})
     public void verifyTermOfUseHeading() {
 
@@ -154,7 +148,6 @@ public class HomePageOlehTests extends TestBase {
                 "Terms of Use heading is empty"
         );
     }
-
 
     @Test(groups = {"regr", "terms"})
     public void verifyTermOfUseContent() {
@@ -173,10 +166,9 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
-
+    // =========================================================
     // REVIEWS - POSITIVE TESTS
-
+    // =========================================================
 
     @Test(groups = {"smoke", "regr", "reviews"})
     public void verifyReviews() {
@@ -213,7 +205,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewsHeading() {
 
@@ -225,7 +216,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewElements() {
 
@@ -236,7 +226,6 @@ public class HomePageOlehTests extends TestBase {
                 "Review elements are not present"
         );
     }
-
 
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewText() {
@@ -254,7 +243,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewerInformation() {
 
@@ -271,7 +259,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewImages() {
 
@@ -283,7 +270,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewsPosition() {
 
@@ -294,7 +280,6 @@ public class HomePageOlehTests extends TestBase {
                 "Reviews block is outside the page boundaries"
         );
     }
-
 
     @Test(groups = {"regr", "reviews"})
     public void verifyReviewsAfterScroll() {
@@ -314,8 +299,9 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
+    // =========================================================
     // NEVER MISTAKEN - POSITIVE TESTS
-
+    // =========================================================
 
     @Test(groups = {"smoke", "regr", "neverMistaken"})
     public void verifyNeverMistakenSection() {
@@ -333,7 +319,9 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
+    // =========================================================
     // NEGATIVE TESTS
+    // =========================================================
 
     @Test(groups = {"negative", "regr"})
     public void isPageTitleCorrectNegativeTest() {
@@ -344,7 +332,6 @@ public class HomePageOlehTests extends TestBase {
         );
     }
 
-
     @Test(groups = {"negative", "regr", "header"})
     public void mobileHeaderIsNotVisibleOnDesktopNegativeTest() {
 
@@ -352,10 +339,9 @@ public class HomePageOlehTests extends TestBase {
 
         Assert.assertFalse(
                 home.isMobileHeaderPresent(),
-                "Mobile header should not be displayed on desktop"
+                "Mobile header should not be displayed"
         );
     }
-
 
     @Test(groups = {"negative", "regr", "reviews"})
     public void reviewCardsCountNegativeTest() {
