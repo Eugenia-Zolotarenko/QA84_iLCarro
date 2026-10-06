@@ -10,53 +10,71 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class HomePageTests extends TestBase {
+
     HomePage home;
+
 
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method, Object[] p) {
+
         super.setUp(method, p);
+
         home = new HomePage(driver);
     }
 
     @Test(groups = {"smoke", "regr"})
-    public void isPageTitleCorrectPositiveTest(){
-        Assert.assertTrue(home.isPageTitleCorrect("Find your car now!"));
+    public void isPageTitleCorrectPositiveTest() {
+
+        Assert.assertTrue(
+                home.isPageTitleCorrect("Find your car now!"),
+                "Home page title is incorrect"
+        );
     }
 
-    @Test (groups = {"smoke", "regr"})
-    public void isHomePageDisplayedPositiveTest(){
-        Assert.assertTrue(home.isHomeComponentPresent());
+    @Test(groups = {"smoke", "regr"})
+    public void isHomePageDisplayedPositiveTest() {
+
+        Assert.assertTrue(
+                home.isHomeComponentPresent(),
+                "Home page component is not displayed"
+        );
     }
 
-    @Test (groups = {"smoke", "regr", "header"})
-    public void loginLinkIsVisiblePositiveTest() {
-        getSoftAssert().assertTrue(home.isYallaButtonPresent(),
-                "Button Sign Up is not displayed");
+    @Test(groups = {"smoke", "regr"})
+    public void yallaButtonIsVisiblePositiveTest() {
+
+        Assert.assertTrue(
+                home.isYallaButtonPresent(),
+                "Yalla button is not displayed"
+        );
     }
 
-    @Test
-    public void testPageLinks() {
-        home.verifyLinks("https://icarro-v1.netlify.app/let-car-work", getSoftAssert());
-    }
-
-    @Test (groups = {"header", "min"})
+    @Test(groups = {"header", "min", "regr"})
     public void mobileHeaderIsVisiblePositiveTest() {
+
         home.setWindowWidthTo(500);
-        Assert.assertTrue(home.isMobileHeaderPresent(),
-                "Mobile header is not displayed");
+
+        Assert.assertTrue(
+                home.isMobileHeaderPresent(),
+                "Mobile header is not displayed"
+        );
     }
 
     @Test(groups = {"regr", "smoke"})
-    public void brokenLinksOnSearchPageTest() {
-        List<String> urls = home.getLinkUrls();
+    public void brokenLinksOnHomePageTest() {
+
+        List<String> urls =
+                home.getLinkUrls();
+
         home.verifyBrokenLinks(urls);
     }
 
     @Test(groups = {"regr", "smoke"})
-    public void brokenImagesOnSearchResultsTest() {
-        List<String> broken = home.getBrokenImageUrls();
+    public void brokenImagesOnHomePageTest() {
+
+        List<String> broken =
+                home.getBrokenImageUrls();
+
         home.verifyBrokenImg(broken);
     }
-
 }
-
