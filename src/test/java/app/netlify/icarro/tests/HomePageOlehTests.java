@@ -382,7 +382,6 @@ public class HomePageOlehTests extends TestBase {
                 home.isTermsOfUseContentPresent(),
                 "Terms of Use content is not present"
         );
-
         // 6. Verify paragraphs
         Assert.assertTrue(
                 home.isTermsOfUseParagraphPresent(),
