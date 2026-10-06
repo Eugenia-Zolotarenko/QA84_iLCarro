@@ -1,0 +1,2046 @@
+{
+  "info": {
+    "_postman_id": "e14be259-1037-4ccb-b806-72ea81fcfb81",
+    "name": "iLcarro Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57880017",
+    "_collection_link": "https://go.postman.co/collection/57880017-e14be259-1037-4ccb-b806-72ea81fcfb81?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "LogIn",
+      "item": [
+        {
+          "name": "positive",
+          "item": [
+            {
+              "name": "Login[200]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const jsonData = pm.response.json();\r\npm.environment.set(\"accessToken\", jsonData.accessToken);\r\n\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative",
+          "item": [
+            {
+              "name": "Login[400] wrong json format",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Bad Request\");\r\n}\r\n);\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Wrong format Credential Object\");\r\n}\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": 'manuel@gm.com',\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login[401] Login incorrect",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Unauthorized\");\r\n}\r\n);\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@gm.comm\",\r\n  \"password\": \"Manuel1234!\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login[401] empty Login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Unauthorized\");\r\n}\r\n);\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"\",\r\n  \"password\": \"Manuel1234!\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login[401] Password incorrect",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Unauthorized\");\r\n}\r\n);\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login[401] empty Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Unauthorized\");\r\n}\r\n);\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login[500]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 500\", function () {\r\n    pm.response.to.have.status(500);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Server broken\");\r\n}\r\n);\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://db5bd455-c677-4e75-95a6-73f82d0510d7.mock.pstmn.io",
+                  "protocol": "https",
+                  "host": [
+                    "db5bd455-c677-4e75-95a6-73f82d0510d7",
+                    "mock",
+                    "pstmn",
+                    "io"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "Login[500]",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://db5bd455-c677-4e75-95a6-73f82d0510d7.mock.pstmn.io",
+                      "protocol": "https",
+                      "host": [
+                        "db5bd455-c677-4e75-95a6-73f82d0510d7",
+                        "mock",
+                        "pstmn",
+                        "io"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "body": "{\"error\": \"Server broken\"}"
+                }
+              ]
+            },
+            {
+              "name": "LoginWithIncorrectEmail[401] 03-09",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: Unauthorized\", function () {\r\n    pm.response.to.have.status(\"Unauthorized\");\r\n});\r\n\r\npm.test(\"Error massage: \", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n});\r\n\r\npm.test(\"Content-Type is present\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});\r\npm.test(\"Content-Length is present\", function () {\r\n    pm.response.to.have.header(\"Content-Length\");\r\n});\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@jhgm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login[400] wrong field name in json",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Your test name\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Wrong format Credential Object\");\r\n});\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"user\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "LoginWithWrongPath[500]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 500\", function () {\r\n    pm.response.to.have.status(500);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: Internal Server Error\", function () {\r\n    pm.response.to.have.status(\"Internal Server Error\");\r\n});\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SignUp",
+      "item": [
+        {
+          "name": "positive",
+          "item": [
+            {
+              "name": "SignUp[200]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative",
+          "item": [
+            {
+              "name": "SignUp[400] with existing in DB email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"User already exists\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[500]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 500\", function () {\r\n    pm.response.to.have.status(500);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Internal Server Error\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Server broken\");\r\n}\r\n);\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://4a582a22-4d5a-45c9-9345-a1ee15e0510d.mock.pstmn.io",
+                  "protocol": "https",
+                  "host": [
+                    "4a582a22-4d5a-45c9-9345-a1ee15e0510d",
+                    "mock",
+                    "pstmn",
+                    "io"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "SignUp[500]",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://4a582a22-4d5a-45c9-9345-a1ee15e0510d.mock.pstmn.io",
+                      "protocol": "https",
+                      "host": [
+                        "4a582a22-4d5a-45c9-9345-a1ee15e0510d",
+                        "mock",
+                        "pstmn",
+                        "io"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "body": "{\"error\": \"Server broken\"}"
+                }
+              ]
+            },
+            {
+              "name": "SignUp[400] with empty Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: less then 8 symbol",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manas1!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without number",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manueas!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without uppercase",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"manueas1!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without lowercase",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"MANUEA1!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid Password: without special symbol",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.password).to.eql(\" At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manueas11\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] empty email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must not be blank\");\r\n}\r\n\r\n);\r\n\r\npm.test(\"Error message structure is correct\", function(){\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql({ \"username\": \"must not be blank\" });\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with invalid email without @",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message.username).to.eql(\"must be a well-formed email address\");\r\n}\r\n\r\n);\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"l123gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with wrong json format",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"firstName: \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "SignUp[400] with wrong field's name format",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"manuel123@gm.com\",\r\n  \"password\": \"Manuel11234!\",\r\n  \"first\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/registration/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "registration",
+                    "usernamepassword"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AddNewCar",
+      "item": [
+        {
+          "name": "positive",
+          "item": []
+        },
+        {
+          "name": "negative",
+          "item": []
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "positive",
+          "item": [
+            {
+              "name": "Search[200]: Valid city and  period",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Каждый автомобиль содержит все обязательные поля\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверяем, что cars — это массив и он не пустой\r\n    pm.expect(jsonData.cars).to.be.an('array').that.is.not.empty;\r\n\r\n   \r\n    // Список всех обязательных полей\r\n    var requiredFields = [\r\n        \"serialNumber\", \"manufacture\", \"model\", \"year\", \"fuel\", \r\n        \"seats\", \"carClass\", \"pricePerDay\", \"about\", \"city\", \r\n        \"lat\", \"lng\", \"image\", \"owner\", \"bookedPeriods\"\r\n    ];\r\n\r\n    // Проверяем каждый автомобиль\r\n jsonData.cars.forEach(function (car) {\r\n        requiredFields.forEach(function (field) {\r\n            pm.expect(car).to.have.property(field);\r\n        });\r\n    });\r\n});\r\n\r\npm.test(\"Массив cars не пустой\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData.cars).to.be.an(\"array\").that.is.not.empty;\r\n});\r\n\r\n\r\n\r\npm.test(\"Status code name: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\npm.test(\"Response time is less than 30000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(30000);\r\n});\r\n\r\npm.test(\"Бэкенд сгенерировал данные быстрее чем за 2000 мс\", function () {\r\n    var totalTime = pm.response.responseTime; // Общее время (например, 20770 мс)\r\n    \r\n    // Вычитаем среднее время, необходимое вашему интернету на загрузку 11 МБ\r\n    // По графику это в среднем 19700 мс\r\n    var pureServerTime = totalTime - 19700; \r\n\r\n    // Проверяем, что сам сервер не тормозил\r\n    pm.expect(pureServerTime).to.be.below(2000);\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\": \"Jerusalem\",\r\n  \"startDate\": \"2026-11-02\",\r\n  \"endDate\": \"2026-11-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[200]: Valid city and  period Beersheba",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"No result matches the search criteria\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверяем, что cars — это массив и он  пустой\r\n    pm.expect(jsonData.cars).to.be.an('array').that.is.empty;\r\n});\r\n\r\npm.test(\"Массив cars содержит ровно 0 элемент\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверка через встроенный метод Chai\r\n    pm.expect(jsonData.cars).to.have.lengthOf(0);\r\n    \r\n    // Альтернативный вариант через свойство .length\r\n    // pm.expect(jsonData.cars.length).to.eql(1);\r\n});\r\n\r\n// Проверяем, что ответ содержит обязательное поле cars\r\npm.test(\"Response содержит поле cars\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData).to.have.property(\"cars\");\r\n});\r\n\r\npm.test(\"Response имеет формат JSON\", function () {\r\n\r\n    // Проверяем, что Content-Type ответа содержит application/json\r\n    pm.expect(pm.response.headers.get(\"Content-Type\"))\r\n        .to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Response не содержит поле error\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что успешный ответ не содержит поле error\r\n    pm.expect(jsonData).to.not.have.property(\"error\");\r\n});\r\n\r\npm.test(\"Поле cars не равно null\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что поле cars существует и его значение не null\r\n    pm.expect(jsonData.cars).to.not.be.null;\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}{"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\": \"Beersheba\",\r\n  \"startDate\": \"2026-11-02\",\r\n  \"endDate\": \"2026-11-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[200]: startDateEqualsEndDate",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Status code name has string: OK \", function () {\r\n  pm.response.to.have.status(\"OK\");\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Response содержит поле cars\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что ответ содержит обязательное поле cars\r\n    pm.expect(jsonData).to.have.property(\"cars\");\r\n});\r\n\r\npm.test(\"Поле cars является массивом\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что cars является массивом\r\n    pm.expect(jsonData.cars).to.be.an(\"array\");\r\n});\r\n  \r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-11-10\",\r\n    \"endDate\": \"2026-11-10\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[200]: startDateToday",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Status code name has string: OK \", function () {\r\n  pm.response.to.have.status(\"OK\");\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Response содержит поле cars\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что ответ содержит обязательное поле cars\r\n    pm.expect(jsonData).to.have.property(\"cars\");\r\n});\r\n\r\npm.test(\"Поле cars является массивом\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что cars является массивом\r\n    pm.expect(jsonData.cars).to.be.an(\"array\");\r\n});\r\n  \r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const today = new Date();\r\nconst tomorrow = new Date();\r\n\r\ntomorrow.setDate(today.getDate() + 1);\r\n\r\npm.variables.set(\"startDate\", today.toISOString().split(\"T\")[0]);\r\npm.variables.set(\"endDate\", tomorrow.toISOString().split(\"T\")[0]);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"{{startDate}}\",\r\n    \"endDate\": \"{{endDate}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "negative",
+          "item": [
+            {
+              "name": "Search[400]: wrong json format500BUG",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Response содержит сообщение JSON parse error\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n// Проверяем, что ответ содержит все обязательные поля ошибки\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\" \"Jerusalem\",\r\n  \"startDate\": \"2026-10-02\",\r\n  \"endDate\": \"2026-10-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: EmptyCity200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\n\r\npm.test(\"Массив cars пустой\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что при пустом city массив cars пустой\r\n    pm.expect(jsonData.cars).to.be.an(\"array\").that.is.empty;\r\n});\r\n\r\npm.test(\"Response содержит поле cars\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что ответ содержит обязательное поле cars\r\n    pm.expect(jsonData).to.have.property(\"cars\");\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"\",\r\n    \"startDate\": \"2026-10-10\",\r\n    \"endDate\": \"2026-10-11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: startDateEmpty200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\": \"Jerusalem\",\r\n  \"startDate\": \"\",\r\n  \"endDate\": \"2026-10-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: startDateFormat500",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n    pm.test(\"Сообщение об ошибке содержит startDate\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что ошибка относится к полю startDate\r\n    pm.expect(jsonData.message).to.include(\"startDate\");\r\n});\r\npm.test(\"Сообщение содержит ошибку формата даты\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что сообщение содержит информацию об ошибке формата даты\r\n    pm.expect(jsonData.message).to.include(\"could not be parsed\");\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"05-10-2026\",\r\n    \"endDate\": \"2026-10-06\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: startDateМissing200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"endDate\": \"2026-10-06\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: startDateNull200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": null,\r\n    \"endDate\": \"2026-10-06\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: startDatePast200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2025-10-10\",\r\n    \"endDate\": \"2026-10-11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: endDateEmpty200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-10-10\",\r\n    \"endDate\": \"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: endDateFormat500",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Сообщение об ошибке содержит endDate\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что ошибка относится к полю endDate\r\n    pm.expect(jsonData.message).to.include(\"endDate\");\r\n});;\r\npm.test(\"Сообщение содержит ошибку формата даты\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем, что сообщение содержит информацию об ошибке формата даты\r\n    pm.expect(jsonData.message).to.include(\"could not be parsed\");\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-10-10\",\r\n    \"endDate\": \"11-10-2026\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: endDateMissing200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-10-10\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: endDateNull200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-10-10\",\r\n    \"endDate\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: endDateBeforeStartDate200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-10-10\",\r\n    \"endDate\": \"2026-10-09\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: invalidCity200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"InvalidCity12345\",\r\n    \"startDate\": \"2026-11-10\",\r\n    \"endDate\": \"2026-11-11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: startDateWrongType200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\" \r\n    \"startDate\"\r\n    \"endDate\" \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: bodyMissing500",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: cityObjectWrongType500",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\npm.test(\"Status code name has string: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\npm.test(\"Response содержит все обязательные поля ошибки\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Список обязательных полей ответа с ошибкой\r\n    var requiredFields = [\r\n        \"timestamp\",\r\n        \"status\",\r\n        \"error\",\r\n        \"message\",\r\n        \"path\"\r\n    ];\r\n\r\n    // Проверяем наличие каждого обязательного поля\r\n    requiredFields.forEach(function (field) {\r\n        pm.expect(jsonData).to.have.property(field);\r\n    });\r\n    });\r\n  pm.test(\"Response содержит сообщение об ошибке\", function () {\r\n    var jsonData = pm.response.json();\r\n\r\n    // Проверяем наличие сообщения об ошибке\r\n    pm.expect(jsonData).to.have.property(\"message\");\r\n});\r\n\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{accessToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": {},\r\n    \"startDate\": \"2026-10-10\",\r\n    \"endDate\": \"2026-10-11\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[401]: tokenMissing200",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-11-10\",\r\n    \"endDate\": \"2026-11-11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[401]: invalidToken",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "invalid"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"city\": \"Jerusalem\",\r\n    \"startDate\": \"2026-11-10\",\r\n    \"endDate\": \"2026-11-11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    }
+  ]
+}

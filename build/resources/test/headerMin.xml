@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "testng-1.0.dtd">
+
+<suite name="Header" verbose="1">
+    <test name="Test1">
+        <!-- Метод-селектор для фильтрации по двум группам одновременно -->
+        <method-selectors>
+            <method-selector>
+                <script language="beanshell">
+                    <![CDATA[
+                    groups.containsKey("header") && groups.containsKey("min");
+                    ]]>
+                </script>
+            </method-selector>
+        </method-selectors>
+
+        <packages>
+            <package name="app.netlify.icarro.tests"/>
+        </packages>
+    </test>
+</suite>

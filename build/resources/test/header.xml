@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Header" verbose="1">
+
+    <test name="header">
+        <classes>
+           <class name="app.netlify.icarro.tests.HeaderPageTests"/>
+        </classes>
+    </test>
+</suite>

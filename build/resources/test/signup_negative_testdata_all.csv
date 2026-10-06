@@ -1,0 +1,40 @@
+﻿firstName,lastName,email,password,expectedField,testDescription
+,Barabu,sara.bar@email.com,Ss1a2r3a!,firstName,Empty firstName
+S,Barabu,sara.bar@email.com,Ss1a2r3a!,firstName,firstName too short
+   ,Barabu,sara.bar@email.com,Ss1a2r3a!,firstName,First name: Only one or several spaces 
+Sa ra,Barabu,sara.bar@~domain.com,Ss1a2r3a!,firstName,First name contain one or several spaces 
+SaraЖ,Barabu,sara.bar@email.com,Ss1a2r3a!,firstName,firstName contain non Latin letters
+Sara123!,Barabu,sara.bar@email.com,Ss1a2r3a!,firstName,Special chars in firstName
+Sara,,sara.bar@email.com,Ss1a2r3a!,lastName,Empty lastName
+Sara,F,sara.bar@email.com,Ss1a2r3a!,lastName,lastName too short
+Sara,   ,sara.bar@email.com,Ss1a2r3a!,lastName,Last name: Only one or several spaces 
+Sara,Бaрaбу,sara.bar@email.com,Ss1a2r3a!,lastName,Last name contain non Latin letters
+Sara,Barabu!@#,sara.bar@email.com,Ss1a2r3a!,lastName,Special chars in lastName
+Sara,Barabu,,Ss1a2r3a!,username,Empty email
+Sara,Barabu,sara.bar.com,Ss1a2r3a!,username,Invalid Email format without '@' symbol
+Sara,Barabu,sara.bar@,Ss1a2r3a!,username,Invalid Email format without domain part
+Sara,Barabu,@email.com,Ss1a2r3a!,username,Invalid Email format without  local-part
+Sara,Barabu,sara{UNIQUE}.bar@~domain.com,Ss1a2r3a!,username,Invalid Email format: contain special character in domain part
+Sara,Barabu,s#ra{UNIQUE}.bar@domain.com,Ss1a2r3a!,username,Invalid Email format: contain special character in local-part
+Sara,Barabu,sar a.bar@domain.com,Ss1a2r3a!,username,Invalid Email format: contain one or several spaces in domain part
+Sara,Barabu,sara.bar@dom ain.com,Ss1a2r3a!,username,Invalid Email format: one or several spaces character in local-part
+Sara,Barabu,sara.bar@dom@ain.com,Ss1a2r3a!,username,Invalid Email format contains more than one @ character
+Sara,Barabu,-sara{UNIQUE}.bar@email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the beginning of the local-part
+Sara,Barabu,sara{UNIQUE}.bar-@email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the end of the local-part
+Sara,Barabu,sara.bar@-email.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the beginning of the domain  part
+Sara,Barabu,sara.bar@email-.com,Ss1a2r3a!,username,Invalid Email format there is a hyphen at the endof the domain  part
+Sara,Barabu,sara.......bar@domain.com,Ss1a2r3a!,username,Invalid Email format contains more than one point in local-part
+Sara,Barabu,sara.bar@doma...in.com,Ss1a2r3a!,username,Invalid Email format contains more than one point in domain-part
+Sara,Barabu,saraЖ{UNIQUE}bar@domain.com,Ss1a2r3a!,username,Invalid Email format contain non Latin letters in local-part
+Sara,Barabu,sara{UNIQUE}.bar@domЖain.com,Ss1a2r3a!,username,Invalid Email format contain non Latin letters in domain-part
+Sara,Barabu,sara.bar@email.com,,password,Empty password
+Sara,Barabu,sara.bar@email.com,Aa!456,password,Password too short : Password  must contain minimum 8 symbols instead of 6 characters
+Sara,Barabu,sara.bar@email.com,Aa1!56юж,password,Invalid password -  contains non-Latin characters
+Sara,Barabu,sara.bar@email.com,Password123,password,Invalid password without special character
+Sara,Barabu,sara.bar@email.com,Password!,password,Invalid password without digits
+Sara,Barabu,sara.bar@email.com,123456!,password,Invalid password without leters
+Sara,Barabu,sara.bar@email.com,password123!,password,Invalid password without uppercase letters
+Sara,Barabu,sara.bar@email.com,PASSWORD123!,password,Invalid password without lowercase letters
+Sara,Barabu,sara.bar@email.com,Pass123%,password,Invalid password with unallowed special character (%)
+Sara,Barabu,sara.bar@email.com,Pass 123!,password,Invalid password with spaces
+Sara,Barabu,sara.bar@email.com,Aa!456A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x4Y5z6A7b8C9d0E1f2G3h4I5j6K7l8M9n0O1p2Q3r4S5t6U7v8W9x0Y1z2A3b4C5d6E7f8G9h0I1j2K3l4M5n6O7p8Q9r0S1t2U3v4W5x6Y7z8A9b0C1d2E3f4G5h6I7j8K9l0M1n2O3p4Q5r6S7t8U9v0W1x2Y3z4A5b6C7d8E9f0G1h2I3j4K5l6M7n8O9p0Q1r2S3t4U5v6W7x8Y9z0A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x4Y5z6A7b8C9d0E1f2G3h4I5j6K7l8M9n0O1p2Q3r4S5t6U7v8W9x0Y1z2A3b4C5d6E7f8G9h0I1j2K3l4M5n6O7p8Q9r0S1t2U3v4W5x6Y7z8A9b0C1d2E3f4G5h6I7j8K9l0M1n2O3p4Q5r6S7t8U9v0W1x2Y3z4A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x4Y5z6A7b8C9d0E1f2G3h4I5j6K7l8M9n0O1p2Q3r4S5t6U7v8W9x0Y1z2A3b4C5d6E7f8G9h0I1j2K3l4M5n6O7p8Q9r0S1t2U3v4W5x6Y7z8A9b0C1d2E3f4G5h6I7j8K9l0M1n2O3p4Q5r6S7t8U9v0W1x2Y3z4A5b6C7d8E9f0G1h2I3j4K5l6M7n8O9p0Q1r2S3t4U5v6W7x8Y9z0A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x4Y5z6A7b8C9d0E1f2G3h4I5j6K7l8M9n0O1p2Q3r4S5t6U7v8W9x0Y1z2A3b4C5d6E7f8G9h0I1j2K3l4M5n6O7p8Q9r0S1t2U3v4W5x6Y7z8A9b0C1d2E3f4G5h6I7j8K9l0M1n2O3p4Q5r6S7t8U9v0W1x2Y3z4,password,Password too long : allows you to register with a password longer than 512 characters.
