@@ -1,0 +1,1359 @@
+{
+  "info": {
+    "_postman_id": "3276b8b2-bfe8-4ebb-897e-0da4e3ca5794",
+    "name": "iLcarro AddNewCar (draft)",
+    "description": "API tests for POST /v1/cars (Add new Car). Run the folder AddNewCar top to bottom (no environment needed). The first request logs in and saves {{carToken}} and unique serial numbers; the cleanup folder deletes the cars created by the positive tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "AddNewCar",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{carToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "setup",
+          "item": [
+            {
+              "name": "Login: get token and car serials",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/user/login/usernamepassword",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login",
+                    "usernamepassword"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"manuel@gm.com\",\n  \"password\": \"Manuel1234!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: OK\", function () {",
+                      "    pm.response.to.have.status(\"OK\");",
+                      "});",
+                      "",
+                      "pm.test(\"Token is received and saved to {{carToken}}\", function () {",
+                      "    var token = pm.response.json().accessToken;",
+                      "    pm.expect(token).to.be.a(\"string\").that.is.not.empty;",
+                      "    pm.collectionVariables.set(\"carToken\", token);",
+                      "});",
+                      "",
+                      "// unique serial numbers for this run (the cars are deleted in the cleanup folder)",
+                      "pm.collectionVariables.set(\"carSerial\", \"QA84API\" + Date.now());",
+                      "pm.collectionVariables.set(\"carSerial2\", \"QA84API\" + (Date.now() + 1));",
+                      "pm.collectionVariables.set(\"carSerial3\", \"QA84API\" + (Date.now() + 2));",
+                      "pm.collectionVariables.set(\"carSerial4\", \"QA84API\" + (Date.now() + 3));",
+                      "pm.collectionVariables.set(\"carSerial5\", \"QA84API\" + (Date.now() + 4));",
+                      "// deliberately wrong token for the \"invalid token\" test (generated here so the file contains no token-like value)",
+                      "pm.collectionVariables.set(\"wrongToken\", \"wrong-\" + Date.now());"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "positive",
+          "item": [
+            {
+              "name": "AddCar[200] all fields",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: OK\", function () {",
+                      "    pm.response.to.have.status(\"OK\");",
+                      "});",
+                      "",
+                      "pm.test(\"Response has message\", function () {",
+                      "    pm.expect(pm.response.json()).to.have.property(\"message\");",
+                      "});",
+                      "",
+                      "pm.test(\"Response time is less than 5000ms\", function () {",
+                      "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[200] only required fields",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial2}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"city\": \"Tel Aviv\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: OK\", function () {",
+                      "    pm.response.to.have.status(\"OK\");",
+                      "});",
+                      "",
+                      "pm.test(\"Response has message\", function () {",
+                      "    pm.expect(pm.response.json()).to.have.property(\"message\");",
+                      "});",
+                      "",
+                      "pm.test(\"Response time is less than 5000ms\", function () {",
+                      "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "MyCars[200] added cars are in the list",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/my",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "my"
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: OK\", function () {",
+                      "    pm.response.to.have.status(\"OK\");",
+                      "});",
+                      "",
+                      "pm.test(\"Both added cars are in the list\", function () {",
+                      "    var serials = pm.response.json().cars.map(function (car) { return car.serialNumber; });",
+                      "    pm.expect(serials).to.include(pm.collectionVariables.get(\"carSerial\"));",
+                      "    pm.expect(serials).to.include(pm.collectionVariables.get(\"carSerial2\"));",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "negative",
+          "item": [
+            {
+              "name": "AddCar[401] without token",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Unauthorized\", function () {",
+                      "    pm.response.to.have.status(\"Unauthorized\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[401] invalid token",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{wrongToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Unauthorized\", function () {",
+                      "    pm.response.to.have.status(\"Unauthorized\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Make (manufacture)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: manufacture\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"manufacture\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Model (model)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: model\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"model\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Year (year)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: year\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"year\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Fuel (fuel)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: fuel\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"fuel\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Seats (seats)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": null,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: seats\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"seats\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Car class (carClass)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: carClass\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"carClass\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Car registration number (serialNumber)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: serialNumber\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"serialNumber\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty Price (pricePerDay)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": null,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: pricePerDay\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"pricePerDay\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] empty City (city)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: city\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"city\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] Seats = 0",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial3}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 0,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: seats\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"seats\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] Price = 0",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial4}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 0,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: pricePerDay\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"pricePerDay\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] unsupported city (Berlin)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial5}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Berlin\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Error message mentions: not supported\", function () {",
+                      "    pm.expect(JSON.stringify(pm.response.json())).to.include(\"not supported\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] existing serialNumber",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] wrong json format",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"manufacture\": \"Toyota\"\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "AddCar[400] wrong field's name format",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serialNumber\": \"{{carSerial}}\",\n  \"model\": \"Corolla\",\n  \"year\": \"2020\",\n  \"fuel\": \"petrol\",\n  \"seats\": 5,\n  \"carClass\": \"Economy\",\n  \"pricePerDay\": 50,\n  \"about\": \"Autotest car\",\n  \"city\": \"Tel Aviv\",\n  \"lat\": 32.0853,\n  \"lng\": 34.7818,\n  \"image\": \"https://example.com/car.jpg\",\n  \"manufacturer\": \"Toyota\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: Bad Request\", function () {",
+                      "    pm.response.to.have.status(\"Bad Request\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cleanup",
+          "item": [
+            {
+              "name": "DeleteCar[200] first test car",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/{{carSerial}}",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "{{carSerial}}"
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: OK\", function () {",
+                      "    pm.response.to.have.status(\"OK\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "DeleteCar[200] second test car",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/{{carSerial2}}",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "{{carSerial2}}"
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Status code name has string: OK\", function () {",
+                      "    pm.response.to.have.status(\"OK\");",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "DeleteCar[200 or 400] leftover of negative test 3",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/{{carSerial3}}",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "{{carSerial3}}"
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"200 = the car was wrongly accepted and is now deleted, 400 = nothing to delete (good)\", function () {",
+                      "    pm.expect([200, 400]).to.include(pm.response.code);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "DeleteCar[200 or 400] leftover of negative test 4",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/{{carSerial4}}",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "{{carSerial4}}"
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"200 = the car was wrongly accepted and is now deleted, 400 = nothing to delete (good)\", function () {",
+                      "    pm.expect([200, 400]).to.include(pm.response.code);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "DeleteCar[200 or 400] leftover of negative test 5",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/{{carSerial5}}",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "{{carSerial5}}"
+                  ]
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"200 = the car was wrongly accepted and is now deleted, 400 = nothing to delete (good)\", function () {",
+                      "    pm.expect([200, 400]).to.include(pm.response.code);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BaseURI",
+      "value": "https://ilcarro-backend.herokuapp.com",
+      "type": "string"
+    }
+  ]
+}

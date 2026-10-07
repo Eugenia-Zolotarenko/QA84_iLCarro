@@ -1,0 +1,612 @@
+{
+  "info": {
+    "_postman_id": "bebc279a-caed-4d51-a2da-3187524e9641",
+    "name": "QA84_iLcarro",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57879960",
+    "_collection_link": "https://go.postman.co/collection/57879960-bebc279a-caed-4d51-a2da-3187524e9641?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "positive",
+      "item": [
+        {
+          "name": "login200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Response contains accessToken\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property(\"accessToken\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteCar200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Message is Car deleted successfully\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car deleted successfully\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/QA12346",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "cars",
+                "QA12346"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "negative",
+      "item": [
+        {
+          "name": "login400WrongFieldName",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"user\": \"manuel1@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login400WrongJsonFormat",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"manuel1@gm.com\",\r\n  \"password\": \"Manuel1234!\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"wronguser@gmail.com\",\r\n    \"password\": \"WrongPassword777\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"123\",\r\n  \"password\": \"123\",\r\n  \"firstName\": \"\",\r\n  \"lastName\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/registration/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "registration",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "seach500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {\r\n    pm.response.to.have.status(500);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"city\": \"Berlin\",\r\n  \"startDate\": \"2026-99-99\",\r\n  \"endDate\": \"2026-99-99\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/search",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "cars",
+                "search"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "loginWithWrongEmail401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: Unauthorized\", function () {\r\n    pm.response.to.have.status(\"Unauthorized\");\r\n});\r\n\r\npm.test(\"Your test name:Login or Password incorrect\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n});\r\n\r\npm.test(\"Content-Type is present\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});\r\n\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"manuel10001@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login500InternalServerError",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {\r\n    pm.response.to.have.status(500);\r\n});\r\n\r\npm.test(\"Response time is less than 4000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(4000);\r\n});\r\n\r\npm.test(\"Status code name is Internal Server Error\", function () {\r\n    pm.response.to.have.status(\"Internal Server Error\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\" \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "loginWithWrongPassword401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name is Unauthorized\", function () {\r\n    pm.response.to.have.status(\"Unauthorized\");\r\n});\r\n\r\npm.test(\"Message is Login or Password incorrect\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n});\r\n\r\npm.test(\"Content-Type is present\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"WrongPassword777!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "loginEmptyUsername401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name is Unauthorized\", function () {\r\n    pm.response.to.have.status(\"Unauthorized\");\r\n});\r\n\r\npm.test(\"Message is Login or Password incorrect\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n});\r\n\r\npm.test(\"Content-Type is present\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "loginWithWrong",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\" \"manuel@gm.com\",\r\n  \"password\": \"Manuel1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://db5bd455-c677-4e75-95a6-73f82d0510d7.mock.pstmn.io",
+                  "protocol": "https",
+                  "host": [
+                    "db5bd455-c677-4e75-95a6-73f82d0510d7",
+                    "mock",
+                    "pstmn",
+                    "io"
+                  ]
+                }
+              },
+              "status": "OK Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": null,
+              "cookie": [],
+              "body": "{\"error\": \"Server broken\"}"
+            }
+          ]
+        },
+        {
+          "name": "loginEmptyPassword401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name is Unauthorized\", function () {\r\n    pm.response.to.have.status(\"Unauthorized\");\r\n});\r\n\r\npm.test(\"Message is Login or Password incorrect\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r\n});\r\n\r\npm.test(\"Content-Type is present\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"manuel@gm.com\",\r\n  \"password\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "login",
+                "usernamepassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteCar400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Error is Bad Request\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.error).to.eql(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Message contains car not found\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"not found\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/QA12346",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "cars",
+                "QA12346"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,24 +1,26 @@
 package app.netlify.icarro.core;
 
+import app.netlify.icarro.utils.LinkChecker;
 import app.netlify.icarro.utils.Screenshots;
 import app.netlify.icarro.utils.SoftAssertListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Browser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 @Listeners(SoftAssertListener.class)
 public class TestBase {
     protected static final ApplicationManager app =
             new ApplicationManager(System.getProperty("browser", Browser.CHROME.browserName()));
 
-    private static final Logger logger = LoggerFactory.getLogger(TestBase.class);
+    protected static final Logger logger = LoggerFactory.getLogger(TestBase.class);
     private static final ThreadLocal<SoftAssert> softly = new ThreadLocal<>();
     protected Screenshots screen = new Screenshots();
     protected WebDriver driver;
@@ -45,8 +47,16 @@ public class TestBase {
             String screenshotPath = (screen != null && driver != null)
                     ? screen.takeScreenshot(driver)
                     : "Screenshot failed (driver or screen is null)";
-            logger.info("test FAILED: {}. \n\t\t Screenshot -> {} ",
-                    result.getMethod().getMethodName(),  screenshotPath);
+            String failedMethodName = "Unknown method";
+            Throwable throwable = result.getThrowable();
+            if (throwable != null && throwable.getStackTrace().length > 0) {
+                // Первый элемент стектрейса — это точное место, где выброшено исключение
+                StackTraceElement stackTraceElement = throwable.getStackTrace()[0];
+                failedMethodName = stackTraceElement.getClassName() + "." + stackTraceElement.getMethodName();
+            }
+
+            logger.info("test FAILED: {}. \n\t\t Failed at method -> {} \n\t\t Screenshot -> {} ",
+                    result.getMethod().getMethodName(),  failedMethodName,  screenshotPath);
 
         } else if(result.getStatus()==ITestResult.SKIP){
             logger.info("Test SKIPPED");
@@ -56,4 +66,6 @@ public class TestBase {
         softly.remove();
         app.stop();
     }
+
+
 }

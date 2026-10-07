@@ -1,8 +1,10 @@
 package app.netlify.icarro.core;
 
+import app.netlify.icarro.utils.LinkChecker;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -14,11 +16,17 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BasePage {
     protected WebDriver driver;
     public JavascriptExecutor js;
     public Actions actions;
+    @FindBy(tagName = "a")
+    List<WebElement> links;
+    @FindBy(tagName = "img")
+    List<WebElement> images;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -139,6 +147,53 @@ public abstract class BasePage {
 
     public boolean isElementEnabled(WebElement element) {
         return element.isEnabled();
+    }
+
+    public List<String> getLinkUrls() {
+        getWait(10).until(d -> !links.isEmpty());
+
+        return links.stream()
+                .map(link -> link.getAttribute("href"))
+                .filter(url -> url != null
+                        && (url.startsWith("http://") || url.startsWith("https://")))
+                .map(url -> url.split("#")[0])
+                .distinct()
+                .toList();
+    }
+
+    public List<String> getBrokenImageUrls() {
+        getWait(10).until(d -> !images.isEmpty());
+
+        List<String> broken = new ArrayList<>();
+
+        for (WebElement image : images) {
+            scrollWithJS(image);
+
+            try {
+                getWait(5).until(d -> (Boolean) js.executeScript(
+                        "return arguments[0].complete;", image));
+            } catch (TimeoutException ignored) {
+            }
+
+            boolean ok = (Boolean) js.executeScript(
+                    "return arguments[0].complete && arguments[0].naturalWidth > 0;", image);
+
+            if (!ok) {
+                broken.add(image.getAttribute("src"));
+            }
+        }
+
+        return broken;
+    }
+
+    public void verifyBrokenLinks(List<String> urls) {
+        Assert.assertFalse(urls.isEmpty(), "No links found on the page");
+        List<String> broken = LinkChecker.checkAll(urls);
+        Assert.assertTrue(broken.isEmpty(), "Broken links: " + broken);
+    }
+
+    public void verifyBrokenImg(List<String> broken) {
+        Assert.assertTrue(broken.isEmpty(), "Broken images on results: " + broken);
     }
 }
 

@@ -13,6 +13,7 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.40.0")
     implementation("org.testng:testng:7.11.0")
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
 
     implementation("io.github.bonigarcia:webdrivermanager:6.3.4")
     implementation("ch.qos.logback:logback-classic:1.6.3")
@@ -43,6 +44,11 @@ registerTask('regr', 'src/test/resources/regression.xml')
 registerTask('header', 'src/test/resources/header.xml')
 registerTask('headerMin', 'src/test/resources/headerMin.xml')
 registerTask('footer', 'src/test/resources/footer.xml')
+registerTask('signup', 'src/test/resources/signUp.xml')
+registerTask('signupApi', 'src/test/resources/signUpApi.xml')
+registerTask('addcar', 'src/test/resources/addCar.xml')
+registerTask('search', 'src/test/resources/search.xml')
+registerTask('login', 'src/test/resources/login.xml')
 
 task qa (type: Test){
     useTestNG()

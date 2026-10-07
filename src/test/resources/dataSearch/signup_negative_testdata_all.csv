@@ -1,0 +1,55 @@
+firstName,lastName,email,password,expectedField,testDescription
+,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,Empty first name
+{SP}{SP}{SP},Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: only spaces
+{RAND:300},Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: 300 characters
+S,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: 1 character
+' OR '1'='1,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: SQL injection string
+<script>alert('XSS')</script>,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: XSS script tag
+<img src=x onerror=alert('XSS')>,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: XSS img tag
+@,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: only a special character
+null,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: reserved JS word 'null' must stay a string
+undefined,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: reserved JS word 'undefined' must stay a string
+NaN,Barabu,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,firstName,First name: reserved JS word 'NaN' must stay a string
+Sara,,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Empty last name
+Sara,{SP}{SP}{SP},sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: only spaces
+Sara,{RAND:300},sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: 300 characters
+Sara,F,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: 1 character
+Sara,' OR '1'='1,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: SQL injection string
+Sara,<script>alert('XSS')</script>,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: XSS script tag
+Sara,<svg onload=alert('XSS')>,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: XSS svg tag
+Sara,!@#$%^&*,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: only special characters
+Sara,null,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: reserved JS word 'null' must stay a string
+Sara,undefined,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: reserved JS word 'undefined' must stay a string
+Sara,NaN,sara{UNIQUE}.bar@email.com,Ss1a2r3a!,lastName,Last name: reserved JS word 'NaN' must stay a string
+Sara,Barabu,,Ss1a2r3a!,username,Empty email
+Sara,Barabu,sara{UNIQUE}.bar.com,Ss1a2r3a!,username,Email: no @ symbol
+Sara,Barabu,sara{UNIQUE}.bar@,Ss1a2r3a!,username,Email: no domain part
+Sara,Barabu,@email{UNIQUE}.com,Ss1a2r3a!,username,Email: no local part
+Sara,Barabu,sara{UNIQUE}.bar@~domain.com,Ss1a2r3a!,username,Email: special character ~ in domain part
+Sara,Barabu,s#ra{UNIQUE}.bar@domain.com,Ss1a2r3a!,username,Email: special character # in local part
+Sara,Barabu,sa{SP}ra{UNIQUE}.bar@domain.com,Ss1a2r3a!,username,Email: space in local part
+Sara,Barabu,sara{UNIQUE}.bar@dom{SP}ain.com,Ss1a2r3a!,username,Email: space in domain part
+Sara,Barabu,sara{UNIQUE}.bar@dom@ain.com,Ss1a2r3a!,username,Email: two @ symbols
+Sara,Barabu,sara{UNIQUE}..bar@domain.com,Ss1a2r3a!,username,Email: consecutive dots in local part
+Sara,Barabu,sara{UNIQUE}.bar@doma..in.com,Ss1a2r3a!,username,Email: consecutive dots in domain part
+Sara,Barabu,saraЖ{UNIQUE}bar@domain.com,Ss1a2r3a!,username,Email: non-Latin letter in local part
+Sara,Barabu,sara{UNIQUE}.bar@domЖain.com,Ss1a2r3a!,username,Email: non-Latin letter in domain part
+Sara,Barabu,sara{UNIQUE}.bar@domaincom,Ss1a2r3a!,username,Email: no period in domain part
+Sara,Barabu,sara'OR'1'='1{UNIQUE}@domain.com,Ss1a2r3a!,username,Email: SQL injection string in local part
+Sara,Barabu,sara{UNIQUE}.bar@domain'--.com,Ss1a2r3a!,username,Email: SQL injection string in domain part
+Sara,Barabu,<script>alert(1)</script>{UNIQUE}@domain.com,Ss1a2r3a!,username,Email: XSS script tag in local part
+Sara,Barabu,sara{UNIQUE}.bar@<script>alert(1)</script>.com,Ss1a2r3a!,username,Email: XSS script tag in domain part
+Sara,Barabu,null@d{UNIQUE}.com,Ss1a2r3a!,username,Email: reserved JS word 'null' as local part
+Sara,Barabu,undefined@d{UNIQUE}.com,Ss1a2r3a!,username,Email: reserved JS word 'undefined' as local part
+Sara,Barabu,NaN@d{UNIQUE}.com,Ss1a2r3a!,username,Email: reserved JS word 'NaN' as local part
+Sara,Barabu,sara{UNIQUE}.bar@email.com,,password,Empty password
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Aa!456,password,Password too short: 6 characters
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Aa1!56юж,password,Password: non-Latin letters
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Password123,password,Password without special character
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Password!,password,Password without digits
+Sara,Barabu,sara{UNIQUE}.bar@email.com,12345678!,password,Password without letters
+Sara,Barabu,sara{UNIQUE}.bar@email.com,password123!,password,Password without uppercase letters
+Sara,Barabu,sara{UNIQUE}.bar@email.com,PASSWORD123!,password,Password without lowercase letters
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Pass123!%,password,Password: unallowed special character %
+Sara,Barabu,sara{UNIQUE}.bar@email.com,Pass{SP}123!,password,Password: space inside
+Sara,Barabu,sara{UNIQUE}.bar@email.com,{PWD:129},password,Password too long: 129 characters (max 128)

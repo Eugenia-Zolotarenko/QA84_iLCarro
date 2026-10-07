@@ -21,7 +21,7 @@
                   "script": {
                     "type": "text/javascript",
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\n"
+                      "var jsonData = pm.response.json(); // Parse the JSON response body\r\npm.environment.set(\"token\", jsonData.accessToken);\r\n\r\npm.environment.set(\"variable_key\", \"variable_value\");\r\n\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\n"
                     ]
                   }
                 }
@@ -1047,7 +1047,163 @@
       "item": [
         {
           "name": "positive",
-          "item": []
+          "item": [
+            {
+              "name": "AddCar[200]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car added successfully\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"serialNumber\": \"QA12347\",\r\n  \"manufacture\": \"Toyota\",\r\n  \"model\": \"Corolla\",\r\n  \"year\": \"2012\",\r\n  \"fuel\": \"petrol\",\r\n  \"seats\": 5,\r\n  \"carClass\": \"Economy\",\r\n  \"pricePerDay\": 120,\r\n  \"about\": \"string\",\r\n  \"city\": \"Tel Aviv\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"image\": \"string\",\r\n  \"owner\": \"Car Owner\",\r\n  \"bookedPeriods\": [\r\n    {\r\n      \"email\": \"string@test.com\",\r\n      \"startDate\": \"2026-10-05\",\r\n      \"endDate\": \"2026-10-06\"\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "AddCar[400] existing in DB car",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car with serial number QA12345 already exists\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"serialNumber\": \"QA12345\",\r\n  \"manufacture\": \"Toyota\",\r\n  \"model\": \"Corolla\",\r\n  \"year\": \"2012\",\r\n  \"fuel\": \"petrol\",\r\n  \"seats\": 5,\r\n  \"carClass\": \"Economy\",\r\n  \"pricePerDay\": 120,\r\n  \"about\": \"string\",\r\n  \"city\": \"Tel Aviv\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"image\": \"string\",\r\n  \"owner\": \"Car Owner\",\r\n  \"bookedPeriods\": [\r\n    {\r\n      \"email\": \"string@test.com\",\r\n      \"startDate\": \"2026-10-05\",\r\n      \"endDate\": \"2026-10-06\"\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GetMyCars[200]",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/my",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "my"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Book[200]",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Status code name has string: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\npm.test(\"Error message is correct\", function(){\r\n     var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car booked successfully! We will contact you soon\");\r\n}\r\n);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"startDate\": \"2026-10-06\",\r\n  \"endDate\": \"2026-10-07\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/{{serialNumber}}/booking",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "{{serialNumber}}",
+                    "booking"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
         },
         {
           "name": "negative",
@@ -1060,11 +1216,188 @@
       "item": [
         {
           "name": "positive",
-          "item": []
+          "item": [
+            {
+              "name": "Search[200]: Valid city and  period",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "let response = pm.response.json();\r\n//take the first element of the contacts array\r\nlet serialNumber = response.cars[0].serialNumber;\r\n//save in the environment\r\npm.environment.set(\"serialNumber\",serialNumber);\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Каждый автомобиль содержит все обязательные поля\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверяем, что cars — это массив и он не пустой\r\n    pm.expect(jsonData.cars).to.be.an('array').that.is.not.empty;\r\n\r\n   \r\n    // Список всех обязательных полей\r\n    var requiredFields = [\r\n        \"serialNumber\", \"manufacture\", \"model\", \"year\", \"fuel\", \r\n        \"seats\", \"carClass\", \"pricePerDay\", \"about\", \"city\", \r\n        \"lat\", \"lng\", \"image\", \"owner\", \"bookedPeriods\"\r\n    ];\r\n\r\n    // Проверяем каждый автомобиль\r\n jsonData.cars.forEach(function (car) {\r\n        requiredFields.forEach(function (field) {\r\n            pm.expect(car).to.have.property(field);\r\n        });\r\n    });\r\n});\r\n\r\npm.test(\"Массив cars содержит ровно 195 элемент\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверка через встроенный метод Chai\r\n    pm.expect(jsonData.cars).to.have.lengthOf(195);\r\n    0\r\n    // Альтернативный вариант через свойство .length\r\n    // pm.expect(jsonData.cars.length).to.eql(1);\r\n});\r\n\r\n\r\n\r\npm.test(\"Status code name: OK\", function () {\r\n    pm.response.to.have.status(\"OK\");\r\n});\r\n\r\npm.test(\"Response time is less than 30000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(30000);\r\n});\r\n\r\npm.test(\"Бэкенд сгенерировал данные быстрее чем за 2000 мс\", function () {\r\n    var totalTime = pm.response.responseTime; // Общее время (например, 20770 мс)\r\n    \r\n    // Вычитаем среднее время, необходимое вашему интернету на загрузку 11 МБ\r\n    // По графику это в среднем 19700 мс\r\n    var pureServerTime = totalTime - 19700; \r\n\r\n    // Проверяем, что сам сервер не тормозил\r\n    pm.expect(pureServerTime).to.be.below(2000);\r\n});\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\": \"Jerusalem\",\r\n  \"startDate\": \"2026-10-02\",\r\n  \"endDate\": \"2026-10-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[200]: Valid city and  period Copy",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"No result matches the search criteria\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверяем, что cars — это массив и он не пустой\r\n    pm.expect(jsonData.cars).to.be.an('array').that.is.empty;\r\n})\r\n\r\npm.test(\"Массив cars содержит ровно 0 элемент\", function () {\r\n    var jsonData = pm.response.json();\r\n    \r\n    // Проверка через встроенный метод Chai\r\n    pm.expect(jsonData.cars).to.have.lengthOf(0);\r\n    \r\n    // Альтернативный вариант через свойство .length\r\n    // pm.expect(jsonData.cars.length).to.eql(1);\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\": \"Beersheba\",\r\n  \"startDate\": \"2026-10-02\",\r\n  \"endDate\": \"2026-10-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GetCities[200]",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/cities",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "cities"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
         },
         {
           "name": "negative",
-          "item": []
+          "item": [
+            {
+              "name": "Search[400]: wrong json format",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Your test name\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\" \"Jerusalem\",\r\n  \"startDate\": \"2026-10-02\",\r\n  \"endDate\": \"2026-10-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search[400]: wrong json format Copy",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n\r\npm.test(\"Status code name: Bad Request\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Your test name\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.include(\"JSON parse error\");\r\n});\r\n\r\n\r\n\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"city\": \"\",\r\n  \"start\": \"2026-10-03\",\r\n  \"endDate\": \"2026-10-03\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseURI}}/v1/cars/search",
+                  "host": [
+                    "{{BaseURI}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "cars",
+                    "search"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
         }
       ]
     }

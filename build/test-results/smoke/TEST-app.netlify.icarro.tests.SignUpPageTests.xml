@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.netlify.icarro.tests.SignUpPageTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-02T05:54:11.623Z" hostname="AIT-PC" time="7.741">
+  <properties/>
+  <testcase name="isPageTitleSignUpCorrectPositiveSmokeTest" classname="app.netlify.icarro.tests.SignUpPageTests" time="1.194"/>
+  <system-out><![CDATA[07:54:11.637 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using geckodriver 0.37.1 (resolved driver for Firefox 156)
+07:54:11.695 [Test worker] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.gecko.driver as C:\Users\7500308\.cache\selenium\geckodriver\win64\0.37.1\geckodriver.exe
+07:54:18.062 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+07:54:18.062 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+--START test <<<isPageTitleSignUpCorrectPositiveSmokeTest>>> [Browser: FIREFOX] with data:
+	 []
+07:54:19.367 [Test worker] INFO  app.netlify.icarro.core.TestBase -- Test PASSED
+07:54:19.368 [Test worker] INFO  app.netlify.icarro.core.TestBase -- STOP test
+07:54:19.368 [Test worker] INFO  app.netlify.icarro.core.TestBase -- 
+*****************************************************
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

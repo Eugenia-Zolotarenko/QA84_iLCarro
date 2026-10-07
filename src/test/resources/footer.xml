@@ -1,14 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Footer" verbose="1">
-    <test name="Test1">
-        <groups>
-            <run>
-                <include name="footer"/>
-            </run>
-        </groups>
-        <packages>
-            <package name="app.netlify.icarro.tests"/>
-        </packages>
+    <test name="footer">
+        <classes>
+            <class name="app.netlify.icarro.tests.FooterPageTests"/>
+        </classes>
     </test>
 </suite>
