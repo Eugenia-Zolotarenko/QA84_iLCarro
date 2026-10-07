@@ -202,4 +202,33 @@ public class HomePage extends BasePage {
 
         return new LetCarWorkPage(driver);
     }
+
+    // =========================
+    // NAVIGATION TO OTHER PAGES
+    // (used by the Login, Header, Footer and SignUp tests)
+    // =========================
+
+    public LoginPage getLoginPage() {
+        WebElement link = driver.findElement(By.cssSelector("a[href$='/login']"));
+        clickWithJS(link);
+        return new LoginPage(driver);
+    }
+
+    public HeaderPage getHeaderPage() {
+        WebElement logo = driver.findElement(By.cssSelector("a.logo"));
+        clickWithJS(logo);
+        return new HeaderPage(driver);
+    }
+
+    public FooterPage getFooterPage() {
+        WebElement logo = driver.findElement(By.cssSelector("a.logo"));
+        clickWithJS(logo);
+        return new FooterPage(driver);
+    }
+
+    public SignUpPage getSignUpPage() {
+        WebElement link = driver.findElement(By.cssSelector("a[href$='/register']"));
+        clickWithJS(link);
+        return new SignUpPage(driver);
+    }
 }
