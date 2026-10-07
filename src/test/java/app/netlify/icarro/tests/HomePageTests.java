@@ -2,47 +2,62 @@ package app.netlify.icarro.tests;
 
 import app.netlify.icarro.core.TestBase;
 import app.netlify.icarro.pages.HomePage;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Method;
-
 public class HomePageTests extends TestBase {
-    HomePage home;
+
+    private HomePage homePage;
+
 
     @BeforeMethod(alwaysRun = true)
-    public void setUp(Method method, Object[] p) {
-        super.setUp(method, p);
-        home = new HomePage(driver);
+    public void initPage() {
+        driver.get("https://icarro-v1.netlify.app/search?page=0&size=10");
+        homePage = new HomePage(driver);
     }
+
+
+    // ==========================================
+    // TEST 1
+    // NEVER MISTAKEN FOR ANYTHING ELSE
+    // ==========================================
 
     @Test(groups = {"smoke", "regr"})
-    public void isPageTitleCorrectPositiveTest(){
-        Assert.assertTrue(home.isPageTitleCorrect("Find your car now!"));
+    public void neverMistakenForAnythingElseTest() {
+
+        getSoftAssert().assertTrue(
+                homePage.isNeverMistakenBlockDisplayed(),
+                "Block 'NEVER MISTAKEN FOR ANYTHING ELSE' is not displayed"
+        );
+
+        getSoftAssert().assertTrue(
+                homePage.getNeverMistakenText()
+                        .contains("NEVER MISTAKEN FOR ANYTHING ELSE"),
+                "Incorrect text in 'NEVER MISTAKEN FOR ANYTHING ELSE' block"
+        );
+
+        getSoftAssert().assertAll();
     }
 
-    @Test (groups = {"smoke", "regr"})
-    public void isHomePageDisplayedPositiveTest(){
-        Assert.assertTrue(home.isHomeComponentPresent());
-    }
 
-    @Test (groups = {"smoke", "regr", "header"})
-    public void loginLinkIsVisiblePositiveTest() {
-        getSoftAssert().assertTrue(home.isYallaButtonPresent(),
-                "Button Sign Up is not displayed");
-    }
+    // ==========================================
+    // TEST 2
+    // REVIEWS
+    // ==========================================
 
-    @Test
-    public void testPageLinks() {
-        home.verifyLinks("https://icarro-v1.netlify.app/let-car-work", getSoftAssert());
-    }
+    @Test(groups = {"reviews", "regr"})
+    public void reviewsBlockTest() {
 
-    @Test (groups = {"header", "min"})
-    public void mobileHeaderIsVisiblePositiveTest() {
-        home.setWindowWidthTo(500);
-        Assert.assertTrue(home.isMobileHeaderPresent(),
-                "Mobile header is not displayed");
+        getSoftAssert().assertTrue(
+                homePage.isReviewsBlockDisplayed(),
+                "Reviews block is not displayed"
+        );
+
+        getSoftAssert().assertTrue(
+                homePage.getReviewsText().contains("Reviews"),
+                "Reviews block does not contain expected text"
+        );
+
+        getSoftAssert().assertAll();
     }
 }
-
