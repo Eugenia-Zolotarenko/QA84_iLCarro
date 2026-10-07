@@ -26,12 +26,10 @@ public class SignUpPageTests extends TestBase {
         signUp = new HomePage(driver).getSignUpPage();
     }
 
-
-    @Test(groups = {"smoke"})
+    @Test(groups = {"regr", "smoke"})
     public void isPageTitleSignUpCorrectPositiveSmokeTest() {
-        signUp.isPageTitleCorrect("Registration");
+        Assert.assertTrue(signUp.isPageTitleCorrect("Registration"),"Page title doesn't match");
     }
-
 
     @Test(groups = {"regr", "smoke"})
     public void createAccountPositiveTest() {
@@ -102,11 +100,10 @@ public class SignUpPageTests extends TestBase {
                         "Incorrect autocomplete value for field " + field));
     }
 
-
     @Test(
             dataProvider = "signUpNegativeTestData",
             dataProviderClass = SignUpDataProvider.class,
-            groups = {"regr", "frontend"})
+            groups = {"regr"})
     public void signUpFrontendNegativeTests(NewUserSignUp testData) {
 
         logger.info("-------------------------------------------------");
@@ -144,5 +141,4 @@ public class SignUpPageTests extends TestBase {
 
         logger.info("-------------------------------------------------");
     }
-
 }

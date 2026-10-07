@@ -7,49 +7,66 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 public class HomePageTests extends TestBase {
 
     HomePage home;
 
 
+    // SETUP
+
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method, Object[] p) {
-
         super.setUp(method, p);
-
         home = new HomePage(driver);
     }
+
+    // HOME PAGE - POSITIVE TESTS
 
     @Test(groups = {"smoke", "regr"})
     public void isPageTitleCorrectPositiveTest() {
 
         Assert.assertTrue(
                 home.isPageTitleCorrect("Find your car now!"),
-                "Home page title is incorrect"
+                "Page title is incorrect"
         );
     }
+
 
     @Test(groups = {"smoke", "regr"})
     public void isHomePageDisplayedPositiveTest() {
 
         Assert.assertTrue(
                 home.isHomeComponentPresent(),
-                "Home page component is not displayed"
+                "Home component is not displayed"
         );
     }
+
+
+    // HEADER - POSITIVE TESTS
+
+
+    @Test(groups = {"smoke", "regr", "header"})
+    public void loginLinkIsVisiblePositiveTest() {
+
+        getSoftAssert().assertTrue(
+                home.isYallaButtonPresent(),
+                "Button Sign Up is not displayed"
+        );
+    }
+
 
     @Test(groups = {"smoke", "regr"})
-    public void yallaButtonIsVisiblePositiveTest() {
+    public void testPageLinksPositiveTest() {
 
-        Assert.assertTrue(
-                home.isYallaButtonPresent(),
-                "Yalla button is not displayed"
+        home.verifyLinks(
+                "https://icarro-v1.netlify.app/let-car-work",
+                getSoftAssert()
         );
     }
 
-    @Test(groups = {"header", "min", "regr"})
+
+    @Test(groups = {"smoke", "regr", "header", "min"})
     public void mobileHeaderIsVisiblePositiveTest() {
 
         home.setWindowWidthTo(500);
@@ -60,21 +77,36 @@ public class HomePageTests extends TestBase {
         );
     }
 
-    @Test(groups = {"regr", "smoke"})
-    public void brokenLinksOnHomePageTest() {
+    // NEGATIVE TESTS
 
-        List<String> urls =
-                home.getLinkUrls();
+    @Test(groups = {"negative", "regr"})
+    public void isPageTitleCorrectNegativeTest() {
 
-        home.verifyBrokenLinks(urls);
+        Assert.assertFalse(
+                home.isPageTitleCorrect("Wrong Page Title"),
+                "Page title should not match the wrong title"
+        );
     }
 
-    @Test(groups = {"regr", "smoke"})
-    public void brokenImagesOnHomePageTest() {
 
-        List<String> broken =
-                home.getBrokenImageUrls();
+    @Test(groups = {"negative", "regr", "header", "min"})
+    public void mobileHeaderIsNotVisibleOnDesktopNegativeTest() {
 
-        home.verifyBrokenImg(broken);
+        home.setWindowWidthTo(1920);
+
+        Assert.assertFalse(
+                home.isMobileHeaderPresent(),
+                "Mobile header should not be displayed on desktop"
+        );
+    }
+
+
+    @Test(groups = {"negative", "regr"})
+    public void testInvalidPageLinkNegativeTest() {
+
+        home.verifyLinks(
+                "https://icarro-v1.netlify.app/wrong-page",
+                getSoftAssert()
+        );
     }
 }

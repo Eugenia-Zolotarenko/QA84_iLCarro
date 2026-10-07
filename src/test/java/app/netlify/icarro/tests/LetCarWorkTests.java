@@ -150,4 +150,9 @@ public class LetCarWorkTests extends TestBase {
         Assert.assertEquals(car.getFieldError(field), LetCarWorkPage.REQUIRED_ERROR, field + " error");
         Assert.assertFalse(car.isSubmitEnabled(), "Submit enabled");
     }
+
+    @Test(groups = {"regr"}, dataProvider = "carsFromJson", dataProviderClass = CarDataProvider.class)
+    public void fillValidFormJsonSubmitEnabledPositiveTest(Car testData) {
+        Assert.assertTrue(car.fillForm(testData).isSubmitEnabled(), "Submit button should be enabled");
+    }
 }

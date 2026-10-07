@@ -1,0 +1,24 @@
+[
+  {
+    "city": "Tel Aviv",
+    "manufacture": "Toyota",
+    "model": "Corolla",
+    "year": "2020",
+    "fuel": "petrol",
+    "seats": "5",
+    "carClass": "Economy",
+    "serialNumber": "QA12345",
+    "pricePerDay": "50"
+  },
+  {
+    "city": "Qiryat Shemona",
+    "manufacture": "BMW",
+    "model": "X5",
+    "year": "2022",
+    "fuel": "diesel",
+    "seats": "5",
+    "carClass": "Business",
+    "serialNumber": "QA99999",
+    "pricePerDay": "120"
+  }
+]
