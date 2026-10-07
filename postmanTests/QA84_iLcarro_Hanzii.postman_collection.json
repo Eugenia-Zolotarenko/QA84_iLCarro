@@ -18,7 +18,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Response contains accessToken\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property(\"accessToken\");\r\n});"
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Response contains accessToken\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property(\"accessToken\");\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\npm.environment.set(\"token\", jsonData.accessToken);"
                 ]
               }
             }
@@ -54,6 +54,66 @@
           "response": []
         },
         {
+          "name": "addCar200",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Car added successfully\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car added successfully\");\r\n});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Car added successfully\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car added successfully\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"serialNumber\": \"{{serialNumber}}\",\r\n  \"manufacture\": \"BMW\",\r\n  \"model\": \"X5\",\r\n  \"year\": \"2020\",\r\n  \"fuel\": \"Petrol\",\r\n  \"seats\": 5,\r\n  \"carClass\": \"SUV\",\r\n  \"pricePerDay\": 100,\r\n  \"about\": \"Test car\",\r\n  \"city\": \"Haifa\",\r\n  \"lat\": 32.794,\r\n  \"lng\": 34.9896,\r\n  \"image\": \"string\",\r\n  \"owner\": \"string\",\r\n  \"bookedPeriods\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars",
+              "protocol": "https",
+              "host": [
+                "ilcarro-backend",
+                "herokuapp",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "cars"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "deleteCar200",
           "event": [
             {
@@ -61,7 +121,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is less than 2000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Message is Car deleted successfully\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car deleted successfully\");\r\n});"
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Car deleted successfully\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Car deleted successfully\");\r\n});"
                 ]
               }
             }
@@ -80,7 +140,7 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/QA12346",
+              "raw": "https://ilcarro-backend.herokuapp.com/v1/cars/{{serialNumber}}",
               "protocol": "https",
               "host": [
                 "ilcarro-backend",
@@ -90,7 +150,7 @@
               "path": [
                 "v1",
                 "cars",
-                "QA12346"
+                "{{serialNumber}}"
               ]
             }
           },
